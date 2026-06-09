@@ -127,6 +127,7 @@ portfolio-main/
 | `/resume` | Resume landing |
 | `/resume/view` | Print-friendly resume |
 | `/privacy` | Privacy policy |
+| `/.well-known/security.txt` | Security contact (RFC 9116; `/security.txt` redirects here) |
 
 ## Deployment
 
