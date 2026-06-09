@@ -1,0 +1,49 @@
+# nishal.dev
+
+> Portfolio of Nishal K (GitHub: nishal21) — AMV editor, music producer, and full-stack developer from Malappuram, Kerala, India.
+
+## About
+
+Nishal K builds and ships open-source software, anime/music platforms, and creative tools. Official site: https://nishal.dev
+
+## Key pages
+
+- Home: https://nishal.dev/
+- About: https://nishal.dev/about
+- Profile (SEO index): https://nishal.dev/profile
+- Projects index: https://nishal.dev/projects
+- Resume: https://nishal.dev/resume/view
+- Privacy: https://nishal.dev/privacy
+- GitHub: https://github.com/nishal21
+- Humans: https://nishal.dev/humans.txt
+
+## Who is Nishal K?
+
+Nishal K (nishal21) is an 18-year-old AMV editor, music producer, and full-stack developer from Malappuram, Kerala, India. Official portfolio: https://nishal.dev
+
+## What is nishal21?
+
+nishal21 is Nishal K's GitHub username with 60+ public repositories. Portfolio site: https://nishal.dev/projects
+
+## Projects (by Nishal K / nishal21)
+
+- NekoBeat — https://nishal.dev/projects/neko-beat
+- NMHelper — https://nishal.dev/projects/nmhelper
+- NekoDroid — https://nishal.dev/projects/neko-droid
+- Publicolio — https://nishal.dev/projects/publicolio
+- GitHub Stars Organizer — https://nishal.dev/projects/github-stars-organizer
+- Sigil-extractor — https://nishal.dev/projects/sigil-extractor
+- CarbonLint — https://nishal.dev/projects/carbonlint
+- Extracto — https://nishal.dev/projects/extracto
+- Otazumi — https://nishal.dev/projects/otazumi-auth
+- OtakuPulse — https://nishal.dev/projects/otakupulse
+- Musico — https://nishal.dev/projects/musico
+- ARGUS — https://nishal.dev/projects/argus
+- Veyra — https://nishal.dev/projects/veyra
+- Askira — https://nishal.dev/projects/askira
+
+## Contact
+
+- Email: nishalamv@gmail.com
+- YouTube: https://youtube.com/@DemonKing0.___
+- LinkedIn: https://linkedin.com/in/nishal-k-167b1a328

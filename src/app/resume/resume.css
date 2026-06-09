@@ -1,0 +1,381 @@
+/* Resume page — print-first, template-style (Calibri-like, B&W) */
+
+.resume-page {
+  min-height: 100vh;
+  background: #1a1a1a;
+  padding: 1.5rem 1rem 3rem;
+}
+
+/* Share / embed: resume only, no editor chrome */
+.resume-page--clean {
+  background: #fff;
+  padding: 1.25rem 1rem 2rem;
+}
+
+.resume-page--clean .resume-shell {
+  max-width: 8.5in;
+}
+
+.resume-page--clean .resume-doc {
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Custom cursor: visible on white resume paper (default dot is white + mix-blend) */
+body.resume-route .custom-cursor-dot {
+  mix-blend-mode: normal;
+  background: #111;
+}
+
+body.resume-route .custom-cursor-ring {
+  border-color: rgba(0, 0, 0, 0.35);
+}
+
+.resume-shell {
+  max-width: 52rem;
+  margin: 0 auto;
+}
+
+.resume-toolbar {
+  margin-bottom: 1.25rem;
+}
+
+.resume-toolbar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.resume-toolbar-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9ea8b0;
+}
+
+.resume-profile-select {
+  min-width: 11rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #0e1118;
+  color: #f2f0eb;
+  font-size: 0.875rem;
+}
+
+.resume-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #f2f0eb;
+  color: #111;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.resume-toolbar-btn--ghost {
+  background: transparent;
+  color: #e8e3db;
+}
+
+.resume-toolbar-hint {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #6b7580;
+}
+
+.resume-toolbar-hint code {
+  font-size: 0.7rem;
+  color: #9ea8b0;
+}
+
+.resume-doc {
+  background: #fff;
+  color: #111;
+  padding: 2rem 2.25rem;
+  font-family: Calibri, 'Segoe UI', system-ui, sans-serif;
+  font-size: 12pt;
+  line-height: 1.45;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
+  text-align: left;
+}
+
+.resume-name {
+  margin: 0;
+  font-size: 15pt;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.resume-contact-line {
+  margin: 0.15rem 0 0;
+  font-size: 12pt;
+}
+
+.resume-contact-line a {
+  color: #111;
+  text-decoration: underline;
+}
+
+.resume-section {
+  margin-top: 1.1rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid #ccc;
+}
+
+.resume-section:first-of-type {
+  border-top: none;
+  padding-top: 0.85rem;
+}
+
+.resume-heading {
+  margin: 0 0 0.45rem;
+  font-size: 13pt;
+  font-weight: 700;
+}
+
+.resume-body {
+  margin: 0;
+}
+
+/* Lists — explicit bullets (Tailwind preflight strips list-style) */
+.resume-doc ul.resume-list {
+  margin: 0.2rem 0 0.35rem;
+  padding-left: 1.4rem;
+  list-style-type: disc;
+  list-style-position: outside;
+}
+
+.resume-doc ul.resume-list li {
+  display: list-item;
+  margin: 0 0 0.22rem;
+  padding-left: 0.12rem;
+}
+
+.resume-doc ul.resume-list li::marker {
+  color: #111;
+}
+
+.resume-skill-list {
+  margin-top: 0.15rem;
+}
+
+.resume-skill-line {
+  margin: 0;
+}
+
+.resume-skill-label {
+  font-weight: 600;
+}
+
+.resume-section-group > .resume-heading {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+.resume-section-group > .resume-heading + * {
+  break-before: avoid;
+  page-break-before: avoid;
+}
+
+.resume-job {
+  margin-top: 0.85rem;
+}
+
+.resume-section-group > .resume-job:first-of-type {
+  margin-top: 0.2rem;
+}
+
+/* Two-column row: title left, date right */
+.resume-job-head,
+.resume-edu-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 1.25rem;
+  align-items: baseline;
+}
+
+.resume-job-org,
+.resume-edu-degree {
+  margin: 0;
+  font-weight: 700;
+  min-width: 0;
+}
+
+.resume-job-date,
+.resume-edu-year {
+  margin: 0;
+  text-align: right;
+  white-space: nowrap;
+  font-size: 11pt;
+  flex-shrink: 0;
+}
+
+.resume-edu-degree {
+  font-weight: 600;
+}
+
+.resume-edu-year-label {
+  font-weight: 400;
+}
+
+.resume-job-role {
+  margin: 0.2rem 0 0.35rem;
+}
+
+.resume-subhead {
+  margin: 0.4rem 0 0.12rem;
+  font-weight: 700;
+  font-size: 11pt;
+}
+
+.resume-edu-row {
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .resume-doc {
+    padding: 1.25rem 1rem;
+  }
+
+  .resume-job-head,
+  .resume-edu-row {
+    grid-template-columns: 1fr;
+    row-gap: 0.12rem;
+  }
+
+  .resume-job-date,
+  .resume-edu-year {
+    text-align: left;
+    white-space: normal;
+  }
+}
+
+.no-print {
+  /* hidden when printing via @media below */
+}
+
+@media print {
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  @page {
+    margin: 0.5in;
+    size: letter;
+  }
+
+  body {
+    background: #fff !important;
+  }
+
+  .resume-page {
+    background: #fff;
+    padding: 0;
+  }
+
+  .resume-toolbar {
+    display: none !important;
+  }
+
+  .resume-doc {
+    box-shadow: none;
+    padding: 0;
+    max-width: none;
+    width: 100%;
+    font-size: 11pt;
+    line-height: 1.38;
+  }
+
+  .resume-section {
+    margin-top: 0.55rem;
+    padding-top: 0.35rem;
+  }
+
+  .resume-heading {
+    margin-bottom: 0.3rem;
+    orphans: 3;
+    widows: 3;
+  }
+
+  .resume-section-group > .resume-heading {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .resume-section-group > .resume-heading + .resume-job,
+  .resume-section-group > .resume-heading + .resume-list,
+  .resume-section-group > .resume-heading + .resume-body,
+  .resume-section-group > .resume-heading + .resume-edu-row {
+    break-before: avoid;
+    page-break-before: avoid;
+  }
+
+  .resume-job {
+    break-inside: auto;
+    page-break-inside: auto;
+    margin-top: 0.55rem;
+  }
+
+  .resume-subhead {
+    break-after: avoid;
+    page-break-after: avoid;
+    margin-top: 0.28rem;
+  }
+
+  .resume-subhead + .resume-list {
+    break-before: avoid;
+    page-break-before: avoid;
+  }
+
+  .resume-job-head {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .resume-list li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .resume-doc ul.resume-list {
+    list-style-type: disc !important;
+    list-style-position: outside !important;
+  }
+
+  .resume-doc ul.resume-list li {
+    display: list-item !important;
+  }
+
+  .resume-job-head,
+  .resume-edu-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .resume-job-date,
+  .resume-edu-year {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .resume-contact-line a {
+    color: #111;
+    text-decoration: none;
+  }
+
+  a {
+    color: #111 !important;
+  }
+}

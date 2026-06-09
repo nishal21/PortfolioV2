@@ -1,0 +1,704 @@
+export interface Project {
+  id: number;
+  title: string;
+  category: string;
+  description: string;
+  longDescription: string;
+  tags: string[];
+  liveUrl: string | null;
+  githubUrl: string | null;
+  status?: 'live' | 'development';
+  pinned?: boolean;
+  color: string;
+  bgColor: string;
+  challenges: string[];
+  solutions: string[];
+  features: string[];
+  techStack: Record<string, string[]>;
+  lastUpdated?: string;
+  images: string[];
+  mockup?: string;
+  video?: string;
+}
+
+export const projects: Project[] = [
+    {
+    "id": 2,
+    "title": "NekoBeat",
+    "category": "Music & Streaming",
+    "status": "live",
+    "description": "Find and play music from a few sources in one app, without jumping between tabs.",
+    "longDescription": "I built NekoBeat because I got tired of digging for tracks in three places at once. Search, hit play, done.",
+    "tags": [
+      "TypeScript",
+      "Rust",
+      "JavaScript",
+      "CSS",
+      "HTML"
+    ],
+    "lastUpdated": "2026-05-04",
+    "liveUrl": "https://nishal21.github.io/NekoBeat-Website/",
+    "githubUrl": "https://github.com/nishal21/NekoBeat",
+    "color": "from-pink-400 to-rose-400",
+    "bgColor": "from-pink-400/10 to-rose-400/10",
+    "challenges": [
+      "Multiple music data sources",
+      "Smooth in-browser playback"
+    ],
+    "solutions": [
+      "API abstraction with caching",
+      "Responsive player UI"
+    ],
+    "features": [
+      "Cross-platform discovery",
+      "Streaming playback",
+      "Artist metadata"
+    ],
+    "techStack": {
+      "languages": [
+        "TypeScript",
+        "Rust",
+        "JavaScript",
+        "CSS",
+        "HTML"
+      ],
+      "deployment": [
+        "GitHub Pages"
+      ]
+    },
+    "images": [
+      "/projects/neko-beat.svg"
+    ],
+    "pinned": true
+  },
+  {
+    "id": 11,
+    "title": "NMHelper",
+    "category": "Kerala Education",
+    "status": "live",
+    "description": "Noon-meal tracking for Kerala schools. Teachers and clerks log class strength without the paper chase.",
+    "longDescription": "NMHelper swaps manual rounds for Malayalam-friendly forms and meal reports that clerks can actually use.",
+    "tags": [
+      "JavaScript",
+      "TypeScript",
+      "HTML",
+      "CSS"
+    ],
+    "lastUpdated": "2026-05-27",
+    "liveUrl": "https://nmhelper.in/",
+    "githubUrl": null,
+    "color": "from-orange-400 to-red-400",
+    "bgColor": "from-orange-400/10 to-red-400/10",
+    "challenges": [
+      "Low-tech onboarding",
+      "Government meal accuracy"
+    ],
+    "solutions": [
+      "Malayalam UI",
+      "Validated exports"
+    ],
+    "features": [
+      "Strength tracking",
+      "Meal calculations",
+      "Admin dashboards"
+    ],
+    "techStack": {
+      "standards": [
+        "HTML5",
+        "CSS3",
+        "JavaScript (ES2022+)"
+      ],
+      "components": [
+        "React",
+        "Tailwind CSS",
+        "Framer Motion",
+        "Capacitor"
+      ],
+      "backend": [
+        "Node.js",
+        "Express",
+        "PostgreSQL"
+      ],
+      "languages": [
+        "English",
+        "Malayalam"
+      ],
+      "doctype": [
+        "HTML5"
+      ]
+    },
+    "images": [
+      "/projects/nmhelper.svg"
+    ],
+    "pinned": false
+  },
+  {
+    "id": 1,
+    "title": "NekoDroid",
+    "category": "Systems · Wasm",
+    "status": "development",
+    "description": "Android emulator in the browser. Drop an APK in a tab, it runs in Wasm. No server in the middle.",
+    "longDescription": "NekoDroid is the big systems bet: Rust core compiled to Wasm so Android apps can run client-side. Still very much in progress.",
+    "tags": [
+      "Rust",
+      "TypeScript",
+      "C",
+      "CSS",
+      "HTML"
+    ],
+    "lastUpdated": "2026-03-04",
+    "liveUrl": null,
+    "githubUrl": "https://github.com/nishal21/NekoDroid",
+    "color": "from-slate-400 to-cyan-400",
+    "bgColor": "from-slate-400/10 to-cyan-400/10",
+    "challenges": [
+      "Wasm performance for emulation",
+      "APK loading without a backend"
+    ],
+    "solutions": [
+      "Rust core compiled to Wasm",
+      "Client-only execution model"
+    ],
+    "features": [
+      "Browser APK runner (in progress)",
+      "Wasm-native architecture",
+      "Open source"
+    ],
+    "techStack": {
+      "languages": [
+        "Rust",
+        "TypeScript",
+        "C",
+        "CSS",
+        "HTML"
+      ],
+      "platform": [
+        "WebAssembly",
+        "Browser",
+        "Android ABI"
+      ]
+    },
+    "images": [
+      "/projects/neko-droid.svg"
+    ],
+    "pinned": true
+  },
+  {
+    "id": 6,
+    "title": "Publicolio",
+    "category": "Developer Tools",
+    "status": "live",
+    "description": "Turn a GitHub profile into a portfolio site. Pick repos, tweak the look, share a link.",
+    "longDescription": "Publicolio pulls your GitHub profile, lets you curate what shows up, and gives you a page you can send to people.",
+    "tags": [
+      "TypeScript",
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "lastUpdated": "2026-05-01",
+    "liveUrl": "https://app.publicolio.qzz.io/",
+    "githubUrl": "https://github.com/nishal21/Publicolio",
+    "color": "from-indigo-400 to-blue-400",
+    "bgColor": "from-indigo-400/10 to-blue-400/10",
+    "challenges": [
+      "GitHub rate limits",
+      "Theme without config files"
+    ],
+    "solutions": [
+      "Cached API fetching",
+      "Live theme preview"
+    ],
+    "features": [
+      "Profile import",
+      "Repo picker",
+      "Shareable deploy"
+    ],
+    "techStack": {
+      "languages": [
+        "TypeScript",
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "apis": [
+        "GitHub API"
+      ]
+    },
+    "images": [
+      "/projects/publicolio.svg"
+    ],
+    "pinned": true
+  },
+  {
+    "id": 14,
+    "title": "GitHub Stars Organizer",
+    "category": "Developer Tools · CLI",
+    "status": "live",
+    "pinned": true,
+    "description": "Sort 300+ GitHub stars into lists in minutes. Free heuristics by default, optional LLM if you want it.",
+    "longDescription": "GitHub's API can star repos but not manage Star Lists. This CLI fetches your stars, groups them by topics and language, lets you review the plan, then applies lists through your browser session. No paid AI required to get started.",
+    "tags": [
+      "Python",
+      "CLI",
+      "GitHub API"
+    ],
+    "lastUpdated": "2026-06-08",
+    "liveUrl": null,
+    "githubUrl": "https://github.com/nishal21/github-stars-organizer",
+    "color": "from-amber-400 to-yellow-500",
+    "bgColor": "from-amber-400/10 to-yellow-500/10",
+    "challenges": [
+      "No public API for GitHub Star Lists",
+      "Hundreds of repos to categorize fairly"
+    ],
+    "solutions": [
+      "Heuristic planner with custom category rules",
+      "Dry-run apply and resume after interrupts"
+    ],
+    "features": [
+      "Plan from public metadata only",
+      "Optional multi-provider LLM mode",
+      "Browser session apply with CSRF handling",
+      "PyPI-ready Python package"
+    ],
+    "techStack": {
+      "languages": [
+        "Python"
+      ],
+      "tooling": [
+        "uv",
+        "pytest",
+        "ruff"
+      ],
+      "apis": [
+        "GitHub REST API"
+      ]
+    },
+    "images": [
+      "/projects/github-stars-organizer.svg"
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Sigil-extractor",
+    "category": "Cryptography · Rust",
+    "status": "live",
+    "pinned": true,
+    "description": "Rust tool that hides license proofs inside datasets using crypto steganography. Pull them back out and verify later.",
+    "longDescription": "Sigil-extractor embeds cryptographic license proofs in data so you can prove who licensed what without trusting a server to hold the proof.",
+    "tags": [
+      "Rust"
+    ],
+    "lastUpdated": "2026-05-04",
+    "liveUrl": "https://nishal21.github.io/Sigil-extractor/",
+    "githubUrl": "https://github.com/nishal21/Sigil-extractor",
+    "color": "from-violet-400 to-indigo-500",
+    "bgColor": "from-violet-400/10 to-indigo-500/10",
+    "challenges": [
+      "ZK proof embedding in binary data",
+      "Recoverable without server trust"
+    ],
+    "solutions": [
+      "Rust-native crypto pipeline",
+      "Browser demo on GitHub Pages"
+    ],
+    "features": [
+      "License proof embedding",
+      "Verification workflow",
+      "Open source",
+      "Rust core"
+    ],
+    "techStack": {
+      "languages": [
+        "Rust"
+      ],
+      "deployment": [
+        "GitHub Pages"
+      ]
+    },
+    "images": [
+      "/projects/sigil-extractor.svg"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "CarbonLint",
+    "category": "Developer Tools",
+    "status": "live",
+    "description": "Profiles your system in real time and rough-guesses the carbon footprint of the code you're running.",
+    "longDescription": "CarbonLint shows energy use while you work and turns it into carbon numbers that are useful for comparison, not gospel.",
+    "tags": [
+      "JavaScript",
+      "Rust",
+      "CSS",
+      "TypeScript",
+      "HTML"
+    ],
+    "lastUpdated": "2026-05-01",
+    "liveUrl": "https://carbonlint.netlify.app/",
+    "githubUrl": "https://github.com/nishal21/CarbonLint",
+    "color": "from-green-400 to-lime-400",
+    "bgColor": "from-green-400/10 to-lime-400/10",
+    "challenges": [
+      "Accurate energy modeling",
+      "Readable carbon metrics"
+    ],
+    "solutions": [
+      "Real-time profiler",
+      "Developer-friendly dashboard"
+    ],
+    "features": [
+      "Energy tracking",
+      "Carbon estimates",
+      "Green dev tips"
+    ],
+    "techStack": {
+      "languages": [
+        "JavaScript",
+        "Rust",
+        "CSS",
+        "TypeScript",
+        "HTML"
+      ]
+    },
+    "images": [
+      "/projects/carbonlint.svg"
+    ],
+    "pinned": true
+  },
+  {
+    "id": 7,
+    "title": "Extracto",
+    "category": "AI / Automation",
+    "status": "live",
+    "description": "Paste a URL, describe what you want, get structured data back. No custom scraper per site.",
+    "longDescription": "Extracto turns plain-language prompts into scraped output. Handy when every site has different HTML.",
+    "tags": [
+      "Python"
+    ],
+    "lastUpdated": "2026-05-01",
+    "liveUrl": "https://nishal21.github.io/Extracto/",
+    "githubUrl": "https://github.com/nishal21/Extracto",
+    "color": "from-emerald-400 to-teal-400",
+    "bgColor": "from-emerald-400/10 to-teal-400/10",
+    "challenges": [
+      "Varied site layouts",
+      "Prompt-to-schema mapping"
+    ],
+    "solutions": [
+      "AI-guided extraction",
+      "JSON export pipeline"
+    ],
+    "features": [
+      "URL + prompt input",
+      "Structured export",
+      "Open source"
+    ],
+    "techStack": {
+      "languages": [
+        "Python"
+      ]
+    },
+    "images": [
+      "/projects/extracto.svg"
+    ],
+    "pinned": true
+  },
+  {
+    "id": 3,
+    "title": "Otazumi",
+    "category": "Anime & Streaming",
+    "status": "live",
+    "description": "Anime streaming with search, favorites, watch parties, and a pile of backend services holding it together.",
+    "longDescription": "Otazumi is the anime app I kept adding to: streaming front end plus auth, reviews, mail, watch parties. Where my edit brain meets full-stack work.",
+    "tags": [
+      "JavaScript"
+    ],
+    "lastUpdated": "2025-10-28",
+    "liveUrl": "https://www.otazumi.page/",
+    "githubUrl": "https://github.com/nishal21/otazumi-auth",
+    "color": "from-teal-400 to-emerald-400",
+    "bgColor": "from-teal-400/10 to-emerald-400/10",
+    "challenges": [
+      "Large catalog search",
+      "Streaming UX across devices"
+    ],
+    "solutions": [
+      "Cached API layer",
+      "Favorites & watchlists"
+    ],
+    "features": [
+      "Anime library",
+      "User favorites",
+      "Watch party",
+      "Responsive design"
+    ],
+    "techStack": {
+      "languages": [
+        "JavaScript"
+      ],
+      "services": [
+        "otazumi-auth",
+        "otazumi-mail",
+        "otazumi-notification",
+        "otazumi-review"
+      ]
+    },
+    "images": [
+      "/projects/otazumi.svg"
+    ],
+    "pinned": false
+  },
+  {
+    "id": 4,
+    "title": "OtakuPulse",
+    "category": "Discord & Anime",
+    "status": "live",
+    "description": "Discord bot for anime and manga alerts, daily quotes, trailers, plus a web dashboard.",
+    "longDescription": "OtakuPulse pings Discord servers when episodes drop, pulls from AniList, and gives admins a dashboard to configure it.",
+    "tags": [
+      "JavaScript"
+    ],
+    "lastUpdated": "2025-10-18",
+    "liveUrl": "https://otakupulse.onrender.com/",
+    "githubUrl": "https://github.com/nishal21/OtakuPulse",
+    "color": "from-blue-400 to-purple-400",
+    "bgColor": "from-blue-400/10 to-purple-400/10",
+    "challenges": [
+      "API polling at scale",
+      "Per-server config"
+    ],
+    "solutions": [
+      "Rate-limited AniList sync",
+      "MongoDB server settings"
+    ],
+    "features": [
+      "Episode alerts",
+      "Daily quotes",
+      "Web dashboard"
+    ],
+    "techStack": {
+      "languages": [
+        "JavaScript"
+      ],
+      "stack": [
+        "Node.js",
+        "Discord.js",
+        "MongoDB"
+      ]
+    },
+    "images": [
+      "/projects/otaku-pulse.svg"
+    ],
+    "pinned": false
+  },
+  {
+    "id": 5,
+    "title": "Musico",
+    "category": "Music & Discovery",
+    "status": "live",
+    "description": "Browse music with stations, lyrics, and artist info pulled from a few APIs.",
+    "longDescription": "Musico is metadata-heavy browsing with stations and recommendations. Sister project to NekoBeat, same music brain.",
+    "tags": [
+      "TypeScript",
+      "JavaScript",
+      "CSS"
+    ],
+    "lastUpdated": "2025-10-27",
+    "liveUrl": "https://musico21.netlify.app/",
+    "githubUrl": "https://github.com/nishal21/musico",
+    "color": "from-violet-400 to-fuchsia-400",
+    "bgColor": "from-violet-400/10 to-fuchsia-400/10",
+    "challenges": [
+      "Multi-API metadata",
+      "In-browser stations"
+    ],
+    "solutions": [
+      "Unified API layer",
+      "Redis caching"
+    ],
+    "features": [
+      "Search",
+      "Lyrics",
+      "Stations",
+      "Recommendations"
+    ],
+    "techStack": {
+      "languages": [
+        "TypeScript",
+        "JavaScript",
+        "CSS"
+      ],
+      "stack": [
+        "Node.js",
+        "Redis",
+        "MongoDB"
+      ]
+    },
+    "images": [
+      "/projects/musico.svg"
+    ],
+    "pinned": false
+  },
+  {
+    "id": 9,
+    "title": "ARGUS",
+    "category": "Data Viz · 3D",
+    "status": "live",
+    "description": "3D globe that tracks flights and satellites. CRT, night vision, and thermal shader modes because why not.",
+    "longDescription": "ARGUS plots live tracking data on a WebGL globe. I went heavy on post-processing because the spy-movie look is half the fun.",
+    "tags": [
+      "JavaScript",
+      "CSS",
+      "HTML"
+    ],
+    "lastUpdated": "2026-03-03",
+    "liveUrl": "https://nishal21.github.io/ARGUS/",
+    "githubUrl": "https://github.com/nishal21/ARGUS",
+    "color": "from-lime-400 to-green-600",
+    "bgColor": "from-lime-400/10 to-green-600/10",
+    "challenges": [
+      "Real-time object feeds",
+      "Heavy shader performance"
+    ],
+    "solutions": [
+      "Optimized globe renderer",
+      "Toggleable post-FX modes"
+    ],
+    "features": [
+      "Flight tracking",
+      "Satellite layer",
+      "Shader modes"
+    ],
+    "techStack": {
+      "languages": [
+        "JavaScript",
+        "CSS",
+        "HTML"
+      ],
+      "features": [
+        "WebGL",
+        "3D Globe",
+        "Shaders"
+      ]
+    },
+    "images": [
+      "/projects/argus.svg"
+    ],
+    "pinned": false
+  },
+  {
+    "id": 10,
+    "title": "Veyra",
+    "category": "Programming Language",
+    "status": "live",
+    "description": "Programming language I'm designing. Docs and a playground live on GitHub Pages.",
+    "longDescription": "Veyra is a language experiment: syntax I'm happy with, types that help, toolchain in Rust.",
+    "tags": [
+      "Rust"
+    ],
+    "lastUpdated": "2025-12-29",
+    "liveUrl": "https://nishal21.github.io/veyraweb/",
+    "githubUrl": "https://github.com/nishal21/veyra",
+    "color": "from-violet-400 to-purple-500",
+    "bgColor": "from-violet-400/10 to-purple-500/10",
+    "challenges": [
+      "Expressive syntax",
+      "Compiler speed"
+    ],
+    "solutions": [
+      "Rust toolchain",
+      "Interactive docs"
+    ],
+    "features": [
+      "Modern syntax",
+      "Type inference",
+      "Playground"
+    ],
+    "techStack": {
+      "languages": [
+        "Rust"
+      ],
+      "deployment": [
+        "GitHub Pages"
+      ]
+    },
+    "images": [
+      "/projects/veyra.svg"
+    ],
+    "pinned": false
+  },
+  {
+    "id": 12,
+    "title": "Askira",
+    "category": "Form Builder",
+    "status": "development",
+    "description": "Form builder with conditional logic and custom themes. Still building it.",
+    "longDescription": "Askira is meant to be a proper form platform: drag fields, validate smart, share with a team. Private repo while the core ships.",
+    "tags": [
+      "React",
+      "Node.js",
+      "TypeScript",
+      "In Development"
+    ],
+    "liveUrl": null,
+    "githubUrl": null,
+    "color": "from-purple-400 to-pink-400",
+    "bgColor": "from-purple-400/10 to-pink-400/10",
+    "challenges": [
+      "Drag-and-drop builder",
+      "Real-time collaboration"
+    ],
+    "solutions": [
+      "React state architecture",
+      "WebSocket sync (planned)"
+    ],
+    "features": [
+      "Form builder UI (WIP)",
+      "Conditional logic",
+      "Themes",
+      "Analytics"
+    ],
+    "techStack": {
+      "frontend": [
+        "React",
+        "TypeScript"
+      ],
+      "backend": [
+        "Node.js",
+        "PostgreSQL"
+      ]
+    },
+    "images": [
+      "/projects/askira.svg"
+    ],
+    "pinned": false
+    }
+  ];
+
+export function getProjectThumbnail(id: number): string | null {
+  const project = projects.find((p) => p.id === id);
+  return project?.images?.[0] ?? project?.mockup ?? null;
+}
+
+export function isProjectInDevelopment(project: Project): boolean {
+  return project.status === 'development';
+}
+
+export function getProjectSlug(project: Project): string {
+  if (project.githubUrl) {
+    const match = project.githubUrl.match(/\/([^/]+)\/?$/);
+    if (match) return match[1].toLowerCase();
+  }
+
+  return project.title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+export function getProjectBySlug(slug: string): Project | undefined {
+  const normalized = slug.toLowerCase();
+  return projects.find((project) => getProjectSlug(project) === normalized);
+}

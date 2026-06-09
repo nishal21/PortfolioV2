@@ -1,0 +1,10 @@
+﻿{
+  "frameCount": 166,
+  "fps": 24,
+  "width": 1280,
+  "height": 720,
+  "prefix": "/scroll/frame_",
+  "padding": 4,
+  "extension": "webp",
+  "scrollDistancePerFrame": 8
+}

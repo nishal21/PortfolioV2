@@ -1,0 +1,162 @@
+export interface Video {
+  id: number;
+  title: string;
+  category: string;
+  thumbnail: string;
+  duration: string;
+  views: string;
+  date: string;
+  description: string;
+  youtubeId: string;
+  tags: string[];
+  client: string;
+  role: string;
+  equipment: string[];
+}
+
+export const videos: Video[] = [
+    {
+      id: 1,
+      title: 'Maand x Jhol Music Fusion',
+      category: 'music-remix',
+      thumbnail: '/thumbnails/9.jpg',
+      duration: '7:09',
+      views: '83K',
+      date: 'Nov 4, 2024',
+      description: 'A soulful fusion blending traditional and modern South Asian sounds, featuring Bayaan, Rovalio, Hasan Raheem, Annural Khalid, and Maanu.',
+      youtubeId: 'vW6OfawpNdQ',
+      tags: ['Music Fusion', 'South Asian', 'Reverb'],
+      client: 'DemonKing0.___',
+      role: 'Music Producer, Audio Engineer',
+      equipment: ['FL Studio'],
+    },
+    {
+      id: 2,
+      title: 'The JDM Legend Returns: Nissan GTR R33 Godzilla on the Streets!',
+      category: 'automotive',
+      thumbnail: '/thumbnails/1.jpg',
+      duration: '0:34',
+      views: '17',
+      date: 'Nov 4, 2024',
+      description: 'They called it Godzilla — but it wasn\'t just a monster. It was a revolution. Epic JDM content featuring the legendary Nissan GTR R33.',
+      youtubeId: 'm2M1j7NnwXo',
+      tags: ['JDM', 'GTR R33', 'Automotive'],
+      client: 'DemonKing0.___',
+      role: 'Video Editor, Automotive Content Creator',
+      equipment: ['DaVinci Resolve', 'Blurrr'],
+    },
+    {
+      id: 3,
+      title: 'RDR 2 (2018) Cinematic Video Edit',
+      category: 'gaming',
+      thumbnail: '/thumbnails/2.jpg',
+      duration: '0:43',
+      views: '40',
+      date: 'Feb 4, 2024',
+      description: 'Cinematic video edit showcasing the beauty and storytelling of Red Dead Redemption 2 with stunning visuals and atmospheric editing.',
+      youtubeId: 'QNRf5U2ltD0',
+      tags: ['Gaming', 'RDR2', 'Cinematic'],
+      client: 'DemonKing0.___',
+      role: 'Video Editor, Gaming Content Creator',
+      equipment: ['DaVinci Resolve', 'Blurrr'],
+    },
+    {
+      id: 4,
+      title: 'Another Time × Kaattu | Krishnahazar x Aromal Chekaver',
+      category: 'music-remix',
+      thumbnail: '/thumbnails/5.jpg',
+      duration: '5:29',
+      views: '5',
+      date: 'Jan 26, 2025',
+      description: 'A powerful fusion of "Another Time" by Krishnahazar and "Kaattu" (Aromal Chekaver theme). This track blends epic cinematic tension with tribal Malayalam energy.',
+      youtubeId: 'QoPm9jL4Yf8',
+      tags: ['Malayalam', 'Fusion', 'Cinematic'],
+      client: 'DemonKing0.___',
+      role: 'Music Producer, Sound Designer',
+      equipment: ['FL Studio'],
+    },
+    {
+      id: 5,
+      title: 'Cherrapunji x Jupiter Mazha (Reverb) – Rainy Vibes',
+      category: 'music-remix',
+      thumbnail: '/thumbnails/4.jpg',
+      duration: '7:02',
+      views: '114',
+      date: 'Dec 4, 2024',
+      description: 'Atmospheric reverb remix featuring Hanan Shah × Dhanwin K B — rainy-day vibes with Kerala-inspired sound design.',
+      youtubeId: 'mrHBzkdLtWQ',
+      tags: ['Malayalam', 'Reverb', 'Atmospheric'],
+      client: 'DemonKing0.___',
+      role: 'Audio Engineer, Remix Artist',
+      equipment: ['FL Studio'],
+    },
+    {
+      id: 6,
+      title: 'Chandni Raat x Jhol – Reverb Edition',
+      category: 'music-remix',
+      thumbnail: '/thumbnails/6.jpg',
+      duration: '7:58',
+      views: '1.2K',
+      date: 'Oct 4, 2024',
+      description: 'Soulful reverb edition featuring Annural Khalid, Maanu & Ali Sethi. A perfect blend of romantic melodies with modern production.',
+      youtubeId: 'ZOo-fNhd5Kg',
+      tags: ['Romantic', 'Reverb', 'Fusion'],
+      client: 'DemonKing0.___',
+      role: 'Music Producer, Audio Engineer',
+      equipment: ['FL Studio'],
+    },
+    {
+      id: 7,
+      title: 'Mixed Manga Panels EDIT [AMV] - WASTE by Kxllswxtch',
+      category: 'amv',
+      thumbnail: '/thumbnails/3.jpg',
+      duration: '5:33',
+      views: '7',
+      date: 'Jan 26, 2025',
+      description: 'Intense warrior-themed edit of MIXED MANGA PANELS.',
+      youtubeId: '5ucLremIVWE',
+      tags: ['Epic', 'Warrior', 'Anime', 'Manga'],
+      client: 'DemonKing0.___',
+      role: 'AMV Editor, Anime Content Creator',
+      equipment: ['Davinci Resolve', 'Blurrr'],
+    },
+    {
+      id: 8,
+      title: 'One Piece AMV - Garp VS BB Pirates Incoming',
+      category: 'amv',
+      thumbnail: '/thumbnails/8.jpg',
+      duration: '0:12',
+      views: '81',
+      date: 'Feb 4, 2024',
+      description: 'Epic One Piece AMV featuring the legendary Marine Hero Garp in an intense battle preview against the Blackbeard Pirates.',
+      youtubeId: 'bjfcxX8k1hw',
+      tags: ['One Piece', 'AMV', 'Garp', 'Action'],
+      client: 'DemonKing0.___',
+      role: 'AMV Editor, Anime Content Creator',
+      equipment: ['Davinci Resolve', 'Blurrr'],
+    },
+    {
+      id: 9,
+      title: 'One Piece Live Action - Chanel (Frank Ocean)',
+      category: 'anime-content',
+      thumbnail: '/thumbnails/7.jpg',
+      duration: '0:15',
+      views: '10',
+      date: 'Mar 4, 2024',
+      description: 'Stylish edit of One Piece Live Action series set to Frank Ocean\'s "Chanel" - showcasing the amazing cinematography and characters.',
+      youtubeId: 'KHY4zo-JEik',
+      tags: ['One Piece', 'Live Action', 'Frank Ocean', 'Cinematic'],
+      client: 'DemonKing0.___',
+      role: 'Video Editor, Content Creator',
+      equipment: ['DaVinci Resolve', 'Blurrr'],
+    }
+  ];
+
+export const videoCategories = [
+  { id: 'all', label: 'All Videos' },
+  { id: 'music-remix', label: 'Music Remixes' },
+  { id: 'amv', label: 'AMV' },
+  { id: 'gaming', label: 'Gaming Edits' },
+  { id: 'automotive', label: 'Automotive' },
+  { id: 'anime-content', label: 'Anime Content' },
+] as const;

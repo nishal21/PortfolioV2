@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <defs>
+    <linearGradient id="bg-carbonlint" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#031a0c"/>
+      <stop offset="100%" stop-color="#15803d"/>
+    </linearGradient>
+    <radialGradient id="glow-carbonlint" cx="72%" cy="58%" r="48%">
+      <stop offset="0%" stop-color="#bbf7d0" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#bbf7d0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1280" height="800" fill="url(#bg-carbonlint)"/>
+  <rect width="1280" height="800" fill="url(#glow-carbonlint)"/>
+
+  <g opacity="0.5">
+        <path d="M960 596 Q896 540 960 484 Q1024 540 960 596" fill="#bbf7d0" opacity="0.12" stroke="#bbf7d0" stroke-width="1.5"/>
+        <text x="960" y="546" text-anchor="middle" font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="#bbf7d0">CO₂</text>
+      </g>
+
+  <rect x="72" y="72" width="68" height="26" rx="13" fill="#a6c78c"/>
+  <text x="106" y="90" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="10" font-weight="700" fill="#061008" letter-spacing="1.5">LIVE</text>
+
+  <text x="72" y="248" font-family="system-ui,Segoe UI,sans-serif" font-size="56" font-weight="700" fill="#f8f6f2" letter-spacing="-2">CarbonLint</text>
+  <text x="74" y="294" font-family="system-ui,Segoe UI,sans-serif" font-size="20" font-weight="500" fill="#bbf7d0" opacity="0.92">Green profiling</text>
+  <rect x="72" y="316" width="80" height="3" rx="1.5" fill="#bbf7d0" opacity="0.75"/>
+</svg>

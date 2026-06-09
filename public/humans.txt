@@ -1,0 +1,13 @@
+/* TEAM */
+Creator: Nishal K
+GitHub: nishal21
+Site: https://nishal.dev
+Location: Malappuram, Kerala, India
+Contact: nishalamv@gmail.com
+
+/* THANKS */
+Next.js, Vercel, Kerala open-source community
+
+/* SITE */
+Last update: 2026-06-09
+Standards: HTML5, CSS3, JSON-LD, IndexNow
