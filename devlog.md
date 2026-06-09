@@ -1,5 +1,10 @@
 ﻿# Devlog
 
+## 2026-06-10 — Hero sequence: no restart while frames load
+
+- `findNextLoadedFrame` no longer wraps to frame 0 when next frame is not ready
+- Autoplay starts only after all 166 frames are loaded (`allFramesLoadedRef`)
+
 ## 2026-06-10 — Fix VPS build (webkitBackdropFilter TS)
 
 - `liquidGlass.ts`: `setProperty('-webkit-backdrop-filter')` (TS DOM types)

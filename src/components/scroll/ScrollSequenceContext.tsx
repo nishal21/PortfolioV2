@@ -45,7 +45,7 @@ interface ScrollSequenceContextValue {
 
 const ScrollSequenceContext = createContext<ScrollSequenceContextValue | null>(null);
 
-const LOAD_CONCURRENCY = 5;
+const LOAD_CONCURRENCY = 8;
 
 function framePath(manifest: ScrollManifest, index: number): string {
   return `${manifest.prefix}${String(index + 1).padStart(manifest.padding, '0')}.${manifest.extension}`;
@@ -61,6 +61,7 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
   const currentFrameRef = useRef(-1);
   const loadingRef = useRef(false);
   const autoplayFrameRef = useRef(0);
+  const allFramesLoadedRef = useRef(false);
   const heroActiveRef = useRef(true);
   const progressRef = useRef(0);
   const progressListenersRef = useRef(new Set<ProgressListener>());
@@ -185,6 +186,7 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!manifest || loadingRef.current) return;
     loadingRef.current = true;
+    allFramesLoadedRef.current = false;
     framesRef.current = new Array(manifest.frameCount).fill(null);
 
     const loadOne = (i: number) =>
@@ -221,6 +223,12 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
         if (typeof requestIdleCallback !== 'undefined') {
           await new Promise<void>((r) => requestIdleCallback(() => r()));
         }
+      }
+
+      allFramesLoadedRef.current = true;
+      const last = manifest.frameCount - 1;
+      if (autoplayFrameRef.current < last) {
+        drawFrame(autoplayFrameRef.current, true);
       }
     };
 
@@ -271,9 +279,10 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
     let lastTime = performance.now();
     const msPerFrame = 1000 / fps;
 
+    /** Next frame in order only — never wrap to 0 while later frames are still loading. */
     const findNextLoadedFrame = (from: number) => {
-      for (let step = 1; step <= manifest.frameCount; step += 1) {
-        const idx = (from + step) % manifest.frameCount;
+      if (from >= manifest.frameCount - 1) return from;
+      for (let idx = from + 1; idx < manifest.frameCount; idx += 1) {
         const img = framesRef.current[idx];
         if (img?.complete && img.naturalWidth) return idx;
       }
@@ -281,14 +290,18 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
     };
 
     const tick = (now: number) => {
-      if (!document.hidden && heroActiveRef.current) {
+      if (!document.hidden && heroActiveRef.current && allFramesLoadedRef.current) {
         const elapsed = now - lastTime;
         if (elapsed >= msPerFrame) {
           lastTime = now - (elapsed % msPerFrame);
-          const next = findNextLoadedFrame(autoplayFrameRef.current);
-          drawFrame(next);
-          const p = next / (manifest.frameCount - 1);
-          emitProgress(p);
+          const current = autoplayFrameRef.current;
+          const next = findNextLoadedFrame(current);
+          if (next !== current) {
+            drawFrame(next);
+            const p = next / (manifest.frameCount - 1);
+            setProgressState(p);
+            emitProgress(p);
+          }
         }
       }
       raf = requestAnimationFrame(tick);
