@@ -10,9 +10,10 @@ import {
   type ReactNode,
 } from 'react';
 import { drawCoverImage } from '@/lib/canvasImage';
+import { getHeroCanvasContext, prepareHeroCanvasContext, releaseHeroCanvasContext } from '@/lib/heroCanvas';
 import { heroPlaybackFps, isSparseHeroMode, sparseFrameIndices } from '@/lib/heroFrames';
 import { HERO_PAUSE_EVENT, HERO_RESUME_EVENT } from '@/lib/scrollNav';
-import { canvasDpr, isMobileViewport, prefersReducedMotion } from '@/lib/performance';
+import { canvasDpr, prefersReducedMotion } from '@/lib/performance';
 
 export interface ScrollManifest {
   frameCount: number;
@@ -95,10 +96,10 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
       canvas.style.height = `${h}px`;
     }
 
-    const ctx = canvas.getContext('2d', { alpha: false });
+    const ctx = getHeroCanvasContext(canvas);
     if (!ctx) return;
 
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    prepareHeroCanvasContext(ctx, dpr);
     drawCoverImage(ctx, img, w, h, img.naturalWidth, img.naturalHeight);
   }, []);
 
@@ -189,6 +190,7 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
 
       return () => {
         canvasesRef.current.delete(canvas);
+        releaseHeroCanvasContext(canvas);
         delete canvas.dataset.painted;
       };
     },
@@ -321,7 +323,6 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
     const fps = heroPlaybackFps(manifest.fps, manifest.frameCount, playbackCount);
     if (fps <= 0) return;
     const msPerFrame = 1000 / fps;
-    const useInterval = isMobileViewport();
 
     const findNextPlaybackFrame = (from: number) => {
       const indices = playbackIndicesRef.current;
@@ -348,18 +349,6 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
       setProgressState(p);
       emitProgress(p);
     };
-
-    if (useInterval) {
-      const id = window.setInterval(advance, msPerFrame);
-      const onVisibility = () => {
-        if (!document.hidden) advance();
-      };
-      document.addEventListener('visibilitychange', onVisibility);
-      return () => {
-        window.clearInterval(id);
-        document.removeEventListener('visibilitychange', onVisibility);
-      };
-    }
 
     let raf = 0;
     let lastTime = performance.now();

@@ -26,7 +26,7 @@ export default function ScrollSequenceCanvas({
   return (
     <canvas
       ref={canvasRef}
-      className={`block h-full w-full ${className}`}
+      className={`hero-sequence-canvas block h-full w-full ${className}`}
       style={{ opacity: ready ? 1 : 0, transition: 'opacity 0.4s ease', ...style }}
       aria-hidden="true"
     />

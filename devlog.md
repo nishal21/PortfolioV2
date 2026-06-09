@@ -1,5 +1,10 @@
 ﻿# Devlog
 
+## 2026-06-10 — Hero canvas perf
+
+- `heroCanvas.ts`: cached 2d context, `desynchronized` on mobile, rAF-only autoplay
+- `.hero-sequence-canvas` GPU layer; frames stay off-DOM (`Image` → canvas only)
+
 ## 2026-06-10 — Hero mobile: 60 frames, source-timed speed
 
 - Mobile: 60 evenly-spaced keyframes (was ~28 every-6th)
