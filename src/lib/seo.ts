@@ -1,6 +1,5 @@
 import { projects, getProjectSlug } from '@/data/projects';
 import { socialLinks } from '@/data/contact';
-import { personal } from '@/data/personal';
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nishal.dev';
 export const SITE_NAME = 'Nishal K Portfolio';
@@ -11,12 +10,26 @@ export const GITHUB_HANDLE = 'nishal21';
 export const INDEXNOW_KEY =
   process.env.INDEXNOW_KEY ?? 'f8c2a41e9b3d7046e1a5c890d7f6b2e4';
 
+/** `public/og-image.jpg` — custom share preview artwork. */
 export const OG_IMAGE = {
   url: '/og-image.jpg',
-  width: 1200,
-  height: 630,
+  width: 1024,
+  height: 682,
   alt: 'Nishal K — Creative developer and visual storyteller from Kerala',
 } as const;
+
+/** ≤60 chars for Google SERP titles. */
+export const SITE_TITLE = `${CREATOR_NAME} — AMV Editor, Music Producer & Developer`;
+
+/** ~150–160 chars for `<meta name="description">`. */
+export function metaDescription() {
+  return `${CREATOR_NAME} (${GITHUB_HANDLE}) — AMV editor, music producer, and full-stack developer from Kerala, India. NekoBeat, Otazumi, Publicolio, NMHelper, and 60+ GitHub projects.`;
+}
+
+/** ~120 chars for Open Graph / X card previews. */
+export function socialDescription() {
+  return `${CREATOR_NAME} — AMV editor, music producer & developer from Kerala. NekoBeat, Otazumi, NMHelper & open source on GitHub.`;
+}
 
 export const SITE_KEYWORDS = [
   'Nishal',
@@ -78,8 +91,9 @@ export function getIndexableUrls(): string[] {
   return getIndexablePaths().map((path) => absoluteUrl(path));
 }
 
+/** @deprecated Prefer `metaDescription()` or `socialDescription()`. */
 export function defaultDescription() {
-  return `${CREATOR_NAME} (${GITHUB_HANDLE}) — AMV editor, music producer, and full-stack developer from ${personal.location}. Portfolio of NekoBeat, Otazumi, Publicolio, NMHelper, CarbonLint, and 60+ open-source projects on GitHub.`;
+  return metaDescription();
 }
 
 export function projectDescription(title: string, description: string) {

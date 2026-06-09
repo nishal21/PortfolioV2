@@ -10,7 +10,8 @@ import {
   OG_IMAGE,
   SITE_NAME,
   absoluteUrl,
-  defaultDescription,
+  metaDescription,
+  socialDescription,
 } from '@/lib/seo';
 import '../studio.css';
 
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
   alternates: { canonical: absoluteUrl('/projects') },
   openGraph: {
     title: `Projects by ${CREATOR_NAME}`,
-    description: defaultDescription(),
+    description: socialDescription(),
     url: absoluteUrl('/projects'),
     siteName: SITE_NAME,
     images: [OG_IMAGE],
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: `Projects by ${CREATOR_NAME}`,
-    description: defaultDescription(),
+    description: socialDescription(),
     images: [OG_IMAGE.url],
   },
 };

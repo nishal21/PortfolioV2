@@ -2,18 +2,17 @@
 
 NMHelper stays at `/opt/nmhelper`. Portfolio goes to `/opt/portfolio-v2` on port **3002**.
 
-Repo: **https://github.com/nishal21/PortfolioV2**
+Repo: **[https://github.com/nishal21/PortfolioV2](https://github.com/nishal21/PortfolioV2)**
 
 ## Before you start
 
 1. **DNS** (Hostinger → nishal.dev → DNS):
-   - `A` `@` → your VPS public IP
-   - `A` `www` → same IP (or CNAME `www` → `nishal.dev`)
+  - `A` `@` → your VPS public IP
+  - `A` `www` → same IP (or CNAME `www` → `nishal.dev`)
 2. **Push this repo to GitHub** (`nishal21/PortfolioV2`).
 3. **SSH** as root on your VPS.
 
 ---
-
 
 ---
 
@@ -90,11 +89,13 @@ pm2 restart portfolio-v2
 
 ## Troubleshooting
 
-| Problem | Check |
-|---------|--------|
-| 502 Bad Gateway | `pm2 logs portfolio-v2` |
-| NMHelper broke | `nginx -t` — only add `nishal.dev` site block |
-| Wrong URLs | `.env.production` → `NEXT_PUBLIC_SITE_URL=https://nishal.dev`, rebuild |
+
+| Problem         | Check                                                                  |
+| --------------- | ---------------------------------------------------------------------- |
+| 502 Bad Gateway | `pm2 logs portfolio-v2`                                                |
+| NMHelper broke  | `nginx -t` — only add `nishal.dev` site block                          |
+| Wrong URLs      | `.env.production` → `NEXT_PUBLIC_SITE_URL=https://nishal.dev`, rebuild |
+
 
 ---
 
@@ -104,3 +105,4 @@ pm2 restart portfolio-v2
 /opt/nmhelper       → NMHelper
 /opt/portfolio-v2   → nishal.dev (PM2 portfolio-v2 → :3002)
 ```
+

@@ -3,12 +3,13 @@ import { Syne, DM_Sans, Noto_Sans_Malayalam } from 'next/font/google';
 import RootProviders from '@/components/layout/RootProviders';
 import {
   CREATOR_NAME,
-  GITHUB_HANDLE,
   OG_IMAGE,
   SITE_KEYWORDS,
   SITE_NAME,
+  SITE_TITLE,
   SITE_URL,
-  defaultDescription,
+  metaDescription,
+  socialDescription,
 } from '@/lib/seo';
 import './globals.css';
 
@@ -33,10 +34,10 @@ const notoMalayalam = Noto_Sans_Malayalam({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${CREATOR_NAME} — AMV Editor, Music Producer & Developer | ${GITHUB_HANDLE}`,
+    default: SITE_TITLE,
     template: `%s | ${CREATOR_NAME}`,
   },
-  description: defaultDescription(),
+  description: metaDescription(),
   keywords: [...SITE_KEYWORDS],
   authors: [{ name: CREATOR_NAME, url: SITE_URL }],
   creator: CREATOR_NAME,
@@ -45,6 +46,14 @@ export const metadata: Metadata = {
   category: 'technology',
   alternates: {
     canonical: SITE_URL,
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icon', type: 'image/png', sizes: '48x48' },
+    ],
+    apple: [{ url: '/apple-icon', type: 'image/png', sizes: '180x180' }],
+    shortcut: '/favicon.svg',
   },
   robots: {
     index: true,
@@ -60,8 +69,8 @@ export const metadata: Metadata = {
     google: 'googlef3453f029349740e',
   },
   openGraph: {
-    title: `${CREATOR_NAME} — Creative Developer & Visual Storyteller`,
-    description: defaultDescription(),
+    title: SITE_TITLE,
+    description: socialDescription(),
     url: SITE_URL,
     siteName: SITE_NAME,
     images: [OG_IMAGE],
@@ -72,8 +81,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@Etainment2',
     creator: '@Etainment2',
-    title: `${CREATOR_NAME} — AMV · Music · Code`,
-    description: defaultDescription(),
+    title: SITE_TITLE,
+    description: socialDescription(),
     images: [OG_IMAGE.url],
   },
 };

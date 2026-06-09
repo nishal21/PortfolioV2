@@ -1,5 +1,22 @@
 ﻿# Devlog
 
+## 2026-06-10 — Meta tags (OG image + description lengths)
+
+- Restored `public/og-image.jpg` (user artwork) — removed generated `opengraph-image.tsx`
+- `OG_IMAGE` metadata matches file: 1024×682
+- `SITE_TITLE` (53 chars), `metaDescription()` (~158), `socialDescription()` (~108)
+
+## 2026-06-10 — Contact: visible social icon row
+
+- Replaced hidden Socials popover with `ContactSocialRow` (GitHub, LinkedIn, YouTube, X, Instagram)
+- Icons always visible under Connect / Resume
+
+## 2026-06-10 — Favicon fix (VPS)
+
+- Static `public/favicon.svg` (NK sage/gold)
+- `metadata.icons` in layout; `/favicon.ico` → `/favicon.svg` redirect
+- Manifest PWA icons use favicon.svg + apple-icon
+
 ## 2026-06-10 — Hero sequence: no restart while frames load
 
 - `findNextLoadedFrame` no longer wraps to frame 0 when next frame is not ready

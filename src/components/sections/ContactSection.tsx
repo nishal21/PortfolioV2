@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { FileText, Handshake, Mail, MapPin, Phone, Send } from 'lucide-react';
 import ConnectButton from '@/components/ui/ConnectButton';
-import SocialsPopover from '@/components/contact/SocialsPopover';
+import ContactSocialRow from '@/components/contact/ContactSocialRow';
 import SupportStrip from '@/components/contact/SupportStrip';
 import SiteFooter from '@/components/layout/SiteFooter';
 import { contactInfo, formSubmit } from '@/data/contact';
@@ -53,8 +52,8 @@ export default function ContactSection() {
           <div className="studio-contact-actions">
             <ConnectButton text="Connect" href="mailto:nishal@nishal.dev" icon={Handshake} />
             <ConnectButton text="Resume" href="/resume/view" icon={FileText} />
-            <SocialsPopover />
           </div>
+          <ContactSocialRow />
         </div>
 
         <div className="studio-contact-body page-container">

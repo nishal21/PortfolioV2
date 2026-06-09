@@ -15,6 +15,18 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ['portfolio', 'productivity', 'entertainment'],
     icons: [
       {
+        src: '/favicon.svg',
+        sizes: 'any',
+        type: 'image/svg+xml',
+        purpose: 'any',
+      },
+      {
+        src: '/apple-icon',
+        sizes: '180x180',
+        type: 'image/png',
+        purpose: 'any',
+      },
+      {
         src: OG_IMAGE.url,
         sizes: '1200x630',
         type: 'image/jpeg',

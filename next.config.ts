@@ -4,6 +4,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: '/favicon.ico',
+        destination: '/favicon.svg',
+        permanent: false,
+      },
+      {
         source: '/security.txt',
         destination: '/.well-known/security.txt',
         permanent: true,
