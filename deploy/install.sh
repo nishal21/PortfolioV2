@@ -3,8 +3,8 @@
 # NMHelper should already live at /opt/nmhelper — this does not touch it.
 set -euo pipefail
 
-APP_DIR="/opt/nishal-portfolio"
-REPO_URL="${REPO_URL:-https://github.com/nishal21/Portfolio.git}"
+APP_DIR="/opt/portfolio-v2"
+REPO_URL="${REPO_URL:-https://github.com/nishal21/PortfolioV2.git}"
 BRANCH="${BRANCH:-main}"
 PORT=3002
 
@@ -45,7 +45,7 @@ npm ci
 npm run build
 
 echo "==> PM2 start"
-pm2 delete nishal-portfolio 2>/dev/null || true
+pm2 delete portfolio-v2 2>/dev/null || true
 pm2 start "$APP_DIR/deploy/ecosystem.config.cjs"
 pm2 save
 

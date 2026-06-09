@@ -10,7 +10,7 @@ Built with Next.js 15 and React 19. One long scrolling homepage (hero sequence, 
 [Tailwind CSS](https://tailwindcss.com/)
 [License](LICENSE)
 
-[Live site](https://nishal.dev) · [Report an issue](https://github.com/nishal21/Portfolio/issues)
+[Live site](https://nishal.dev) · [Report an issue](https://github.com/nishal21/PortfolioV2/issues)
 
 ## What's in here
 
@@ -42,8 +42,8 @@ Custom pieces worth noting: SVG liquid-glass filters (`src/lib/liquidGlass.ts`),
 **Requirements:** Node.js 18+ and npm (yarn/pnpm also work).
 
 ```bash
-git clone https://github.com/nishal21/Portfolio.git
-cd Portfolio
+git clone https://github.com/nishal21/PortfolioV2.git
+cd PortfolioV2
 npm install
 npm run dev
 ```
@@ -142,8 +142,8 @@ portfolio-main/
 **VPS (Nginx + PM2):** see [deploy/DEPLOY.md](deploy/DEPLOY.md) for full steps. Quick path on the server:
 
 ```bash
-git clone https://github.com/nishal21/Portfolio.git /opt/nishal-portfolio
-cd /opt/nishal-portfolio && bash deploy/install.sh
+git clone https://github.com/nishal21/PortfolioV2.git /opt/portfolio-v2
+cd /opt/portfolio-v2 && bash deploy/install.sh
 cp deploy/nginx-nishal.dev.conf /etc/nginx/sites-available/nishal.dev
 ln -sf /etc/nginx/sites-available/nishal.dev /etc/nginx/sites-enabled/ && nginx -t && systemctl reload nginx
 certbot --nginx -d nishal.dev -d www.nishal.dev

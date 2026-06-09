@@ -3,7 +3,7 @@
 ## 2026-06-10 — VPS deploy pack (Nginx + PM2)
 
 - `deploy/DEPLOY.md`, `install.sh`, `ecosystem.config.cjs`, `nginx-nishal.dev.conf`
-- App path `/opt/nishal-portfolio`, port **3002** (NMHelper untouched at `/opt/nmhelper`)
+- Repo `nishal21/PortfolioV2`, path `/opt/portfolio-v2`, PM2 `portfolio-v2`, port **3002**
 
 ## 2026-06-10 — nishal@nishal.dev (domain + mail live)
 

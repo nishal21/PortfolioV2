@@ -10,4 +10,4 @@ If you fork or reuse this project, keep attribution as required in [LICENSE](LIC
 
 **Suggested credit line for forks:**
 
-> Based on the portfolio by [Nishal K](https://nishal.dev) ([source](https://github.com/nishal21/Portfolio))
+> Based on the portfolio by [Nishal K](https://nishal.dev) ([source](https://github.com/nishal21/PortfolioV2))

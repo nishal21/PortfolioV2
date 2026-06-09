@@ -1,9 +1,9 @@
-/** PM2 process file — run from /opt/nishal-portfolio after build */
+/** PM2 process file — run from /opt/portfolio-v2 after build */
 module.exports = {
   apps: [
     {
-      name: 'nishal-portfolio',
-      cwd: '/opt/nishal-portfolio',
+      name: 'portfolio-v2',
+      cwd: '/opt/portfolio-v2',
       script: 'node_modules/next/dist/bin/next',
       args: 'start -p 3002',
       instances: 1,
