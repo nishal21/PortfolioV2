@@ -1,5 +1,11 @@
 ﻿# Devlog
 
+## 2026-06-10 — robots.txt (Google crawl fix)
+
+- `public/robots.txt` — 27 crawlers + 24 explicit `Allow` paths (from `getIndexablePaths()`)
+- `npm run generate:robots` regenerates file; runs before `npm run build`
+- Removed `src/app/robots.ts` — static file served from `public/`
+
 ## 2026-06-10 — Meta tags (OG image + description lengths)
 
 - Restored `public/og-image.jpg` (user artwork) — removed generated `opengraph-image.tsx`

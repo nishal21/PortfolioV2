@@ -95,7 +95,21 @@ pm2 restart portfolio-v2
 | 502 Bad Gateway | `pm2 logs portfolio-v2`                                                |
 | NMHelper broke  | `nginx -t` — only add `nishal.dev` site block                          |
 | Wrong URLs      | `.env.production` → `NEXT_PUBLIC_SITE_URL=https://nishal.dev`, rebuild |
+| Google blocked  | `curl https://nishal.dev/robots.txt` — must show `Allow: /`            |
 
+
+---
+
+## Google Search Console
+
+1. Property URL: **`https://nishal.dev`** (not `http://` or `www`)
+2. After deploy, verify:
+   ```bash
+   curl https://nishal.dev/robots.txt
+   curl https://nishal.dev/sitemap.xml
+   ```
+3. Submit sitemap: `https://nishal.dev/sitemap.xml`
+4. URL Inspection → **Test live URL** → Request indexing
 
 ---
 
