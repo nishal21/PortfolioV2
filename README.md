@@ -151,4 +151,4 @@ Issues and PRs are welcome. Fork the repo, branch from `main`, and open a pull r
 
 - **Site:** [nishal.dev](https://nishal.dev)
 - **GitHub:** [@nishal21](https://github.com/nishal21)
-- **Email:** nishalamv@gmail.com
+- **Email:** nishal@nishal.dev

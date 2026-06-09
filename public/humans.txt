@@ -3,7 +3,7 @@ Creator: Nishal K
 GitHub: nishal21
 Site: https://nishal.dev
 Location: Malappuram, Kerala, India
-Contact: nishalamv@gmail.com
+Contact: nishal@nishal.dev
 
 /* THANKS */
 Next.js, Vercel, Kerala open-source community

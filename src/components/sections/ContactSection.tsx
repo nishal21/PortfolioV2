@@ -31,7 +31,7 @@ export default function ContactSection() {
       if (response.ok) {
         setIsSubmitted(true);
         setFormData({ name: '', email: '', subject: '', message: '' });
-      } else setError('Something went wrong. Email nishalamv@gmail.com directly.');
+      } else setError('Something went wrong. Email nishal@nishal.dev directly.');
     } catch {
       setError('Network error. Try again.');
     } finally {
@@ -51,7 +51,7 @@ export default function ContactSection() {
             <span className="studio-contact-headline-cta">Let&apos;s work on something.</span>
           </h2>
           <div className="studio-contact-actions">
-            <ConnectButton text="Connect" href="mailto:nishalamv@gmail.com" icon={Handshake} />
+            <ConnectButton text="Connect" href="mailto:nishal@nishal.dev" icon={Handshake} />
             <ConnectButton text="Resume" href="/resume/view" icon={FileText} />
             <SocialsPopover />
           </div>

@@ -1,5 +1,11 @@
 ﻿# Devlog
 
+## 2026-06-10 — nishal@nishal.dev (domain + mail live)
+
+- Site contact, FormSubmit, resume, security.txt, humans/llms → `nishal@nishal.dev`
+- PGP key still on `nishalamv@gmail.com` until new key for domain mail (optional)
+- **Next:** DNS A → VPS, FormSubmit activate on first submit, deploy with `NEXT_PUBLIC_SITE_URL`
+
 ## 2026-06-09 — security.txt
 
 - `public/.well-known/security.txt` (mailto + GitHub, expires 2027-06-09, policy → /privacy)

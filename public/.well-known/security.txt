@@ -1,4 +1,4 @@
-Contact: mailto:nishalamv@gmail.com
+Contact: mailto:nishal@nishal.dev
 Contact: https://github.com/nishal21
 Encryption: https://nishal.dev/.well-known/nishal-public.asc
 Expires: 2100-06-09T23:59:59.000Z

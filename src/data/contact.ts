@@ -1,8 +1,8 @@
 export const contactInfo = [
   {
     label: 'Email',
-    value: 'nishalamv@gmail.com',
-    href: 'mailto:nishalamv@gmail.com',
+    value: 'nishal@nishal.dev',
+    href: 'mailto:nishal@nishal.dev',
   },
   {
     label: 'Phone',
@@ -56,7 +56,7 @@ export const supportLinks = [
 ] as const;
 
 export const formSubmit = {
-  url: 'https://formsubmit.co/nishalamv@gmail.com',
+  url: 'https://formsubmit.co/nishal@nishal.dev',
   subject: 'New Portfolio Contact Message',
   autoresponse:
     "Got your message. I'll reply within a day or so. - Nishal",

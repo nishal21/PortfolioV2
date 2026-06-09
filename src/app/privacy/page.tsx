@@ -30,7 +30,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="font-display text-lg font-semibold text-[var(--text-soft)]">Who runs this site</h2>
             <p className="mt-2 leading-relaxed">
-              {CREATOR_NAME} operates {SITE_URL}. Contact: nishalamv@gmail.com.
+              {CREATOR_NAME} operates {SITE_URL}. Contact: nishal@nishal.dev.
             </p>
           </section>
           <section>
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="font-display text-lg font-semibold text-[var(--text-soft)]">Your rights</h2>
             <p className="mt-2 leading-relaxed">
-              You may request deletion of contact form messages by emailing nishalamv@gmail.com.
+              You may request deletion of contact form messages by emailing nishal@nishal.dev.
             </p>
           </section>
         </div>

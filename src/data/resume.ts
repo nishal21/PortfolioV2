@@ -55,7 +55,7 @@ export interface ResumeProfile {
 
 export const resumeContact: ResumeContact = {
   name: 'Nishal K',
-  email: 'nishalamv@gmail.com',
+  email: 'nishal@nishal.dev',
   location: 'Malappuram, Kerala, India',
   linkedin: 'https://www.linkedin.com/in/nishal-k',
   github: 'https://github.com/nishal21',
