@@ -52,7 +52,7 @@ export function useLiquidGlassNav(
       indicator.style.transition = 'none';
       indicator.style.left = `${left}px`;
       indicator.style.width = `${width}px`;
-      indicator.offsetWidth;
+      void indicator.offsetWidth;
       indicator.style.transition = old;
       return;
     }

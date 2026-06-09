@@ -1,5 +1,10 @@
 ﻿# Devlog
 
+## 2026-06-10 — Fix VPS build (webkitBackdropFilter TS)
+
+- `liquidGlass.ts`: `setProperty('-webkit-backdrop-filter')` (TS DOM types)
+- `useLiquidGlassNav.ts`: `void indicator.offsetWidth` for reflow
+
 ## 2026-06-10 — VPS deploy pack (Nginx + PM2)
 
 - `deploy/DEPLOY.md`, `install.sh`, `ecosystem.config.cjs`, `nginx-nishal.dev.conf`

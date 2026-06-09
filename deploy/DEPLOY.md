@@ -14,19 +14,6 @@ Repo: **https://github.com/nishal21/PortfolioV2**
 
 ---
 
-## Step 1 — Check NMHelper (don’t break it)
-
-```bash
-ls /etc/nginx/sites-enabled/
-pm2 list
-ss -tlnp | grep -E '3001|3002|3005'
-```
-
-| App | PM2 name | Port |
-|-----|----------|------|
-| NMHelper API | `nmhelper-api` | **3001** |
-| NMHelper site | `nmhelper-next` | **3005** |
-| Portfolio | `portfolio-v2` | **3002** |
 
 ---
 

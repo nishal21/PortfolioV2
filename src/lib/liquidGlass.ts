@@ -394,7 +394,7 @@ function applyGlass(el: HTMLElement, cfgGetter: ConfigGetter) {
     defs.appendChild(filterNode);
     refr.style.borderRadius = `${r}px`;
     refr.style.backdropFilter = `url(#${id})`;
-    refr.style.webkitBackdropFilter = `url(#${id})`;
+    refr.style.setProperty('-webkit-backdrop-filter', `url(#${id})`);
     tint.style.borderRadius = `${r}px`;
     tint.style.display = isLetter ? 'none' : 'block';
     tint.style.backgroundColor = `rgba(${cfg.tintColor},${cfg.tintOpacity})`;
