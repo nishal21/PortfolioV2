@@ -10,7 +10,6 @@ import {
   OG_IMAGE,
   SITE_NAME,
   absoluteUrl,
-  metaDescription,
   socialDescription,
 } from '@/lib/seo';
 import '../studio.css';

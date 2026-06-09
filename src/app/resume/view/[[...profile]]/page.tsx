@@ -1,5 +1,5 @@
 import ResumePageShell from '@/components/resume/ResumePageShell';
-import { resumeProfiles, resolveResumeProfile, type ResumeProfileId } from '@/data/resume';
+import { resumeProfiles, resolveResumeProfile } from '@/data/resume';
 import { isAutoprint, profileFromPathSegment } from '@/lib/resumeUrl';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';

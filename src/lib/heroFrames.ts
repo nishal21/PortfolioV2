@@ -17,7 +17,7 @@ export function sparseFrameIndices(frameCount: number, target = MOBILE_FRAME_TAR
   return [...new Set(indices)].sort((a, b) => a - b);
 }
 
-export function useSparseHeroFrames() {
+export function isSparseHeroMode() {
   if (typeof window === 'undefined') return false;
   return window.matchMedia('(max-width: 767px), (pointer: coarse)').matches;
 }

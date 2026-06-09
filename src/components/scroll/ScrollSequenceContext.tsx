@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from 'react';
 import { drawCoverImage } from '@/lib/canvasImage';
-import { heroPlaybackFps, sparseFrameIndices, useSparseHeroFrames } from '@/lib/heroFrames';
+import { heroPlaybackFps, isSparseHeroMode, sparseFrameIndices } from '@/lib/heroFrames';
 import { HERO_PAUSE_EVENT, HERO_RESUME_EVENT } from '@/lib/scrollNav';
 import { canvasDpr, isMobileViewport, prefersReducedMotion } from '@/lib/performance';
 
@@ -240,7 +240,7 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
         framesRef.current[i] = img;
       });
 
-    const sparseMode = useSparseHeroFrames();
+    const sparseMode = isSparseHeroMode();
     const playback = sparseMode
       ? sparseFrameIndices(manifest.frameCount)
       : Array.from({ length: manifest.frameCount }, (_, i) => i);
