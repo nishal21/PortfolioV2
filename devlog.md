@@ -1,5 +1,10 @@
 ﻿# Devlog
 
+## 2026-06-10 — VPS deploy pack (Nginx + PM2)
+
+- `deploy/DEPLOY.md`, `install.sh`, `ecosystem.config.cjs`, `nginx-nishal.dev.conf`
+- App path `/opt/nishal-portfolio`, port **3002** (NMHelper untouched at `/opt/nmhelper`)
+
 ## 2026-06-10 — nishal@nishal.dev (domain + mail live)
 
 - Site contact, FormSubmit, resume, security.txt, humans/llms → `nishal@nishal.dev`

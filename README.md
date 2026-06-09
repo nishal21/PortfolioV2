@@ -4,11 +4,11 @@ Personal site for [Nishal K](https://github.com/nishal21): AMV editor, music pro
 
 Built with Next.js 15 and React 19. One long scrolling homepage (hero sequence, about, skills, projects, videos, contact), plus standalone routes for projects, resume, and SEO pages.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.5-black?style=flat-square&logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)](https://react.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
-[![License](https://img.shields.io/badge/License-MIT%20%2B%20Attribution-green?style=flat-square)](LICENSE)
+[Next.js](https://nextjs.org/)
+[TypeScript](https://www.typescriptlang.org/)
+[React](https://react.dev/)
+[Tailwind CSS](https://tailwindcss.com/)
+[License](LICENSE)
 
 [Live site](https://nishal.dev) · [Report an issue](https://github.com/nishal21/Portfolio/issues)
 
@@ -24,14 +24,16 @@ Built with Next.js 15 and React 19. One long scrolling homepage (hero sequence, 
 
 ## Tech stack
 
-| Area | Tools |
-|------|--------|
-| Framework | [Next.js 15](https://nextjs.org/) (App Router, Turbopack dev) |
-| UI | [React 19](https://react.dev/), [Tailwind CSS 4](https://tailwindcss.com/) |
-| Motion | [Framer Motion](https://www.framer.com/motion/), [GSAP](https://greensock.com/gsap/) |
-| Icons | [Lucide React](https://lucide.dev/) |
-| Forms | [FormSubmit](https://formsubmit.co/) |
-| Language | TypeScript |
+
+| Area      | Tools                                                                                |
+| --------- | ------------------------------------------------------------------------------------ |
+| Framework | [Next.js 15](https://nextjs.org/) (App Router, Turbopack dev)                        |
+| UI        | [React 19](https://react.dev/), [Tailwind CSS 4](https://tailwindcss.com/)           |
+| Motion    | [Framer Motion](https://www.framer.com/motion/), [GSAP](https://greensock.com/gsap/) |
+| Icons     | [Lucide React](https://lucide.dev/)                                                  |
+| Forms     | [FormSubmit](https://formsubmit.co/)                                                 |
+| Language  | TypeScript                                                                           |
+
 
 Custom pieces worth noting: SVG liquid-glass filters (`src/lib/liquidGlass.ts`), scroll nav locking (`src/lib/scrollNav.ts`), hero frame loader (`ScrollSequenceContext`).
 
@@ -65,13 +67,15 @@ Contact form email is set in `src/data/contact.ts` (`formSubmit.url`), not via e
 
 ## Scripts
 
-| Command | What it does |
-|---------|----------------|
-| `npm run dev` | Dev server with Turbopack |
-| `npm run build` | Production build |
-| `npm run start` | Serve production build |
-| `npm run lint` | ESLint (Next.js config) |
+
+| Command            | What it does                                                   |
+| ------------------ | -------------------------------------------------------------- |
+| `npm run dev`      | Dev server with Turbopack                                      |
+| `npm run build`    | Production build                                               |
+| `npm run start`    | Serve production build                                         |
+| `npm run lint`     | ESLint (Next.js config)                                        |
 | `npm run indexnow` | Ping search engines after deploy (`scripts/indexnow-ping.mjs`) |
+
 
 ## Project structure
 
@@ -103,41 +107,49 @@ portfolio-main/
 
 ## Customization
 
-| What to change | Where |
-|----------------|--------|
-| Name, bio, nav, stats | `src/data/personal.ts` |
-| Projects | `src/data/projects.ts` + art in `public/projects/` |
-| Skills | `src/data/skills.ts` |
-| Videos | `src/data/videos.ts` |
-| Contact + socials | `src/data/contact.ts` |
-| Site URL, keywords, OG | `src/lib/seo.ts` |
-| Hero frames | `public/scroll/manifest.json` + frames |
-| Global / studio styles | `src/app/globals.css`, `src/app/studio.css` |
-| Nav glass tuning | `src/lib/liquidGlassConfig.ts` |
+
+| What to change         | Where                                              |
+| ---------------------- | -------------------------------------------------- |
+| Name, bio, nav, stats  | `src/data/personal.ts`                             |
+| Projects               | `src/data/projects.ts` + art in `public/projects/` |
+| Skills                 | `src/data/skills.ts`                               |
+| Videos                 | `src/data/videos.ts`                               |
+| Contact + socials      | `src/data/contact.ts`                              |
+| Site URL, keywords, OG | `src/lib/seo.ts`                                   |
+| Hero frames            | `public/scroll/manifest.json` + frames             |
+| Global / studio styles | `src/app/globals.css`, `src/app/studio.css`        |
+| Nav glass tuning       | `src/lib/liquidGlassConfig.ts`                     |
+
 
 ## Routes
 
-| Path | Purpose |
-|------|---------|
-| `/` | Main portfolio (scroll sections) |
-| `/about` | About page with awards/stats |
-| `/profile` | SEO answer blocks + project index table |
-| `/projects` | All projects |
-| `/projects/[slug]` | Single project |
-| `/resume` | Resume landing |
-| `/resume/view` | Print-friendly resume |
-| `/privacy` | Privacy policy |
+
+| Path                        | Purpose                                                     |
+| --------------------------- | ----------------------------------------------------------- |
+| `/`                         | Main portfolio (scroll sections)                            |
+| `/about`                    | About page with awards/stats                                |
+| `/profile`                  | SEO answer blocks + project index table                     |
+| `/projects`                 | All projects                                                |
+| `/projects/[slug]`          | Single project                                              |
+| `/resume`                   | Resume landing                                              |
+| `/resume/view`              | Print-friendly resume                                       |
+| `/privacy`                  | Privacy policy                                              |
 | `/.well-known/security.txt` | Security contact (RFC 9116; `/security.txt` redirects here) |
+
 
 ## Deployment
 
-Works on [Vercel](https://vercel.com) or [Netlify](https://netlify.com) with default Next.js settings.
+**VPS (Nginx + PM2):** see [deploy/DEPLOY.md](deploy/DEPLOY.md) for full steps. Quick path on the server:
 
-1. Push to GitHub and connect the repo.
-2. Set `NEXT_PUBLIC_SITE_URL` to your production domain.
-3. Run `npm run build` locally first if you want to catch errors early.
-4. After deploy, submit the sitemap in Google Search Console / Bing Webmaster Tools.
-5. Optional: `npm run indexnow` to notify IndexNow endpoints.
+```bash
+git clone https://github.com/nishal21/Portfolio.git /opt/nishal-portfolio
+cd /opt/nishal-portfolio && bash deploy/install.sh
+cp deploy/nginx-nishal.dev.conf /etc/nginx/sites-available/nishal.dev
+ln -sf /etc/nginx/sites-available/nishal.dev /etc/nginx/sites-enabled/ && nginx -t && systemctl reload nginx
+certbot --nginx -d nishal.dev -d www.nishal.dev
+```
+
+Also works on [Vercel](https://vercel.com) or [Netlify](https://netlify.com). Set `NEXT_PUBLIC_SITE_URL=https://nishal.dev`, then submit sitemap to Google/Bing and run `npm run indexnow`.
 
 ## Contributing
 
@@ -151,4 +163,5 @@ Issues and PRs are welcome. Fork the repo, branch from `main`, and open a pull r
 
 - **Site:** [nishal.dev](https://nishal.dev)
 - **GitHub:** [@nishal21](https://github.com/nishal21)
-- **Email:** nishal@nishal.dev
+- **Email:** [nishal@nishal.dev](mailto:nishal@nishal.dev)
+
