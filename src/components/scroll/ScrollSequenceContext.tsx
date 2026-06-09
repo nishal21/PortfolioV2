@@ -10,8 +10,9 @@ import {
   type ReactNode,
 } from 'react';
 import { drawCoverImage } from '@/lib/canvasImage';
+import { heroPlaybackFps, sparseFrameIndices, useSparseHeroFrames } from '@/lib/heroFrames';
 import { HERO_PAUSE_EVENT, HERO_RESUME_EVENT } from '@/lib/scrollNav';
-import { canvasDpr, playbackFps, prefersReducedMotion } from '@/lib/performance';
+import { canvasDpr, isMobileViewport, prefersReducedMotion } from '@/lib/performance';
 
 export interface ScrollManifest {
   frameCount: number;
@@ -63,6 +64,7 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
   const autoplayFrameRef = useRef(0);
   const allFramesLoadedRef = useRef(false);
   const heroActiveRef = useRef(true);
+  const playbackIndicesRef = useRef<number[]>([]);
   const progressRef = useRef(0);
   const progressListenersRef = useRef(new Set<ProgressListener>());
   const canvasSizeRef = useRef({ w: 0, h: 0 });
@@ -100,12 +102,40 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
     drawCoverImage(ctx, img, w, h, img.naturalWidth, img.naturalHeight);
   }, []);
 
+  const findNearestLoadedFrame = useCallback(
+    (target: number) => {
+      const m = manifest;
+      if (!m) return target;
+
+      const clamped = Math.max(0, Math.min(m.frameCount - 1, target));
+      const frames = framesRef.current;
+      const direct = frames[clamped];
+      if (direct?.complete && direct.naturalWidth) return clamped;
+
+      for (let d = 1; d < m.frameCount; d += 1) {
+        const before = clamped - d;
+        const after = clamped + d;
+        if (before >= 0) {
+          const img = frames[before];
+          if (img?.complete && img.naturalWidth) return before;
+        }
+        if (after < m.frameCount) {
+          const img = frames[after];
+          if (img?.complete && img.naturalWidth) return after;
+        }
+      }
+
+      return currentFrameRef.current >= 0 ? currentFrameRef.current : 0;
+    },
+    [manifest]
+  );
+
   const drawFrame = useCallback(
     (index: number, force = false) => {
       const m = manifest;
       if (!m) return;
 
-      const clamped = Math.max(0, Math.min(m.frameCount - 1, index));
+      const clamped = findNearestLoadedFrame(index);
       if (!force && clamped === currentFrameRef.current) return;
 
       const img = framesRef.current[clamped];
@@ -120,7 +150,7 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
         if (mode === 'static') canvas.dataset.painted = '1';
       });
     },
-    [manifest, paintCanvas]
+    [findNearestLoadedFrame, manifest, paintCanvas]
   );
 
   const resizeCanvases = useCallback(() => {
@@ -210,25 +240,38 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
         framesRef.current[i] = img;
       });
 
+    const sparseMode = useSparseHeroFrames();
+    const playback = sparseMode
+      ? sparseFrameIndices(manifest.frameCount)
+      : Array.from({ length: manifest.frameCount }, (_, i) => i);
+    playbackIndicesRef.current = playback;
+
     const run = async () => {
       await loadOne(0);
       setReady(true);
       drawFrame(0, true);
       emitProgress(0);
 
-      const rest = Array.from({ length: manifest.frameCount - 1 }, (_, k) => k + 1);
+      const rest = playback.filter((i) => i !== 0);
       for (let i = 0; i < rest.length; i += LOAD_CONCURRENCY) {
         const batch = rest.slice(i, i + LOAD_CONCURRENCY);
         await Promise.all(batch.map(loadOne));
-        if (typeof requestIdleCallback !== 'undefined') {
-          await new Promise<void>((r) => requestIdleCallback(() => r()));
-        }
       }
 
       allFramesLoadedRef.current = true;
-      const last = manifest.frameCount - 1;
-      if (autoplayFrameRef.current < last) {
-        drawFrame(autoplayFrameRef.current, true);
+
+      if (!sparseMode) {
+        const skip = new Set(playback);
+        const remaining = Array.from({ length: manifest.frameCount }, (_, k) => k).filter(
+          (k) => !skip.has(k)
+        );
+        for (let i = 0; i < remaining.length; i += LOAD_CONCURRENCY) {
+          const batch = remaining.slice(i, i + LOAD_CONCURRENCY);
+          await Promise.all(batch.map(loadOne));
+          if (typeof requestIdleCallback !== 'undefined') {
+            await new Promise<void>((r) => requestIdleCallback(() => r()));
+          }
+        }
       }
     };
 
@@ -252,7 +295,7 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
           heroActiveRef.current = false;
         }
       },
-      { threshold: [0, 0.08, 0.15] }
+      { threshold: [0, 0.01, 0.1], rootMargin: '0px 0px -10% 0px' }
     );
     io.observe(hero);
     return () => io.disconnect();
@@ -272,37 +315,64 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!manifest || !ready) return;
 
-    const fps = playbackFps(manifest.fps);
-    if (fps <= 0 || prefersReducedMotion()) return;
+    if (prefersReducedMotion()) return;
 
-    let raf = 0;
-    let lastTime = performance.now();
+    const playbackCount = playbackIndicesRef.current.length || manifest.frameCount;
+    const fps = heroPlaybackFps(manifest.fps, manifest.frameCount, playbackCount);
+    if (fps <= 0) return;
     const msPerFrame = 1000 / fps;
+    const useInterval = isMobileViewport();
 
-    /** Next frame in order only — never wrap to 0 while later frames are still loading. */
-    const findNextLoadedFrame = (from: number) => {
-      if (from >= manifest.frameCount - 1) return from;
-      for (let idx = from + 1; idx < manifest.frameCount; idx += 1) {
+    const findNextPlaybackFrame = (from: number) => {
+      const indices = playbackIndicesRef.current;
+      if (!indices.length) return from;
+
+      const startPos = Math.max(0, indices.indexOf(from));
+      for (let step = 1; step <= indices.length; step += 1) {
+        const idx = indices[(startPos + step) % indices.length];
         const img = framesRef.current[idx];
         if (img?.complete && img.naturalWidth) return idx;
       }
       return from;
     };
 
+    const advance = () => {
+      if (!document.hidden && !heroActiveRef.current) return;
+
+      const current = autoplayFrameRef.current;
+      const next = findNextPlaybackFrame(current);
+      if (next === current) return;
+
+      drawFrame(next);
+      const p = next / (manifest.frameCount - 1);
+      setProgressState(p);
+      emitProgress(p);
+    };
+
+    if (useInterval) {
+      const id = window.setInterval(advance, msPerFrame);
+      const onVisibility = () => {
+        if (!document.hidden) advance();
+      };
+      document.addEventListener('visibilitychange', onVisibility);
+      return () => {
+        window.clearInterval(id);
+        document.removeEventListener('visibilitychange', onVisibility);
+      };
+    }
+
+    let raf = 0;
+    let lastTime = performance.now();
+
     const tick = (now: number) => {
-      if (!document.hidden && heroActiveRef.current && allFramesLoadedRef.current) {
+      if (!document.hidden && heroActiveRef.current) {
         const elapsed = now - lastTime;
         if (elapsed >= msPerFrame) {
           lastTime = now - (elapsed % msPerFrame);
-          const current = autoplayFrameRef.current;
-          const next = findNextLoadedFrame(current);
-          if (next !== current) {
-            drawFrame(next);
-            const p = next / (manifest.frameCount - 1);
-            setProgressState(p);
-            emitProgress(p);
-          }
+          advance();
         }
+      } else {
+        lastTime = now;
       }
       raf = requestAnimationFrame(tick);
     };
@@ -328,9 +398,12 @@ export function ScrollSequenceProvider({ children }: { children: ReactNode }) {
       timer = setTimeout(resizeCanvases, 150);
     };
     window.addEventListener('resize', onResize);
+    const vv = window.visualViewport;
+    vv?.addEventListener('resize', onResize);
     return () => {
       if (timer) clearTimeout(timer);
       window.removeEventListener('resize', onResize);
+      vv?.removeEventListener('resize', onResize);
     };
   }, [resizeCanvases]);
 

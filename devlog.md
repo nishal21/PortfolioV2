@@ -1,5 +1,16 @@
 ﻿# Devlog
 
+## 2026-06-10 — Hero mobile: 60 frames, source-timed speed
+
+- Mobile: 60 evenly-spaced keyframes (was ~28 every-6th)
+- `heroPlaybackFps()` matches source clip duration (~7s @ 24fps manifest)
+
+## 2026-06-10 — Mobile hero: looping autoplay (no scroll track)
+
+- Reverted sticky scroll track (caused black gap before content)
+- Mobile loads ~28 sparse keyframes (every 6th) + `setInterval` autoplay loop
+- Desktop: full 166 frames, rAF autoplay loop; no wait for all frames before first play
+
 ## 2026-06-10 — robots.txt (Google crawl fix)
 
 - `public/robots.txt` — 27 crawlers + 24 explicit `Allow` paths (from `getIndexablePaths()`)

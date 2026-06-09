@@ -49,6 +49,6 @@ export function canvasDpr() {
 
 export function playbackFps(baseFps: number) {
   if (prefersReducedMotion()) return 0;
-  if (isMobileViewport()) return Math.min(baseFps, 12);
-  return Math.min(baseFps, 18);
+  if (isMobileViewport() || isCoarsePointer()) return Math.min(baseFps, 20);
+  return Math.min(baseFps, 24);
 }
