@@ -3,6 +3,7 @@
 ## 2026-06-09 — security.txt
 
 - `public/.well-known/security.txt` (mailto + GitHub, expires 2027-06-09, policy → /privacy)
+- `Encryption:` → `/.well-known/nishal-public.asc` (OpenPGP, nishalamv@gmail.com)
 - `/security.txt` → `/.well-known/security.txt` redirect in `next.config.ts`
 
 ## 2026-06-09 — LICENSE attribution requirement
