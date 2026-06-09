@@ -1,5 +1,9 @@
 ﻿# Devlog
 
+## 2026-06-10 — Social links
+
+- Instagram → `demonking.___` · LinkedIn → `nishal-k` (`contact.ts`, `llms.txt`)
+
 ## 2026-06-10 — Hero canvas perf
 
 - `heroCanvas.ts`: cached 2d context, `desynchronized` on mobile, rAF-only autoplay

@@ -18,10 +18,10 @@ export const contactInfo = [
 
 export const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/nishal21' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/nishal-k-167b1a328' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/nishal-k' },
   { label: 'YouTube', href: 'https://youtube.com/@DemonKing0.___' },
   { label: 'X', href: 'https://x.com/Etainment2' },
-  { label: 'Instagram', href: 'https://instagram.com/nishal_k_' },
+  { label: 'Instagram', href: 'https://instagram.com/demonking.___' },
 ] as const;
 
 export const supportLinks = [
