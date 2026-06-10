@@ -35,6 +35,8 @@ export default function ResumeDocument({ profile }: ResumeDocumentProps) {
         <p className="resume-contact-line">
           <a href={resumeContact.linkedin}>LinkedIn</a>
           {' · '}
+          <a href={resumeContact.peerlist}>Peerlist</a>
+          {' · '}
           <a href={resumeContact.github}>GitHub</a>
           {' · '}
           <a href={resumeContact.portfolio}>Portfolio</a>

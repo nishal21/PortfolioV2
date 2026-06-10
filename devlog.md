@@ -1,5 +1,9 @@
 ﻿# Devlog
 
+## 2026-06-10 — Peerlist profile link
+
+- `https://peerlist.io/u/nishal21` in social row, resume, llms.txt, humans.txt, JSON-LD sameAs
+
 ## 2026-06-10 — Footer: Website Launches badge
 
 - `SiteFooter.tsx` — link + dark badge from websitelaunches.com/nishal.dev

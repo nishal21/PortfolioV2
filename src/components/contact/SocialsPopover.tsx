@@ -3,10 +3,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { Github, Instagram, Linkedin, Youtube } from 'lucide-react';
 import XLogo from '@/components/icons/XLogo';
+import PeerlistIcon from '@/components/icons/PeerlistIcon';
 import { socialLinks } from '@/data/contact';
 
 const iconMap = {
   GitHub: Github,
+  Peerlist: PeerlistIcon,
   LinkedIn: Linkedin,
   YouTube: Youtube,
   X: XLogo,
