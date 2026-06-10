@@ -49,11 +49,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/icon', type: 'image/png', sizes: '48x48' },
     ],
     apple: [{ url: '/apple-icon', type: 'image/png', sizes: '180x180' }],
-    shortcut: '/favicon.svg',
+    shortcut: '/favicon.ico',
   },
   robots: {
     index: true,
@@ -67,6 +69,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: 'googlef3453f029349740e',
+    ...(process.env.BING_SITE_VERIFICATION
+      ? { other: { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } }
+      : {}),
   },
   openGraph: {
     title: SITE_TITLE,
@@ -109,7 +114,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               lineHeight: 1.5,
             }}
           >
-            <strong>Nishal K (nishal21)</strong> — AMV editor, music producer, and full-stack developer from
+            <strong>Nishal — Nishal K (nishal21)</strong> — AMV editor, music producer, and full-stack developer from
             Kerala, India. Portfolio:{' '}
             <a href="https://nishal.dev/projects" style={{ color: '#a6c78c' }}>
               projects

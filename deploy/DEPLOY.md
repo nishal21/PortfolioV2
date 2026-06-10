@@ -107,9 +107,24 @@ pm2 restart portfolio-v2
    ```bash
    curl https://nishal.dev/robots.txt
    curl https://nishal.dev/sitemap.xml
+   curl -I https://nishal.dev/favicon.ico
    ```
 3. Submit sitemap: `https://nishal.dev/sitemap.xml`
 4. URL Inspection → **Test live URL** → Request indexing
+
+## Bing Webmaster Tools
+
+1. Add **`https://nishal.dev`** (HTTPS only — not `http://nishal.dev/`)
+2. Copy the `msvalidate.01` code → add to `.env.production`:
+   ```bash
+   BING_SITE_VERIFICATION=your-code-here
+   ```
+   Rebuild and restart PM2.
+3. Submit sitemap: `https://nishal.dev/sitemap.xml`
+4. After deploy: `npm run indexnow`
+5. URL Inspection → **Request indexing** on `https://nishal.dev/`
+
+Favicon must be **`/favicon.ico`** (not SVG). Run `npm run generate:favicon` before deploy if you change the logo.
 
 ---
 

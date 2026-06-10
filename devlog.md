@@ -1,5 +1,11 @@
 ﻿# Devlog
 
+## 2026-06-10 — Favicon ICO + “Nishal” SEO + Bing
+
+- Removed `/favicon.ico` → SVG redirect; regenerated ICO/PNG from `favicon.svg` (dark `#080a0c`, no white edges)
+- Titles/descriptions lead with **Nishal**; JSON-LD `alternateName`; optional `BING_SITE_VERIFICATION` env
+- Bing: use **https://nishal.dev** in Webmaster Tools, not `http://`
+
 ## 2026-06-10 — Social links
 
 - Instagram → `demonking.___` · LinkedIn → `nishal-k` (`contact.ts`, `llms.txt`)

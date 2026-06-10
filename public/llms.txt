@@ -1,10 +1,10 @@
 # nishal.dev
 
-> Portfolio of Nishal K (GitHub: nishal21) — AMV editor, music producer, and full-stack developer from Malappuram, Kerala, India.
+> Nishal — official portfolio of Nishal K (GitHub: nishal21). AMV editor, music producer, and full-stack developer from Kerala, India.
 
 ## About
 
-Nishal K builds and ships open-source software, anime/music platforms, and creative tools. Official site: https://nishal.dev
+Nishal (Nishal K / nishal21) builds and ships open-source software, anime/music platforms, and creative tools. Official site: https://nishal.dev
 
 ## Key pages
 
@@ -16,6 +16,10 @@ Nishal K builds and ships open-source software, anime/music platforms, and creat
 - Privacy: https://nishal.dev/privacy
 - GitHub: https://github.com/nishal21
 - Humans: https://nishal.dev/humans.txt
+
+## Who is Nishal?
+
+Nishal is Nishal K (nishal21), an AMV editor, music producer, and full-stack developer from Malappuram, Kerala, India. Official portfolio: https://nishal.dev
 
 ## Who is Nishal K?
 
