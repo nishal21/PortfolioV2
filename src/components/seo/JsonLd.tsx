@@ -12,6 +12,7 @@ import {
   SITE_URL,
   absoluteUrl,
 } from '@/lib/seo';
+import { videoDurationIso, videoUploadDateIso } from '@/lib/videoSchema';
 
 type JsonLdProps = {
   data: Record<string, unknown> | Record<string, unknown>[];
@@ -158,8 +159,8 @@ export function SiteJsonLd() {
     thumbnailUrl: video.thumbnail.startsWith('http')
       ? video.thumbnail
       : absoluteUrl(video.thumbnail),
-    uploadDate: video.date,
-    duration: video.duration,
+    uploadDate: videoUploadDateIso(video.date),
+    duration: videoDurationIso(video.duration),
     contentUrl: `https://www.youtube.com/watch?v=${video.youtubeId}`,
     embedUrl: `https://www.youtube.com/embed/${video.youtubeId}`,
     author: { '@id': `${SITE_URL}/#person` },

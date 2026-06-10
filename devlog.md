@@ -1,5 +1,10 @@
 ﻿# Devlog
 
+## 2026-06-10 — VideoObject JSON-LD (Rich Results)
+
+- `uploadDate` → ISO 8601 with `+05:30` (e.g. `2024-02-04T12:00:00+05:30`)
+- `duration` → ISO 8601 (e.g. `PT43S`, `PT7M9S`) via `src/lib/videoSchema.ts`
+
 ## 2026-06-10 — Favicon ICO + “Nishal” SEO + Bing
 
 - Removed `/favicon.ico` → SVG redirect; regenerated ICO/PNG from `favicon.svg` (dark `#080a0c`, no white edges)
