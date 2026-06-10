@@ -31,6 +31,14 @@ const notoMalayalam = Noto_Sans_Malayalam({
   weight: ['400', '700'],
 });
 
+const siteVerificationOther: Record<string, string> = {};
+if (process.env.BING_SITE_VERIFICATION) {
+  siteVerificationOther['msvalidate.01'] = process.env.BING_SITE_VERIFICATION;
+}
+if (process.env.PINTEREST_DOMAIN_VERIFY) {
+  siteVerificationOther['p:domain_verify'] = process.env.PINTEREST_DOMAIN_VERIFY;
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -69,9 +77,7 @@ export const metadata: Metadata = {
   },
   verification: {
     google: 'googlef3453f029349740e',
-    ...(process.env.BING_SITE_VERIFICATION
-      ? { other: { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } }
-      : {}),
+    ...(Object.keys(siteVerificationOther).length ? { other: siteVerificationOther } : {}),
   },
   openGraph: {
     title: SITE_TITLE,

@@ -9,24 +9,24 @@ import {
   CREATOR_NAME,
   GITHUB_HANDLE,
   OG_IMAGE,
-  SITE_NAME,
   absoluteUrl,
   defaultDescription,
 } from '@/lib/seo';
+import { buildArticleOpenGraph } from '@/lib/pinterest';
 import '../studio.css';
 
 export const metadata: Metadata = {
   title: `Profile — ${CREATOR_NAME} (${GITHUB_HANDLE})`,
   description: defaultDescription(),
   alternates: { canonical: absoluteUrl('/profile') },
-  openGraph: {
+  openGraph: buildArticleOpenGraph({
     title: `Profile — ${CREATOR_NAME}`,
     description: entityDefinition,
     url: absoluteUrl('/profile'),
-    siteName: SITE_NAME,
     images: [OG_IMAGE],
-    type: 'profile',
-  },
+    section: 'Profile',
+    tags: ['Nishal', 'Nishal K', 'nishal21', 'Kerala developer'],
+  }),
   twitter: {
     card: 'summary_large_image',
     title: `Profile — ${CREATOR_NAME}`,

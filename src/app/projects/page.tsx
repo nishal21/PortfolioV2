@@ -8,10 +8,10 @@ import {
   CREATOR_NAME,
   GITHUB_HANDLE,
   OG_IMAGE,
-  SITE_NAME,
   absoluteUrl,
   socialDescription,
 } from '@/lib/seo';
+import { buildArticleOpenGraph } from '@/lib/pinterest';
 import '../studio.css';
 
 export const metadata: Metadata = {
@@ -27,14 +27,14 @@ export const metadata: Metadata = {
     'CarbonLint',
   ],
   alternates: { canonical: absoluteUrl('/projects') },
-  openGraph: {
+  openGraph: buildArticleOpenGraph({
     title: `Projects by ${CREATOR_NAME}`,
     description: socialDescription(),
     url: absoluteUrl('/projects'),
-    siteName: SITE_NAME,
     images: [OG_IMAGE],
-    type: 'website',
-  },
+    section: 'Projects',
+    tags: ['Nishal', 'nishal21', 'portfolio', 'open source'],
+  }),
   twitter: {
     card: 'summary_large_image',
     title: `Projects by ${CREATOR_NAME}`,

@@ -29,6 +29,23 @@ export default function SiteFooter() {
           Privacy
         </Link>
       </p>
+      <div className="studio-footer-badges">
+        <a
+          href="https://websitelaunches.com/site/nishal.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="studio-footer-badge-link"
+        >
+          <img
+            src="https://websitelaunches.com/badge/nishal.dev.svg?theme=dark"
+            alt="Established online — public launch record on Website Launches"
+            width={255}
+            height={55}
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+      </div>
     </footer>
   );
 }

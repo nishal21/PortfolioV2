@@ -1,5 +1,15 @@
 ﻿# Devlog
 
+## 2026-06-10 — Footer: Website Launches badge
+
+- `SiteFooter.tsx` — link + dark badge from websitelaunches.com/nishal.dev
+
+## 2026-06-10 — Pinterest Article Rich Pins
+
+- `buildArticleOpenGraph()` on `/projects/*`, `/projects`, `/about`, `/profile`
+- Optional `PINTEREST_DOMAIN_VERIFY` in `.env.production` for domain claim
+- Steps in `deploy/DEPLOY.md`
+
 ## 2026-06-10 — VideoObject JSON-LD (Rich Results)
 
 - `uploadDate` → ISO 8601 with `+05:30` (e.g. `2024-02-04T12:00:00+05:30`)

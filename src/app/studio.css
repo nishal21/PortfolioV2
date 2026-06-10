@@ -1280,6 +1280,32 @@
   background: #06080c;
 }
 
+.studio-footer-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.studio-footer-badge-link {
+  display: inline-flex;
+  opacity: 0.88;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.studio-footer-badge-link:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.studio-footer-badge-link img {
+  display: block;
+  height: auto;
+  max-width: min(255px, 100%);
+}
+
 @media (max-width: 767px), (pointer: coarse) {
   .studio-flagship,
   .studio-reel-card,

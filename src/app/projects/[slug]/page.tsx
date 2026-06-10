@@ -18,6 +18,7 @@ import {
   absoluteUrl,
   projectDescription,
 } from '@/lib/seo';
+import { buildArticleOpenGraph } from '@/lib/pinterest';
 import '../../studio.css';
 
 interface ProjectPageProps {
@@ -37,6 +38,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   const description = projectDescription(project.title, project.longDescription);
   const pageUrl = absoluteUrl(`/projects/${slug}`);
   const image = getProjectThumbnail(project.id) ?? OG_IMAGE.url;
+  const imageUrl = image.startsWith('http') ? image : absoluteUrl(image);
 
   return {
     title,
@@ -50,19 +52,21 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
       ...project.tags,
     ],
     alternates: { canonical: pageUrl },
-    openGraph: {
+    openGraph: buildArticleOpenGraph({
       title,
       description,
       url: pageUrl,
-      siteName: SITE_NAME,
-      images: [{ ...OG_IMAGE, url: image.startsWith('http') ? image : absoluteUrl(image) }],
-      type: 'website',
-    },
+      images: [{ ...OG_IMAGE, url: imageUrl }],
+      publishedTime: project.lastUpdated,
+      modifiedTime: project.lastUpdated,
+      section: 'Projects',
+      tags: [...project.tags, project.title, CREATOR_NAME],
+    }),
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [image.startsWith('http') ? image : absoluteUrl(image)],
+      images: [imageUrl],
     },
   };
 }

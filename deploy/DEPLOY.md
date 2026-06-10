@@ -126,6 +126,24 @@ pm2 restart portfolio-v2
 
 Favicon must be **`/favicon.ico`** (not SVG). Run `npm run generate:favicon` before deploy if you change the logo.
 
+## Pinterest Rich Pins (Article)
+
+Rich Pins activate automatically when Pinterest finds Article Open Graph tags ([Pinterest docs](https://developers.pinterest.com/docs/web-features/article-rich-pins/)).
+
+**Already on site:** project, about, and profile pages use `og:type=article` with `article:published_time`, author, section, and tags (`src/lib/pinterest.ts`).
+
+1. Switch to a [Pinterest Business account](https://help.pinterest.com/en/business/article/get-a-business-account)
+2. **Settings → Claimed accounts → Claim website** → copy verification code
+3. Add to `.env.production`:
+   ```bash
+   PINTEREST_DOMAIN_VERIFY=your-code-here
+   ```
+   Rebuild + restart PM2.
+4. Validate a URL: [Pinterest URL debugger](https://developers.pinterest.com/tools/url-debugger/) — try `https://nishal.dev/projects/nekobeat`
+5. Create a Pin using that **full project URL** (not the homepage). Rich metadata (title, author, date) should appear on the Pin.
+
+**Best Pin images:** use project pages (they have square/svg thumbnails). Vertical 2:3 images (e.g. 1000×1500) perform best on Pinterest.
+
 ---
 
 ## Layout on VPS
