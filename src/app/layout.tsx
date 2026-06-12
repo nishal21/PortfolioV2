@@ -107,6 +107,10 @@ export const viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+      </head>
       <body className={`${syne.variable} ${dmSans.variable} ${notoMalayalam.variable} antialiased`}>
         <noscript>
           <div

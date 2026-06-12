@@ -2,17 +2,17 @@
 
 import { useEffect, useRef } from 'react';
 import { ArrowDown } from 'lucide-react';
-import ScrollSequenceCanvas from './ScrollSequenceCanvas';
+import HeroVideo from './HeroVideo';
 import HeroGlassTitle from './HeroGlassTitle';
 import HeroSkeleton from './HeroSkeleton';
-import { useScrollSequence } from './ScrollSequenceContext';
+import { useHero } from './HeroContext';
 import { personal } from '@/data/personal';
 import { CREATOR_NAME, GITHUB_HANDLE } from '@/lib/seo';
 import { HERO_RESUME_EVENT, scrollToSection, snapHeroTextVisible } from '@/lib/scrollNav';
 import { useMounted } from '@/lib/useMounted';
 
 export default function ScrollIntroSection() {
-  const { ready, heroInView, subscribeProgress } = useScrollSequence();
+  const { ready, heroInView, heroPaused, setHeroReady, emitProgress, subscribeProgress } = useHero();
   const mounted = useMounted();
   const copyRef = useRef<HTMLDivElement>(null);
   const scrubRef = useRef<HTMLDivElement>(null);
@@ -73,7 +73,12 @@ export default function ScrollIntroSection() {
     >
       <div className="absolute inset-0 z-0">
         {!ready && <div className="hero-sequence-backdrop" aria-hidden="true" />}
-        <ScrollSequenceCanvas className="h-full w-full" />
+        <HeroVideo
+          className="h-full w-full"
+          paused={heroPaused || !heroInView}
+          onReady={setHeroReady}
+          onProgress={emitProgress}
+        />
         <div className="hero-vignette" />
       </div>
 

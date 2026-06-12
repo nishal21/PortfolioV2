@@ -1,6 +1,6 @@
 'use client';
 
-import { ScrollSequenceProvider, useScrollSequence } from '@/components/scroll/ScrollSequenceContext';
+import { HeroProvider, useHero } from '@/components/scroll/HeroContext';
 import ScrollIntroSection from '@/components/scroll/ScrollIntroSection';
 import SiteNav from '@/components/layout/SiteNav';
 import MainContentSkeleton from '@/components/layout/MainContentSkeleton';
@@ -9,8 +9,9 @@ import SkillsSection from '@/components/sections/SkillsSection';
 import ProjectsSection from '@/components/sections/ProjectsSection';
 import VideosSection from '@/components/sections/VideosSection';
 import ContactSection from '@/components/sections/ContactSection';
+
 function PortfolioBody() {
-  const { ready } = useScrollSequence();
+  const { ready } = useHero();
 
   return (
     <div
@@ -38,8 +39,8 @@ function PortfolioBody() {
 
 export default function PortfolioPage() {
   return (
-    <ScrollSequenceProvider>
+    <HeroProvider>
       <PortfolioBody />
-    </ScrollSequenceProvider>
+    </HeroProvider>
   );
 }

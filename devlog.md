@@ -1,5 +1,22 @@
 ﻿# Devlog
 
+## 2026-06-07 — Hero video on Cloudinary
+
+- Default `HERO_VIDEO_SRC` → `https://res.cloudinary.com/dtzzqvvzi/video/upload/v1781247946/hero.mp4`
+- Poster from Cloudinary first frame (`so_0,q_auto,f_jpg,w_1280`)
+- Override via `NEXT_PUBLIC_HERO_VIDEO_URL` / `NEXT_PUBLIC_HERO_VIDEO_POSTER` (e.g. self-hosted `/hero.mp4`)
+- `layout.tsx` preconnect to `res.cloudinary.com`
+- **Deploy:** `git pull` → `npm ci` → `npm run build` → `pm2 restart` — no `hero:prepare` needed
+- **Optional:** remove `public/hero.mp4` from repo to save size; update video on Cloudinary dashboard, then rebuild only if URL changes
+- **Windows dev ENOENT on `.next/server/*.tmp`:** delete `.next` folder, run `npm run dev` again (stale/corrupt cache)
+
+## 2026-06-10 — Hero: video only (scroll frames removed)
+
+- Removed 166-frame canvas system (`ScrollSequenceContext`, canvas, `heroFrames`, `heroCanvas`)
+- Hero = `public/hero.mp4` (~2.3 MB from `1.mp4`) via `HeroVideo` + `HeroContext`
+- `npm run hero:prepare` copies `1.mp4` → `public/hero.mp4` (+ optional poster)
+- Nginx long-cache for `hero.mp4`
+
 ## 2026-06-10 — Peerlist profile link
 
 - `https://peerlist.io/u/nishal21` in social row, resume, llms.txt, humans.txt, JSON-LD sameAs

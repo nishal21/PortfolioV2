@@ -85,6 +85,8 @@ npm run build
 pm2 restart portfolio-v2
 ```
 
+Hero video is served from **Cloudinary** by default (`src/lib/heroMedia.ts`). No `hero.mp4` on the VPS unless you set `NEXT_PUBLIC_HERO_VIDEO_URL=/hero.mp4` and run `npm run hero:prepare`.
+
 ---
 
 ## Troubleshooting

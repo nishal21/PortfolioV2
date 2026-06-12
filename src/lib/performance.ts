@@ -39,16 +39,3 @@ export function heroLiquidGlassEnabled() {
   }
   return true;
 }
-
-export function canvasDpr() {
-  if (typeof window === 'undefined') return 1;
-  const raw = window.devicePixelRatio || 1;
-  if (isMobileViewport()) return Math.min(raw, 1.25);
-  return Math.min(raw, 1.75);
-}
-
-export function playbackFps(baseFps: number) {
-  if (prefersReducedMotion()) return 0;
-  if (isMobileViewport() || isCoarsePointer()) return Math.min(baseFps, 20);
-  return Math.min(baseFps, 24);
-}

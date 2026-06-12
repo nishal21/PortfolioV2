@@ -15,7 +15,7 @@ import {
   setLetterGlassState,
 } from '@/lib/heroGlassMask';
 import { heroLiquidGlassEnabled, isAndroid } from '@/lib/performance';
-import { useScrollSequence } from './ScrollSequenceContext';
+import { useHero } from './HeroContext';
 
 interface HeroGlassTitleProps {
   children: string;
@@ -124,7 +124,7 @@ function HeroGlassLetter({ char }: { char: string }) {
 }
 
 export default function HeroGlassTitle({ children }: HeroGlassTitleProps) {
-  const { ready, heroInView } = useScrollSequence();
+  const { ready, heroInView } = useHero();
   const [glassOn, setGlassOn] = useState(false);
 
   useEffect(() => {

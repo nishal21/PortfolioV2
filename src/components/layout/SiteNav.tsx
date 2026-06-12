@@ -9,7 +9,7 @@ import {
   mobileTabItems,
   navIcons,
 } from '@/data/navMeta';
-import { useScrollSequence } from '@/components/scroll/ScrollSequenceContext';
+import { useHero } from '@/components/scroll/HeroContext';
 import { getActiveSectionHref, scrollToSection } from '@/lib/scrollNav';
 import { useLiquidGlassNav } from '@/hooks/useLiquidGlassNav';
 import { enableNavLiquidGlass, removeLiquidGlass, rebuildAllLiquidGlass } from '@/lib/liquidGlass';
@@ -56,7 +56,7 @@ function NavTabButton({
 }
 
 export default function SiteNav() {
-  const { ready: contentReady } = useScrollSequence();
+  const { ready: contentReady } = useHero();
   const [active, setActive] = useState('#home');
   const contactFabRef = useRef<HTMLButtonElement>(null);
   const navLockRef = useRef<string | null>(null);
