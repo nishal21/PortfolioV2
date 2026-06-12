@@ -14,6 +14,7 @@ Nishal (Nishal K / nishal21) builds and ships open-source software, anime/music 
 - Projects index: https://nishal.dev/projects
 - Resume: https://nishal.dev/resume/view
 - Privacy: https://nishal.dev/privacy
+- RSS: https://nishal.dev/feed.xml
 - GitHub: https://github.com/nishal21
 - Peerlist: https://peerlist.io/nishal21
 - Humans: https://nishal.dev/humans.txt

@@ -1,5 +1,12 @@
 ﻿# Devlog
 
+## 2026-06-07 — RSS feed (`/feed.xml`, `/rss.xml`)
+
+- `src/lib/rss.ts` — projects, YouTube videos, key portfolio pages
+- Auto-discovery in `layout.tsx` metadata; listed in `llms.txt` + `humans.txt`
+- **URL:** https://nishal.dev/feed.xml (alias `/rss.xml`)
+- Add to Peerlist profile, Feedly, etc. after deploy
+
 ## 2026-06-07 — Hero: video-only Cloudinary (no poster image)
 
 - Removed separate poster JPG load — first frame comes from the MP4 (`#t=0.001`)

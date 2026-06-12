@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Syne, DM_Sans, Noto_Sans_Malayalam } from 'next/font/google';
 import RootProviders from '@/components/layout/RootProviders';
 import { HERO_VIDEO_IS_REMOTE, HERO_VIDEO_SRC } from '@/lib/heroMedia';
+import { FEED_PATH } from '@/lib/rss';
 import {
   CREATOR_NAME,
   OG_IMAGE,
@@ -55,6 +56,9 @@ export const metadata: Metadata = {
   category: 'technology',
   alternates: {
     canonical: SITE_URL,
+    types: {
+      'application/rss+xml': [{ url: FEED_PATH, title: `${CREATOR_NAME} — RSS` }],
+    },
   },
   icons: {
     icon: [

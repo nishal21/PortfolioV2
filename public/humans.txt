@@ -3,6 +3,7 @@ Creator: Nishal K
 GitHub: nishal21
 Peerlist: https://peerlist.io/nishal21
 Site: https://nishal.dev
+RSS: https://nishal.dev/feed.xml
 Location: Malappuram, Kerala, India
 Contact: nishal@nishal.dev
 
