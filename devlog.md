@@ -1,5 +1,17 @@
 ﻿# Devlog
 
+## 2026-06-07 — Hero: video-only Cloudinary (no poster image)
+
+- Removed separate poster JPG load — first frame comes from the MP4 (`#t=0.001`)
+- Cloudinary URL uses `q_auto,f_mp4`; preload in `layout.tsx`
+- `HeroVideo`: forced `muted`/`loop`/`playsInline`, ready on `canplay`, fade on `playing`
+- Kept skeleton, backdrop, scrub, credit, main-content gate — all tied to video ready, not images
+
+## 2026-06-07 — Peerlist URL + hero video Pinterest credit
+
+- Peerlist → `https://peerlist.io/nishal21` (no `/u/`) in `contact.ts`, resume, llms.txt, humans.txt, JSON-LD `sameAs`
+- Hero credit link bottom-right: “Video · Pinterest” → https://pin.it/3T4tJpHL2 (`heroMedia.ts`, `ScrollIntroSection.tsx`, `CREDITS.md`)
+
 ## 2026-06-07 — Hero video on Cloudinary
 
 - Default `HERO_VIDEO_SRC` → `https://res.cloudinary.com/dtzzqvvzi/video/upload/v1781247946/hero.mp4`
@@ -19,7 +31,7 @@
 
 ## 2026-06-10 — Peerlist profile link
 
-- `https://peerlist.io/u/nishal21` in social row, resume, llms.txt, humans.txt, JSON-LD sameAs
+- `https://peerlist.io/nishal21` in social row, resume, llms.txt, humans.txt, JSON-LD sameAs
 
 ## 2026-06-10 — Footer: Website Launches badge
 

@@ -8,6 +8,7 @@ import HeroSkeleton from './HeroSkeleton';
 import { useHero } from './HeroContext';
 import { personal } from '@/data/personal';
 import { CREATOR_NAME, GITHUB_HANDLE } from '@/lib/seo';
+import { HERO_VIDEO_CREDIT_URL } from '@/lib/heroMedia';
 import { HERO_RESUME_EVENT, scrollToSection, snapHeroTextVisible } from '@/lib/scrollNav';
 import { useMounted } from '@/lib/useMounted';
 
@@ -129,6 +130,17 @@ export default function ScrollIntroSection() {
         <div className="hero-scroll-hint hero-fade-item absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex">
           <ArrowDown className="h-4 w-4 text-white/50" />
         </div>
+      ) : null}
+
+      {ready && heroInView ? (
+        <a
+          href={HERO_VIDEO_CREDIT_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hero-video-credit hero-fade-item"
+        >
+          Video · Pinterest
+        </a>
       ) : null}
 
       <div className="hero-curtain" aria-hidden="true" />

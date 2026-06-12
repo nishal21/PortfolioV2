@@ -18,7 +18,7 @@ export const contactInfo = [
 
 export const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/nishal21' },
-  { label: 'Peerlist', href: 'https://peerlist.io/u/nishal21' },
+  { label: 'Peerlist', href: 'https://peerlist.io/nishal21' },
   { label: 'LinkedIn', href: 'https://linkedin.com/in/nishal-k' },
   { label: 'YouTube', href: 'https://youtube.com/@DemonKing0.___' },
   { label: 'X', href: 'https://x.com/Etainment2' },

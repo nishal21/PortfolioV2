@@ -6,6 +6,8 @@ This portfolio is created and maintained by **Nishal K**.
 - GitHub: [@nishal21](https://github.com/nishal21)
 - Repository: [nishal21/PortfolioV2](https://github.com/nishal21/PortfolioV2)
 
+**Hero background video:** sourced from [Pinterest](https://pin.it/3T4tJpHL2) (also credited on the homepage hero).
+
 If you fork or reuse this project, keep attribution as required in [LICENSE](LICENSE).
 
 **Suggested credit line for forks:**

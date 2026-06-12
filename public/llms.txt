@@ -15,7 +15,7 @@ Nishal (Nishal K / nishal21) builds and ships open-source software, anime/music 
 - Resume: https://nishal.dev/resume/view
 - Privacy: https://nishal.dev/privacy
 - GitHub: https://github.com/nishal21
-- Peerlist: https://peerlist.io/u/nishal21
+- Peerlist: https://peerlist.io/nishal21
 - Humans: https://nishal.dev/humans.txt
 
 ## Who is Nishal?
@@ -50,7 +50,7 @@ nishal21 is Nishal K's GitHub username with 60+ public repositories. Portfolio s
 ## Contact
 
 - Email: nishal@nishal.dev
-- Peerlist: https://peerlist.io/u/nishal21
+- Peerlist: https://peerlist.io/nishal21
 - YouTube: https://youtube.com/@DemonKing0.___
 - LinkedIn: https://linkedin.com/in/nishal-k
 - Instagram: https://instagram.com/demonking.___

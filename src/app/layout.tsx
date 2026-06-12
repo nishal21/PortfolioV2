@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Syne, DM_Sans, Noto_Sans_Malayalam } from 'next/font/google';
 import RootProviders from '@/components/layout/RootProviders';
+import { HERO_VIDEO_IS_REMOTE, HERO_VIDEO_SRC } from '@/lib/heroMedia';
 import {
   CREATOR_NAME,
   OG_IMAGE,
@@ -110,6 +111,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        {HERO_VIDEO_IS_REMOTE ? (
+          <link rel="preload" href={HERO_VIDEO_SRC} as="video" type="video/mp4" />
+        ) : null}
       </head>
       <body className={`${syne.variable} ${dmSans.variable} ${notoMalayalam.variable} antialiased`}>
         <noscript>

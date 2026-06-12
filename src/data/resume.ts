@@ -59,7 +59,7 @@ export const resumeContact: ResumeContact = {
   email: 'nishal@nishal.dev',
   location: 'Malappuram, Kerala, India',
   linkedin: 'https://www.linkedin.com/in/nishal-k',
-  peerlist: 'https://peerlist.io/u/nishal21',
+  peerlist: 'https://peerlist.io/nishal21',
   github: 'https://github.com/nishal21',
   portfolio: 'https://nishal.dev',
 };
