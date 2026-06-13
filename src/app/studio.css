@@ -1134,6 +1134,26 @@
   }
 }
 
+.studio-support-card--bmc {
+  --support-accent: #ffdd00;
+  --support-ink: #1a1204;
+}
+
+.studio-support-card--patreon {
+  --support-accent: #f96854;
+  --support-ink: #ffffff;
+}
+
+.studio-support-card--kofi {
+  --support-accent: #f16061;
+  --support-ink: #ffffff;
+}
+
+.studio-support-card--github-sponsors {
+  --support-accent: #ea4aaa;
+  --support-ink: #ffffff;
+}
+
 .studio-support-card {
   display: flex;
   align-items: center;
@@ -1220,6 +1240,20 @@
   .studio-form-row {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.studio-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.studio-field-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-dim);
 }
 
 .studio-input {

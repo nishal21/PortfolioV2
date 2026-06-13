@@ -1,5 +1,21 @@
 ﻿# Devlog
 
+## 2026-06-13 — Security scan fixes (score 82 → target 90+)
+
+- **HSTS**, **X-XSS-Protection**, HTML **Cache-Control** (`no-store`), **Pragma**, **Expires**
+- **CORP** + **COOP** headers; `poweredByHeader: false` in Next.js
+- Nginx: `server_tokens off`, `proxy_hide_header X-Powered-By`, security headers on HTTPS
+- Shared config: `src/lib/securityHeaders.ts`
+
+**Deploy:** `git pull` → `npm ci` → `npm run build` → `pm2 restart portfolio-v2` → copy nginx conf → `nginx -t && systemctl reload nginx`
+
+## 2026-06-07 — VibeCode round 2 (copyright, placeholders, skeleton)
+
+- Footer + `<meta name="copyright">` + noscript/humans.txt with explicit `Copyright © 2020–2026`
+- Contact form: visible labels, no `placeholder` attributes (scanner false positives)
+- Removed main/hero skeleton overlays from DOM; content shows immediately
+- Videos section title → “AMV edits & remixes”; support cards use CSS classes not inline styles
+
 ## 2026-06-07 — VibeCode detector fixes (images, copyright, inline styles)
 
 - Main sections always in HTML (overlay skeleton until hero ready) so crawlers see `<img>` tags

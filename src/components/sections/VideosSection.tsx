@@ -82,8 +82,8 @@ export default function VideosSection() {
       <StudioSection
         id="videos"
         label="Reel"
-        title="Moving Image"
-        description="AMV edits and remixes on @DemonKing0.___"
+        title="AMV edits & remixes"
+        description="Cuts and music work on @DemonKing0.___"
         accent="warm"
       >
         <ShowcaseStage

@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import { ArrowDown } from 'lucide-react';
 import HeroVideo from './HeroVideo';
 import HeroGlassTitle from './HeroGlassTitle';
-import HeroSkeleton from './HeroSkeleton';
 import { useHero } from './HeroContext';
 import { personal } from '@/data/personal';
 import { CREATOR_NAME, GITHUB_HANDLE } from '@/lib/seo';
@@ -92,8 +91,6 @@ export default function ScrollIntroSection() {
         />
         <div className="hero-vignette" />
       </div>
-
-      {!ready && <HeroSkeleton />}
 
       <div
         ref={copyRef}

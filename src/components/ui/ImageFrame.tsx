@@ -20,7 +20,7 @@ export default function ImageFrame({
   aspect = 'video',
   fit = 'cover',
   fill = false,
-  fallbackLabel = 'Preview',
+  fallbackLabel = 'Cover art',
   loading = 'lazy',
 }: ImageFrameProps) {
   const [failed, setFailed] = useState(!src);

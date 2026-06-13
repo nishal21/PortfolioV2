@@ -1,6 +1,5 @@
 'use client';
 
-import type { CSSProperties } from 'react';
 import { Coffee, Github, Heart } from 'lucide-react';
 import { supportLinks } from '@/data/contact';
 
@@ -28,13 +27,7 @@ export default function SupportStrip() {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="hit-target studio-support-card"
-              style={
-                {
-                  '--support-accent': link.accent,
-                  '--support-ink': link.ink,
-                } as CSSProperties
-              }
+              className={`hit-target studio-support-card studio-support-card--${link.id}`}
             >
               <span className="studio-support-icon" aria-hidden>
                 <Icon className="h-4 w-4" strokeWidth={2.25} />

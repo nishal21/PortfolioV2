@@ -87,6 +87,21 @@ pm2 restart portfolio-v2
 
 Hero video is served from **Cloudinary** by default (`src/lib/heroMedia.ts`). No `hero.mp4` on the VPS unless you set `NEXT_PUBLIC_HERO_VIDEO_URL=/hero.mp4` and run `npm run hero:prepare`.
 
+After code changes that touch security headers, **copy nginx config and reload**:
+
+```bash
+sudo cp /opt/portfolio-v2/deploy/nginx-nishal.dev.conf /etc/nginx/sites-available/nishal.dev
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+Verify headers:
+
+```bash
+curl -sI https://nishal.dev | grep -iE 'strict-transport|x-xss|cache-control|x-powered-by|server:'
+```
+
+Expected: HSTS present, `X-XSS-Protection: 1; mode=block`, HTML `Cache-Control: private, no-cache, no-store`, no `X-Powered-By`, `Server: nginx` (no version if `server_tokens off`).
+
 ---
 
 ## Troubleshooting

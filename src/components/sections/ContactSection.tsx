@@ -95,41 +95,51 @@ export default function ContactSection() {
                   <input type="text" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" />
                   {error ? <p className="text-sm text-red-400">{error}</p> : null}
                   <div className="studio-form-row">
-                    <input
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Name"
-                      className="studio-input"
-                    />
-                    <input
-                      name="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="Email"
-                      className="studio-input"
-                    />
+                    <label className="studio-field">
+                      <span className="studio-field-label">Your name</span>
+                      <input
+                        name="name"
+                        required
+                        autoComplete="name"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="studio-input"
+                      />
+                    </label>
+                    <label className="studio-field">
+                      <span className="studio-field-label">Email address</span>
+                      <input
+                        name="email"
+                        type="email"
+                        required
+                        autoComplete="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="studio-input"
+                      />
+                    </label>
                   </div>
-                  <input
-                    name="subject"
-                    required
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    placeholder="Subject"
-                    className="studio-input"
-                  />
-                  <textarea
-                    name="message"
-                    required
-                    rows={5}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Tell me about your project..."
-                    className="studio-input studio-textarea"
-                  />
+                  <label className="studio-field">
+                    <span className="studio-field-label">Subject</span>
+                    <input
+                      name="subject"
+                      required
+                      value={formData.subject}
+                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      className="studio-input"
+                    />
+                  </label>
+                  <label className="studio-field">
+                    <span className="studio-field-label">Message</span>
+                    <textarea
+                      name="message"
+                      required
+                      rows={5}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className="studio-input studio-textarea"
+                    />
+                  </label>
                   <button type="submit" disabled={isSubmitting} className="hit-target studio-submit">
                     {isSubmitting ? 'Sending...' : (
                       <>

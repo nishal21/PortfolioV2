@@ -2,7 +2,11 @@ import Link from 'next/link';
 import { personal } from '@/data/personal';
 import { CREATOR_NAME } from '@/lib/seo';
 
-const COPYRIGHT_START = 2020;
+export const COPYRIGHT_START = 2020;
+
+export function copyrightNotice(year = new Date().getFullYear()) {
+  return `Copyright © ${COPYRIGHT_START}–${year} ${CREATOR_NAME}. All rights reserved.`;
+}
 
 export default function SiteFooter() {
   const year = new Date().getFullYear();
@@ -12,8 +16,8 @@ export default function SiteFooter() {
       <p className="font-display text-sm font-semibold text-[var(--text-muted)]">
         {personal.name} · Kerala · {year}
       </p>
-      <p className="mt-1 text-xs text-[var(--text-dim)]">
-        © {COPYRIGHT_START}–{year} {CREATOR_NAME}. All rights reserved.
+      <p id="copyright" className="copyright-notice mt-1 text-xs text-[var(--text-dim)]">
+        {copyrightNotice(year)}
       </p>
       <p className="mt-1 text-xs text-[var(--text-dim)]">
         AMV · Music · Code ·{' '}

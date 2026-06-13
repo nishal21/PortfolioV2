@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Syne, DM_Sans, Noto_Sans_Malayalam } from 'next/font/google';
+import { copyrightNotice } from '@/components/layout/SiteFooter';
 import RootProviders from '@/components/layout/RootProviders';
 import { HERO_VIDEO_IS_REMOTE, HERO_VIDEO_POSTER, HERO_VIDEO_SRC } from '@/lib/heroMedia';
 import { FEED_PATH } from '@/lib/rss';
@@ -121,12 +122,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <link rel="preload" href={HERO_VIDEO_POSTER} as="image" />
           </>
         ) : null}
-        <meta httpEquiv="X-Frame-Options" content="SAMEORIGIN" />
-        <meta name="referrer" content="strict-origin-when-cross-origin" />
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' https:; font-src 'self' data: https:; connect-src 'self' https:; frame-src https:; form-action 'self' https:; base-uri 'self'; frame-ancestors 'self'"
-        />
+        <meta name="copyright" content={copyrightNotice()} />
       </head>
       <body className={`${syne.variable} ${dmSans.variable} ${notoMalayalam.variable} antialiased`}>
         <noscript>
@@ -137,6 +133,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <a href="https://nishal.dev/profile">profile</a>,{' '}
             <a href="https://nishal.dev/about">about</a>,{' '}
             <a href="https://nishal.dev/resume/view">resume</a>.
+            {' '}
+            {copyrightNotice()}
           </div>
         </noscript>
         <RootProviders>{children}</RootProviders>

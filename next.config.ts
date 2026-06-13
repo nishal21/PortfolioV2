@@ -1,34 +1,20 @@
 import type { NextConfig } from 'next';
-
-const securityHeaders = [
-  { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
-  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-  { key: 'X-Content-Type-Options', value: 'nosniff' },
-  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-  {
-    key: 'Content-Security-Policy',
-    value: [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https:",
-      "media-src 'self' https:",
-      "font-src 'self' data: https:",
-      "connect-src 'self' https:",
-      "frame-src https:",
-      "form-action 'self' https:",
-      "base-uri 'self'",
-      "frame-ancestors 'self'",
-    ].join('; '),
-  },
-];
+import {
+  htmlSecurityHeaders,
+  STATIC_CACHE_CONTROL,
+} from './src/lib/securityHeaders';
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
   async headers() {
     return [
       {
+        source: '/_next/static/:path*',
+        headers: [{ key: 'Cache-Control', value: STATIC_CACHE_CONTROL }],
+      },
+      {
         source: '/:path*',
-        headers: securityHeaders,
+        headers: htmlSecurityHeaders(),
       },
     ];
   },

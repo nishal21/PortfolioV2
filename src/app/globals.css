@@ -268,11 +268,12 @@ body {
   pointer-events: none;
 }
 
-.studio-content-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  background: var(--ink);
+.studio-content--booting {
+  opacity: 0.98;
+}
+
+.copyright-notice {
+  letter-spacing: 0.01em;
 }
 
 @media (min-width: 768px) {

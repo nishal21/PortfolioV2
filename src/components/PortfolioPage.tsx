@@ -3,7 +3,6 @@
 import { HeroProvider, useHero } from '@/components/scroll/HeroContext';
 import ScrollIntroSection from '@/components/scroll/ScrollIntroSection';
 import SiteNav from '@/components/layout/SiteNav';
-import MainContentSkeleton from '@/components/layout/MainContentSkeleton';
 import AboutSection from '@/components/sections/AboutSection';
 import SkillsSection from '@/components/sections/SkillsSection';
 import ProjectsSection from '@/components/sections/ProjectsSection';
@@ -21,18 +20,13 @@ function PortfolioBody() {
       <SiteNav />
       <ScrollIntroSection />
       <main id="main-content" className="relative z-10 studio-stage">
-        <div className={ready ? 'studio-content--in' : undefined}>
+        <div className={ready ? 'studio-content--in' : 'studio-content--booting'}>
           <AboutSection />
           <SkillsSection />
           <ProjectsSection />
           <VideosSection />
           <ContactSection />
         </div>
-        {!ready ? (
-          <div className="studio-content-overlay" aria-busy="true" aria-label="Loading content">
-            <MainContentSkeleton />
-          </div>
-        ) : null}
       </main>
     </div>
   );
