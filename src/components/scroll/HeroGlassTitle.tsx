@@ -1,20 +1,21 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   enableLiquidGlass,
-  rebuildAllLiquidGlass,
   removeLiquidGlass,
   rebuildLiquidGlass,
 } from '@/lib/liquidGlass';
 import { NAV_GLASS_CONFIG } from '@/lib/liquidGlassConfig';
 import {
   ensureHeroFonts,
+  maskIsApplied,
   paintGlyphMask,
   revokeMaskUrl,
   setLetterGlassState,
 } from '@/lib/heroGlassMask';
 import { heroLiquidGlassEnabled, isAndroid } from '@/lib/performance';
+import { HERO_RESUME_EVENT } from '@/lib/scrollNav';
 import { useHero } from './HeroContext';
 
 interface HeroGlassTitleProps {
@@ -23,12 +24,25 @@ interface HeroGlassTitleProps {
 
 const MASK_RETRY_MS = [0, 80, 200, 450, 800];
 
-function HeroGlassLetter({ char }: { char: string }) {
+function HeroGlassLetter({
+  char,
+  onReady,
+}: {
+  char: string;
+  onReady?: () => void;
+}) {
   const glyphRef = useRef<HTMLSpanElement>(null);
   const maskUrlRef = useRef<string | null>(null);
   const resizeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hostRef = useRef<HTMLSpanElement>(null);
+  const readySentRef = useRef(false);
   const android = isAndroid();
+
+  const notifyReady = useCallback(() => {
+    if (readySentRef.current) return;
+    readySentRef.current = true;
+    onReady?.();
+  }, [onReady]);
 
   const tryMask = useCallback(async () => {
     const host = hostRef.current;
@@ -36,11 +50,15 @@ function HeroGlassLetter({ char }: { char: string }) {
     if (!host || !glyph) return false;
 
     await ensureHeroFonts(glyph);
-    revokeMaskUrl(maskUrlRef.current);
+    const prevUrl = maskUrlRef.current;
 
     const ok = await paintGlyphMask(host, glyph, (url) => {
       maskUrlRef.current = url;
     });
+
+    if (ok && prevUrl && prevUrl !== maskUrlRef.current) {
+      revokeMaskUrl(prevUrl);
+    }
 
     return ok;
   }, []);
@@ -62,18 +80,34 @@ function HeroGlassLetter({ char }: { char: string }) {
 
     for (const delay of MASK_RETRY_MS) {
       if (delay > 0) await new Promise((r) => setTimeout(r, delay));
-      if (await tryMask()) return;
+      if (await tryMask()) {
+        notifyReady();
+        return;
+      }
     }
 
     applyPlainFallback();
-  }, [applyPlainFallback, tryMask]);
+    notifyReady();
+  }, [applyPlainFallback, notifyReady, tryMask]);
+
+  const refreshMask = useCallback(async () => {
+    const host = hostRef.current;
+    if (!host || host.classList.contains('hero-letter-host--plain')) return;
+    await tryMask();
+  }, [tryMask]);
 
   const rebuild = useCallback(() => {
     const host = hostRef.current;
     if (!host || host.classList.contains('hero-letter-host--plain')) return;
     rebuildLiquidGlass(host);
-    requestAnimationFrame(() => void repaintWithRetries());
-  }, [repaintWithRetries]);
+    requestAnimationFrame(() => {
+      if (host.classList.contains('hero-letter-host--masked')) {
+        void refreshMask();
+      } else {
+        void repaintWithRetries();
+      }
+    });
+  }, [refreshMask, repaintWithRetries]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -82,7 +116,14 @@ function HeroGlassLetter({ char }: { char: string }) {
     enableLiquidGlass(host, () => NAV_GLASS_CONFIG, { force: true });
     setLetterGlassState(host, 'pending');
 
-    const onRebuilt = () => void repaintWithRetries();
+    const onRebuilt = () => {
+      if (host.classList.contains('hero-letter-host--plain')) return;
+      if (host.classList.contains('hero-letter-host--masked')) {
+        void refreshMask();
+        return;
+      }
+      void repaintWithRetries();
+    };
     const onResize = () => {
       if (resizeTimer.current) clearTimeout(resizeTimer.current);
       resizeTimer.current = setTimeout(rebuild, 120);
@@ -92,17 +133,26 @@ function HeroGlassLetter({ char }: { char: string }) {
     const ro = new ResizeObserver(onResize);
     ro.observe(host);
     window.addEventListener('resize', onResize);
+
+    const onHeroResume = () => {
+      if (!host.classList.contains('hero-letter-host--masked')) return;
+      if (maskIsApplied(host)) return;
+      void refreshMask();
+    };
+    window.addEventListener(HERO_RESUME_EVENT, onHeroResume);
+
     void repaintWithRetries();
 
     return () => {
       host.removeEventListener('lg-rebuilt', onRebuilt);
       ro.disconnect();
       window.removeEventListener('resize', onResize);
+      window.removeEventListener(HERO_RESUME_EVENT, onHeroResume);
       if (resizeTimer.current) clearTimeout(resizeTimer.current);
       revokeMaskUrl(maskUrlRef.current);
       removeLiquidGlass(host);
     };
-  }, [rebuild, repaintWithRetries]);
+  }, [rebuild, refreshMask, repaintWithRetries]);
 
   return (
     <span
@@ -124,24 +174,54 @@ function HeroGlassLetter({ char }: { char: string }) {
 }
 
 export default function HeroGlassTitle({ children }: HeroGlassTitleProps) {
-  const { ready, heroInView } = useHero();
-  const [glassOn, setGlassOn] = useState(false);
+  const { setTitleReady } = useHero();
+  const [glassOn, setGlassOn] = useState<boolean | null>(null);
+  const titleReadySentRef = useRef(false);
+  const readyLettersRef = useRef(0);
+
+  const letterCount = useMemo(
+    () => children.split('').filter((char) => char !== ' ').length,
+    [children]
+  );
+
+  const markTitleReady = useCallback(() => {
+    if (titleReadySentRef.current) return;
+    titleReadySentRef.current = true;
+    setTitleReady();
+  }, [setTitleReady]);
+
+  const onLetterReady = useCallback(() => {
+    readyLettersRef.current += 1;
+    if (readyLettersRef.current >= letterCount) {
+      markTitleReady();
+    }
+  }, [letterCount, markTitleReady]);
 
   useEffect(() => {
     setGlassOn(heroLiquidGlassEnabled());
   }, []);
 
   useEffect(() => {
-    if (!ready || !glassOn || !heroInView) return;
-    const t1 = requestAnimationFrame(() => rebuildAllLiquidGlass());
-    const t2 = window.setTimeout(() => rebuildAllLiquidGlass(), 200);
-    return () => {
-      cancelAnimationFrame(t1);
-      window.clearTimeout(t2);
-    };
-  }, [ready, glassOn, heroInView]);
+    if (glassOn === false) {
+      markTitleReady();
+    }
+  }, [glassOn, markTitleReady]);
 
-  if (!glassOn) {
+  useEffect(() => {
+    if (glassOn && letterCount === 0) {
+      markTitleReady();
+    }
+  }, [glassOn, letterCount, markTitleReady]);
+
+  if (glassOn === null) {
+    return (
+      <h1 className="hero-title hero-title--pending font-display" aria-hidden="true">
+        {children}
+      </h1>
+    );
+  }
+
+  if (glassOn === false) {
     return (
       <h1 className="hero-title hero-title--fallback hero-glass-wrap font-display">{children}</h1>
     );
@@ -158,7 +238,7 @@ export default function HeroGlassTitle({ children }: HeroGlassTitleProps) {
               &nbsp;
             </span>
           ) : (
-            <HeroGlassLetter key={`${char}-${index}`} char={char} />
+            <HeroGlassLetter key={`${char}-${index}`} char={char} onReady={onLetterReady} />
           )
         )}
       </span>

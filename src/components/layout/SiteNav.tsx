@@ -9,10 +9,9 @@ import {
   mobileTabItems,
   navIcons,
 } from '@/data/navMeta';
-import { useHero } from '@/components/scroll/HeroContext';
 import { getActiveSectionHref, scrollToSection } from '@/lib/scrollNav';
 import { useLiquidGlassNav } from '@/hooks/useLiquidGlassNav';
-import { enableNavLiquidGlass, removeLiquidGlass, rebuildAllLiquidGlass } from '@/lib/liquidGlass';
+import { enableNavLiquidGlass, removeLiquidGlass, rebuildNavLiquidGlass } from '@/lib/liquidGlass';
 import { NAV_GLASS_CONFIG } from '@/lib/liquidGlassConfig';
 
 function NavTabButton({
@@ -56,17 +55,12 @@ function NavTabButton({
 }
 
 export default function SiteNav() {
-  const { ready: contentReady } = useHero();
   const [active, setActive] = useState('#home');
   const contactFabRef = useRef<HTMLButtonElement>(null);
   const navLockRef = useRef<string | null>(null);
   const scrollGenRef = useRef(0);
   const spyCooldownUntilRef = useRef(0);
-  const contentReadyRef = useRef(contentReady);
-  const pendingHrefRef = useRef<string | null>(null);
-  const layoutSettleScrollRef = useRef(false);
   const scrollIdleRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  contentReadyRef.current = contentReady;
 
   const activeIndex = Math.max(
     0,
@@ -99,16 +93,7 @@ export default function SiteNav() {
   const scrollTo = useCallback(
     (href: string) => {
       navLockRef.current = href;
-
-      if (href !== '#home' && !contentReadyRef.current) {
-        pendingHrefRef.current = href;
-        return;
-      }
-
-      const needsLayoutSettle = layoutSettleScrollRef.current;
-      layoutSettleScrollRef.current = false;
-      pendingHrefRef.current = null;
-      finishScroll(href, needsLayoutSettle);
+      finishScroll(href);
     },
     [finishScroll]
   );
@@ -133,50 +118,11 @@ export default function SiteNav() {
   const mobileNav = useLiquidGlassNav(mobileTabItems.length, mobileActiveIndex, scrollToMobileIndex);
 
   useEffect(() => {
-    if (!contentReady) return;
-
-    let cancelled = false;
-
-    const settleAfterContent = () => {
-      if (cancelled) return;
-
-      const pending = pendingHrefRef.current;
-      pendingHrefRef.current = null;
-
-      if (pending) {
-        navLockRef.current = pending;
-        layoutSettleScrollRef.current = true;
-        finishScroll(pending, true);
-        return;
-      }
-
-      if (!navLockRef.current) {
-        setActive(getActiveSectionHref(true));
-      }
-    };
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(settleAfterContent);
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [contentReady, finishScroll]);
-
-  useEffect(() => {
     let raf = 0;
 
     const pickActive = () => {
       if (navLockRef.current) return;
       if (performance.now() < spyCooldownUntilRef.current) return;
-
-      if (!contentReadyRef.current) {
-        if (window.scrollY < window.innerHeight * 0.45) {
-          setActive('#home');
-        }
-        return;
-      }
 
       const current = getActiveSectionHref(true);
       setActive((prev) => (prev === current ? prev : current));
@@ -210,7 +156,7 @@ export default function SiteNav() {
 
     enableNavLiquidGlass(el, () => NAV_GLASS_CONFIG);
 
-    const onResize = () => rebuildAllLiquidGlass();
+    const onResize = () => rebuildNavLiquidGlass();
     window.addEventListener('resize', onResize);
 
     return () => {

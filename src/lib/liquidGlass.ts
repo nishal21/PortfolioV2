@@ -449,6 +449,24 @@ export function rebuildLiquidGlass(el: HTMLElement) {
   targets.get(el)?.rebuild();
 }
 
+function isHeroLetterGlass(el: HTMLElement) {
+  return el.dataset.glassMode === 'letter';
+}
+
+/** Rebuild nav chrome only — avoids resetting hero title glyph masks. */
+export function rebuildNavLiquidGlass() {
+  targets.forEach((inst, el) => {
+    if (!isHeroLetterGlass(el)) inst.rebuild();
+  });
+}
+
+/** Rebuild hero title letters only. */
+export function rebuildHeroLiquidGlass() {
+  targets.forEach((inst, el) => {
+    if (isHeroLetterGlass(el)) inst.rebuild();
+  });
+}
+
 export function rebuildAllLiquidGlass() {
   targets.forEach((inst) => inst.rebuild());
 }

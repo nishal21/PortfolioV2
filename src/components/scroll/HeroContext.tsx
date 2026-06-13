@@ -15,9 +15,11 @@ type ProgressListener = (value: number) => void;
 
 interface HeroContextValue {
   ready: boolean;
+  titleReady: boolean;
   heroInView: boolean;
   heroPaused: boolean;
   setHeroReady: () => void;
+  setTitleReady: () => void;
   emitProgress: (value: number) => void;
   subscribeProgress: (listener: ProgressListener) => () => void;
 }
@@ -25,13 +27,18 @@ interface HeroContextValue {
 const HeroContext = createContext<HeroContextValue | null>(null);
 
 export function HeroProvider({ children }: { children: ReactNode }) {
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(true);
+  const [titleReady, setTitleReadyState] = useState(false);
   const [heroInView, setHeroInView] = useState(true);
   const [heroPaused, setHeroPaused] = useState(false);
   const progressListenersRef = useRef(new Set<ProgressListener>());
 
   const setHeroReady = useCallback(() => {
     setReady(true);
+  }, []);
+
+  const setTitleReady = useCallback(() => {
+    setTitleReadyState(true);
   }, []);
 
   const emitProgress = useCallback((value: number) => {
@@ -71,13 +78,22 @@ export function HeroProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  useEffect(() => {
+    const fallback = window.setTimeout(() => {
+      setTitleReadyState(true);
+    }, 3200);
+    return () => window.clearTimeout(fallback);
+  }, []);
+
   return (
     <HeroContext.Provider
       value={{
         ready,
+        titleReady,
         heroInView,
         heroPaused,
         setHeroReady,
+        setTitleReady,
         emitProgress,
         subscribeProgress,
       }}

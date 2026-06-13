@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { HERO_VIDEO_SRC, heroVideoSrcWithTimeHint } from '@/lib/heroMedia';
-import { prefersReducedMotion } from '@/lib/performance';
+import { HERO_VIDEO_POSTER, heroPosterSrc, heroVideoSrc, heroVideoSrcWithTimeHint } from '@/lib/heroMedia';
+import { isMobileViewport, prefersReducedMotion } from '@/lib/performance';
 
 interface HeroVideoProps {
   className?: string;
@@ -20,8 +20,11 @@ export default function HeroVideo({
   const videoRef = useRef<HTMLVideoElement>(null);
   const readyFiredRef = useRef(false);
   const [visible, setVisible] = useState(false);
+  const [mobile] = useState(() => isMobileViewport());
+  const [loadVideo, setLoadVideo] = useState(() => !isMobileViewport());
   const reducedMotion = prefersReducedMotion();
-  const src = heroVideoSrcWithTimeHint(HERO_VIDEO_SRC);
+  const poster = mobile ? heroPosterSrc({ mobile: true }) : HERO_VIDEO_POSTER;
+  const src = heroVideoSrcWithTimeHint(heroVideoSrc({ mobile }));
 
   const markReady = useCallback(() => {
     if (readyFiredRef.current) return;
@@ -38,6 +41,19 @@ export default function HeroVideo({
     markReady();
     if (reducedMotion) setVisible(true);
   }, [markReady, reducedMotion]);
+
+  useEffect(() => {
+    if (!mobile || loadVideo) return;
+
+    const start = () => setLoadVideo(true);
+    if (typeof requestIdleCallback !== 'undefined') {
+      const id = requestIdleCallback(start, { timeout: 700 });
+      return () => cancelIdleCallback(id);
+    }
+
+    const t = window.setTimeout(start, 350);
+    return () => window.clearTimeout(t);
+  }, [loadVideo, mobile]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -61,7 +77,7 @@ export default function HeroVideo({
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !loadVideo) return;
 
     if (paused || reducedMotion) {
       video.pause();
@@ -74,7 +90,7 @@ export default function HeroVideo({
     const play = () => {
       video.muted = true;
       void video.play().catch(() => {
-        /* autoplay blocked — backdrop/skeleton stay until user gesture */
+        /* autoplay blocked — poster stays visible */
       });
     };
 
@@ -89,19 +105,20 @@ export default function HeroVideo({
       video.removeEventListener('canplay', play);
       document.removeEventListener('visibilitychange', play);
     };
-  }, [paused, reducedMotion, src]);
+  }, [loadVideo, paused, reducedMotion, src]);
 
   return (
     <video
       ref={videoRef}
       key={src}
       className={`hero-video ${className}${visible ? ' hero-video--in' : ''}`}
-      src={src}
+      src={loadVideo ? src : undefined}
+      poster={poster}
       muted
       playsInline
       loop
-      autoPlay={!reducedMotion && !paused}
-      preload="auto"
+      autoPlay={loadVideo && !reducedMotion && !paused}
+      preload={mobile ? 'none' : 'auto'}
       disablePictureInPicture
       disableRemotePlayback
       aria-hidden="true"

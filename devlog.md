@@ -1,6 +1,85 @@
 ﻿# Devlog
 
-## 2026-06-13 — Security scan fixes (score 82 → target 90+)
+## 2026-06-07 — Hero skeleton while liquid glass loads
+
+- `titleReady` in `HeroContext`; `HeroGlassTitle` sets it when all letter masks finish (or plain fallback / no glass)
+- `HeroSkeleton` overlays hero copy until glass is ready; poster/video still show immediately
+- Real copy stays in DOM (hidden) for SEO; fades in when `titleReady`
+
+**Next:** deploy and verify skeleton → glass title transition on mobile + desktop
+
+## 2026-06-07 — Mobile skeleton: no dark scrim
+
+- Mobile hero skeleton scrim removed (transparent); poster/video stays bright during load
+- Skeleton bars slightly brighter on mobile for contrast over colorful background
+
+## 2026-06-07 — Skeleton: remove dark panel box
+
+- Dropped opaque `hero-skeleton-full__panel` card (was covering half the hero)
+- Lighter full-hero scrim + shimmer bars only, aligned to copy slot
+- Text still hidden via `#home.hero-title-loading` until glass ready
+
+## 2026-06-07 — Skeleton hides glass bleed-through
+
+- Masked `.lg-refr` layers were visible before `titleReady`; now hidden under `#home.hero-title-loading`
+- Skeleton panel: opaque blurred card behind placeholder bars (desktop + mobile)
+- Desktop scrim stronger at bottom-left where copy sits
+
+## 2026-06-07 — Hero text + mobile video load fix
+
+- Removed `visibility:hidden` / `clip-path` on loading copy (was blocking glass masks → text never appeared)
+- Skeleton overlay only covers text visually; 3.2s fallback reveals copy if glass is slow
+- Mobile video: 720px eco MP4, deferred load via `requestIdleCallback`, poster preloads first (no video preload in head)
+
+## 2026-06-07 — Kill white Nishal flash on load
+
+- Removed pending-letter white shadow CSS; strengthened `hero-copy--loading` + `#home.hero-title-loading`
+- `HeroGlassTitle` uses `glassOn: null` pending state (no white fallback before hydration)
+- Inline critical CSS in `layout.tsx`; skeleton z-index 30 above copy
+
+## 2026-06-07 — Mobile hero matches reference layout
+
+- Centered copy block (`translate(-50%, -50%)`), lighter vignette, no bottom curtain on mobile
+- Tagline/eyebrow/malayalam spacing + colors tuned to reference screenshot
+- Video credit hidden on mobile; hero uses `100dvh`
+
+## 2026-06-07 — Restore centered mobile hero
+
+- Mobile hero copy + skeleton centered vertically (`top: 50%`) like before
+- `page-container` fills `#home` on mobile so absolute centering works without collapse
+- Mobile reveal uses opacity-only animation (keeps `translateY(-50%)` centering)
+
+## 2026-06-07 — Full-hero skeleton overlay
+
+- `HeroSkeleton` now covers entire `#home` (scrim + shimmer, z-index 20) until `titleReady`
+- Copy stays in DOM for glass masking but `visibility: hidden` — no white text flash
+- Credit/scrub hidden until title ready
+
+**Next:** deploy; verify mobile full-screen skeleton → glass title reveal
+
+## 2026-06-07 — Mobile hero glass layout + mask stability
+
+- Mobile: removed absolute `top: 50%` centering (collapsed container → overlapping text/line artifacts)
+- Hero copy/skeleton sit above nav dock; credit pinned bottom-right above dock
+- Glyph masks: revoke old blob URL only after new mask succeeds
+- Title letters `flex-wrap: nowrap`; letter hosts use `isolation` to stop glass bleed
+- Removed `rebuildHeroLiquidGlass` on scroll (was invalidating masks); resume only fixes broken masks
+
+## 2026-06-07 — Hero glass survives nav slide
+
+- Nav uses `rebuildNavLiquidGlass()` so sliding tabs no longer wipes hero letter masks
+- Hero title uses `rebuildHeroLiquidGlass()` when returning to `#home`
+- Letter remask on rebuild keeps `--masked` state (no pending flash)
+
+## 2026-06-07 — Hero instant load (no black screen)
+
+- Removed pulsing `hero-sequence-backdrop` overlay that hid the poster until video buffered
+- Hero media layer uses inline `background-image` + preloaded poster (image preload before video)
+- Hero copy/title visible immediately: no stagger fade-in, white fallback title until glass masks
+- Main sections no longer wait on hero `ready`; nav scroll works on first paint
+- `HeroVideo` uses `preload="metadata"` so poster wins bandwidth
+
+**Deploy:** `git pull` → `npm ci` → `npm run build` → `pm2 restart portfolio-v2`
 
 - **HSTS**, **X-XSS-Protection**, HTML **Cache-Control** (`no-store`), **Pragma**, **Expires**
 - **CORP** + **COOP** headers; `poweredByHeader: false` in Next.js

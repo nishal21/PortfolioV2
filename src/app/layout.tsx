@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Syne, DM_Sans, Noto_Sans_Malayalam } from 'next/font/google';
 import { copyrightNotice } from '@/components/layout/SiteFooter';
 import RootProviders from '@/components/layout/RootProviders';
-import { HERO_VIDEO_IS_REMOTE, HERO_VIDEO_POSTER, HERO_VIDEO_SRC } from '@/lib/heroMedia';
+import { HERO_VIDEO_IS_REMOTE, HERO_VIDEO_POSTER } from '@/lib/heroMedia';
 import { FEED_PATH } from '@/lib/rss';
 import {
   CREATOR_NAME,
@@ -117,10 +117,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         {HERO_VIDEO_IS_REMOTE ? (
-          <>
-            <link rel="preload" href={HERO_VIDEO_SRC} as="video" type="video/mp4" />
-            <link rel="preload" href={HERO_VIDEO_POSTER} as="image" />
-          </>
+          <link rel="preload" href={HERO_VIDEO_POSTER} as="image" fetchPriority="high" />
         ) : null}
         <meta name="copyright" content={copyrightNotice()} />
       </head>

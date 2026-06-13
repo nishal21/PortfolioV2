@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef } from 'react';
-import { enableNavLiquidGlass, removeLiquidGlass, rebuildAllLiquidGlass } from '@/lib/liquidGlass';
+import { enableNavLiquidGlass, removeLiquidGlass, rebuildNavLiquidGlass } from '@/lib/liquidGlass';
 import { NAV_GLASS_CONFIG, TAB_GLASS_CONFIG } from '@/lib/liquidGlassConfig';
 
 function clamp(n: number, min: number, max: number) {
@@ -89,14 +89,14 @@ export function useLiquidGlassNav(
         indicator.classList.remove('interacting');
         navWrap.classList.remove('engaged');
       }, Math.round(durationSec * 1000) + 40);
-      const t = window.setTimeout(() => rebuildAllLiquidGlass(), 400);
+      const t = window.setTimeout(() => rebuildNavLiquidGlass(), 400);
       return () => {
         window.clearTimeout(pulse);
         window.clearTimeout(t);
       };
     }
 
-    const t = window.setTimeout(() => rebuildAllLiquidGlass(), 400);
+    const t = window.setTimeout(() => rebuildNavLiquidGlass(), 400);
     return () => window.clearTimeout(t);
   }, [activeIndex, snapToIndex]);
 
@@ -110,7 +110,7 @@ export function useLiquidGlassNav(
 
     const onResize = () => {
       snapToIndex(activeIndexRef.current, false);
-      rebuildAllLiquidGlass();
+      rebuildNavLiquidGlass();
     };
 
     window.addEventListener('resize', onResize);
@@ -179,7 +179,7 @@ export function useLiquidGlassNav(
     };
 
     const queueGlassRebuild = () => {
-      requestAnimationFrame(() => rebuildAllLiquidGlass());
+      requestAnimationFrame(() => rebuildNavLiquidGlass());
     };
 
     const positionIndicatorAt = (clientX: number) => {

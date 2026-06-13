@@ -1,6 +1,6 @@
 'use client';
 
-import { HeroProvider, useHero } from '@/components/scroll/HeroContext';
+import { HeroProvider } from '@/components/scroll/HeroContext';
 import ScrollIntroSection from '@/components/scroll/ScrollIntroSection';
 import SiteNav from '@/components/layout/SiteNav';
 import AboutSection from '@/components/sections/AboutSection';
@@ -10,8 +10,6 @@ import VideosSection from '@/components/sections/VideosSection';
 import ContactSection from '@/components/sections/ContactSection';
 
 function PortfolioBody() {
-  const { ready } = useHero();
-
   return (
     <div
       id="page-root"
@@ -20,7 +18,7 @@ function PortfolioBody() {
       <SiteNav />
       <ScrollIntroSection />
       <main id="main-content" className="relative z-10 studio-stage">
-        <div className={ready ? 'studio-content--in' : 'studio-content--booting'}>
+        <div className="studio-content--in">
           <AboutSection />
           <SkillsSection />
           <ProjectsSection />
