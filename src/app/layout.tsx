@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Syne, DM_Sans, Noto_Sans_Malayalam } from 'next/font/google';
 import RootProviders from '@/components/layout/RootProviders';
-import { HERO_VIDEO_IS_REMOTE, HERO_VIDEO_SRC } from '@/lib/heroMedia';
+import { HERO_VIDEO_IS_REMOTE, HERO_VIDEO_POSTER, HERO_VIDEO_SRC } from '@/lib/heroMedia';
 import { FEED_PATH } from '@/lib/rss';
 import {
   CREATOR_NAME,
@@ -116,40 +116,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         {HERO_VIDEO_IS_REMOTE ? (
-          <link rel="preload" href={HERO_VIDEO_SRC} as="video" type="video/mp4" />
+          <>
+            <link rel="preload" href={HERO_VIDEO_SRC} as="video" type="video/mp4" />
+            <link rel="preload" href={HERO_VIDEO_POSTER} as="image" />
+          </>
         ) : null}
+        <meta httpEquiv="X-Frame-Options" content="SAMEORIGIN" />
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' https:; font-src 'self' data: https:; connect-src 'self' https:; frame-src https:; form-action 'self' https:; base-uri 'self'; frame-ancestors 'self'"
+        />
       </head>
       <body className={`${syne.variable} ${dmSans.variable} ${notoMalayalam.variable} antialiased`}>
         <noscript>
-          <div
-            style={{
-              padding: '1rem 1.5rem',
-              background: '#0a0d12',
-              color: '#f8f6f2',
-              borderBottom: '1px solid #1a2030',
-              fontFamily: 'system-ui, sans-serif',
-              fontSize: '0.9rem',
-              lineHeight: 1.5,
-            }}
-          >
+          <div className="noscript-notice">
             <strong>Nishal · Nishal K (nishal21)</strong>. AMV editor, music producer, and full-stack developer from
             Kerala, India. Portfolio:{' '}
-            <a href="https://nishal.dev/projects" style={{ color: '#a6c78c' }}>
-              projects
-            </a>
-            ,{' '}
-            <a href="https://nishal.dev/profile" style={{ color: '#a6c78c' }}>
-              profile
-            </a>
-            ,{' '}
-            <a href="https://nishal.dev/about" style={{ color: '#a6c78c' }}>
-              about
-            </a>
-            ,{' '}
-            <a href="https://nishal.dev/resume/view" style={{ color: '#a6c78c' }}>
-              resume
-            </a>
-            .
+            <a href="https://nishal.dev/projects">projects</a>,{' '}
+            <a href="https://nishal.dev/profile">profile</a>,{' '}
+            <a href="https://nishal.dev/about">about</a>,{' '}
+            <a href="https://nishal.dev/resume/view">resume</a>.
           </div>
         </noscript>
         <RootProviders>{children}</RootProviders>

@@ -10,6 +10,7 @@ interface ImageFrameProps {
   fit?: 'cover' | 'contain';
   fill?: boolean;
   fallbackLabel?: string;
+  loading?: 'lazy' | 'eager';
 }
 
 export default function ImageFrame({
@@ -20,6 +21,7 @@ export default function ImageFrame({
   fit = 'cover',
   fill = false,
   fallbackLabel = 'Preview',
+  loading = 'lazy',
 }: ImageFrameProps) {
   const [failed, setFailed] = useState(!src);
 
@@ -41,6 +43,7 @@ export default function ImageFrame({
         <img
           src={src}
           alt={alt}
+          loading={loading}
           decoding="async"
           className={`absolute inset-0 block h-full w-full ${fitClass}`}
           onLoad={() => setFailed(false)}

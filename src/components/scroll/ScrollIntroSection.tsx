@@ -8,7 +8,7 @@ import HeroSkeleton from './HeroSkeleton';
 import { useHero } from './HeroContext';
 import { personal } from '@/data/personal';
 import { CREATOR_NAME, GITHUB_HANDLE } from '@/lib/seo';
-import { HERO_VIDEO_CREDIT_URL } from '@/lib/heroMedia';
+import { HERO_VIDEO_CREDIT_URL, HERO_VIDEO_POSTER } from '@/lib/heroMedia';
 import { HERO_RESUME_EVENT, scrollToSection, snapHeroTextVisible } from '@/lib/scrollNav';
 import { useMounted } from '@/lib/useMounted';
 
@@ -74,6 +74,16 @@ export default function ScrollIntroSection() {
     >
       <div className="absolute inset-0 z-0">
         {!ready && <div className="hero-sequence-backdrop" aria-hidden="true" />}
+        <img
+          src={HERO_VIDEO_POSTER}
+          alt=""
+          className="hero-poster"
+          width={1280}
+          height={720}
+          fetchPriority="high"
+          decoding="async"
+          aria-hidden="true"
+        />
         <HeroVideo
           className="h-full w-full"
           paused={heroPaused || !heroInView}
@@ -87,13 +97,7 @@ export default function ScrollIntroSection() {
 
       <div
         ref={copyRef}
-        className={`hero-copy page-container relative z-10${mounted && ready ? ' hero-copy--in' : ''}`}
-        style={{
-          opacity: ready ? 1 : 0,
-          pointerEvents: ready ? undefined : 'none',
-          transition: 'opacity 0.5s ease',
-          ['--hero-fade' as string]: 1,
-        }}
+        className={`hero-copy page-container relative z-10${!ready ? ' hero-copy--loading' : ''}${mounted && ready ? ' hero-copy--in' : ''}`}
       >
         <p className="hero-eyebrow hero-fade-item seo-speakable">
           {CREATOR_NAME} · {GITHUB_HANDLE} · {personal.location.split(',')[1]?.trim() ?? 'Kerala'} · {personal.age}
@@ -111,12 +115,12 @@ export default function ScrollIntroSection() {
         <p className="hero-tagline hero-fade-item seo-speakable">{personal.tagline}</p>
 
         <div className="hero-links hero-fade-item">
-          <button type="button" onClick={() => scrollToSection('#projects')} className="hit-target hero-link">
+          <a href="#projects" className="hit-target hero-link" onClick={(e) => { e.preventDefault(); scrollToSection('#projects'); }}>
             Projects
-          </button>
-          <button type="button" onClick={() => scrollToSection('#about')} className="hit-target hero-link">
+          </a>
+          <a href="#about" className="hit-target hero-link" onClick={(e) => { e.preventDefault(); scrollToSection('#about'); }}>
             About
-          </button>
+          </a>
         </div>
       </div>
 

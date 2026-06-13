@@ -21,17 +21,18 @@ function PortfolioBody() {
       <SiteNav />
       <ScrollIntroSection />
       <main id="main-content" className="relative z-10 studio-stage">
+        <div className={ready ? 'studio-content--in' : undefined}>
+          <AboutSection />
+          <SkillsSection />
+          <ProjectsSection />
+          <VideosSection />
+          <ContactSection />
+        </div>
         {!ready ? (
-          <MainContentSkeleton />
-        ) : (
-          <div className="studio-content--in">
-            <AboutSection />
-            <SkillsSection />
-            <ProjectsSection />
-            <VideosSection />
-            <ContactSection />
+          <div className="studio-content-overlay" aria-busy="true" aria-label="Loading content">
+            <MainContentSkeleton />
           </div>
-        )}
+        ) : null}
       </main>
     </div>
   );

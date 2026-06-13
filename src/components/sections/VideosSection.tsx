@@ -98,7 +98,7 @@ export default function VideosSection() {
                 tabIndex={0}
               >
                 <div className="studio-flagship-media">
-                  <ImageFrame src={featured.thumbnail} alt={featured.title} aspect="wide" className="border-0" />
+                  <ImageFrame src={featured.thumbnail} alt={featured.title} aspect="wide" className="border-0" loading="eager" />
                   <div className="studio-play">
                     <Play className="ml-0.5 h-7 w-7 text-white" />
                   </div>

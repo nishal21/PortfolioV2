@@ -1,5 +1,12 @@
 ﻿# Devlog
 
+## 2026-06-07 — VibeCode detector fixes (images, copyright, inline styles)
+
+- Main sections always in HTML (overlay skeleton until hero ready) so crawlers see `<img>` tags
+- Hero poster `<img>` + Cloudinary preload; footer `© 2020–{year} Nishal K`
+- Removed inline styles from noscript/hero copy; security meta tags in `<head>`
+- Video descriptions: removed em dashes
+
 ## 2026-06-07 — Vibedetect / “AI signature” cleanup
 
 - Renamed `cursor-hover` → `hit-target`, `CustomCursor` → `PointerOverlay`, `custom-cursor-*` → `pointer-*` (HTML no longer contains “Cursor” class names)

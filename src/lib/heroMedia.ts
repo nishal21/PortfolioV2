@@ -14,6 +14,10 @@ export const HERO_VIDEO_CREDIT_URL = 'https://pin.it/3T4tJpHL2';
 
 export const HERO_VIDEO_IS_REMOTE = HERO_VIDEO_SRC.startsWith('http');
 
+/** First-frame still for crawlers and the pre-video backdrop. */
+export const HERO_VIDEO_POSTER =
+  'https://res.cloudinary.com/dtzzqvvzi/video/upload/so_0,q_auto,f_jpg,w_1280/v1781247946/hero.jpg';
+
 /** Hint first frame without a separate poster image request. */
 export function heroVideoSrcWithTimeHint(src: string) {
   if (!src.startsWith('http')) return src;
