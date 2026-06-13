@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { heavyEffectsEnabled } from '@/lib/performance';
 
-export default function CustomCursor() {
+/** Desktop pointer dot + ring (not related to any IDE). */
+export default function PointerOverlay() {
   const [enabled, setEnabled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const dotRef = useRef<HTMLDivElement>(null);
@@ -40,7 +41,7 @@ export default function CustomCursor() {
 
     const onOver = (e: MouseEvent) => {
       const t = e.target as HTMLElement | null;
-      if (t?.closest('a, button, .cursor-hover, [role="button"]')) {
+      if (t?.closest('a, button, .hit-target, [role="button"]')) {
         hoverRef.current = true;
         if (!rafRef.current) rafRef.current = requestAnimationFrame(paint);
       }
@@ -50,8 +51,8 @@ export default function CustomCursor() {
       const t = e.target as HTMLElement | null;
       const related = e.relatedTarget as HTMLElement | null;
       if (
-        t?.closest('a, button, .cursor-hover, [role="button"]') &&
-        !related?.closest('a, button, .cursor-hover, [role="button"]')
+        t?.closest('a, button, .hit-target, [role="button"]') &&
+        !related?.closest('a, button, .hit-target, [role="button"]')
       ) {
         hoverRef.current = false;
         if (!rafRef.current) rafRef.current = requestAnimationFrame(paint);
@@ -76,11 +77,13 @@ export default function CustomCursor() {
     <>
       <div
         ref={dotRef}
-        className="custom-cursor-dot fixed top-0 left-0 z-[400] h-2 w-2 rounded-full bg-white pointer-events-none mix-blend-difference will-change-transform"
+        className="pointer-dot fixed top-0 left-0 z-[400] h-2 w-2 rounded-full bg-white pointer-events-none mix-blend-difference will-change-transform"
+        aria-hidden="true"
       />
       <div
         ref={ringRef}
-        className="custom-cursor-ring fixed top-0 left-0 z-[399] h-8 w-8 rounded-full border border-white/30 pointer-events-none will-change-transform"
+        className="pointer-ring fixed top-0 left-0 z-[399] h-8 w-8 rounded-full border border-white/30 pointer-events-none will-change-transform"
+        aria-hidden="true"
       />
     </>,
     document.body

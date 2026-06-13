@@ -23,7 +23,7 @@ export default function ContactSocialRow() {
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="cursor-hover studio-contact-social-link"
+            className="hit-target studio-contact-social-link"
             aria-label={link.label}
           >
             <Icon className="h-5 w-5" aria-hidden />

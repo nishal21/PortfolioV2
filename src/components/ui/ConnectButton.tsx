@@ -14,7 +14,7 @@ export default function ConnectButton({ text, href, icon: Icon, onClick }: Conne
     <div className="connect-btn-shell">
       <a
         href={href}
-        className="connect-btn-inner cursor-hover"
+        className="connect-btn-inner hit-target"
         target={external ? '_blank' : undefined}
         rel={external ? 'noopener noreferrer' : undefined}
         onClick={onClick}

@@ -111,10 +111,10 @@ export default function ScrollIntroSection() {
         <p className="hero-tagline hero-fade-item seo-speakable">{personal.tagline}</p>
 
         <div className="hero-links hero-fade-item">
-          <button type="button" onClick={() => scrollToSection('#projects')} className="cursor-hover hero-link">
+          <button type="button" onClick={() => scrollToSection('#projects')} className="hit-target hero-link">
             Projects
           </button>
-          <button type="button" onClick={() => scrollToSection('#about')} className="cursor-hover hero-link">
+          <button type="button" onClick={() => scrollToSection('#about')} className="hit-target hero-link">
             About
           </button>
         </div>

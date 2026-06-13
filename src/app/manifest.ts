@@ -3,7 +3,7 @@ import { CREATOR_NAME, OG_IMAGE } from '@/lib/seo';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: `${CREATOR_NAME} — Portfolio`,
+    name: `${CREATOR_NAME} · Portfolio`,
     short_name: CREATOR_NAME,
     description: 'AMV editor, music producer, and full-stack developer from Kerala.',
     start_url: '/',

@@ -1,11 +1,11 @@
 'use client';
 
-import CustomCursor from '@/components/CustomCursor';
+import PointerOverlay from '@/components/PointerOverlay';
 
 export default function RootProviders({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <CustomCursor />
+      <PointerOverlay />
       {children}
     </>
   );

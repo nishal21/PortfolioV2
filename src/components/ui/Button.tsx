@@ -22,7 +22,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`inline-flex cursor-hover items-center justify-center gap-2 rounded px-5 py-2.5 text-sm font-semibold transition-all disabled:opacity-50 ${variants[variant]} ${className}`}
+      className={`inline-flex hit-target items-center justify-center gap-2 rounded px-5 py-2.5 text-sm font-semibold transition-all disabled:opacity-50 ${variants[variant]} ${className}`}
       {...props}
     >
       {children}

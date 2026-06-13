@@ -45,7 +45,7 @@ export default function SocialsPopover() {
       <div className="connect-btn-shell">
         <button
           type="button"
-          className="cursor-hover connect-btn-inner"
+          className="hit-target connect-btn-inner"
           onClick={(e) => {
             e.stopPropagation();
             setOpen((v) => !v);
@@ -70,7 +70,7 @@ export default function SocialsPopover() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="cursor-hover socials-card"
+                    className="hit-target socials-card"
                     onClick={() => setOpen(false)}
                   >
                     <Icon className="h-9 w-9 text-white/80 transition-transform group-hover:scale-110" />

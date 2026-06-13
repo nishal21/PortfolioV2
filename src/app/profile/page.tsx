@@ -16,11 +16,11 @@ import { buildArticleOpenGraph } from '@/lib/pinterest';
 import '../studio.css';
 
 export const metadata: Metadata = {
-  title: `Profile — ${CREATOR_NAME} (${GITHUB_HANDLE})`,
+  title: `Profile · ${CREATOR_NAME} (${GITHUB_HANDLE})`,
   description: defaultDescription(),
   alternates: { canonical: absoluteUrl('/profile') },
   openGraph: buildArticleOpenGraph({
-    title: `Profile — ${CREATOR_NAME}`,
+    title: `Profile · ${CREATOR_NAME}`,
     description: entityDefinition,
     url: absoluteUrl('/profile'),
     images: [OG_IMAGE],
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   }),
   twitter: {
     card: 'summary_large_image',
-    title: `Profile — ${CREATOR_NAME}`,
+    title: `Profile · ${CREATOR_NAME}`,
     description: entityDefinition,
     images: [OG_IMAGE.url],
   },
@@ -50,7 +50,7 @@ export default function ProfilePage() {
         </Link>
 
         <p className="studio-label">Index</p>
-        <h1 className="studio-title max-w-4xl">Profile — {CREATOR_NAME}</h1>
+        <h1 className="studio-title max-w-4xl">Profile · {CREATOR_NAME}</h1>
         <p className="studio-desc seo-speakable max-w-3xl">{entityDefinition}</p>
 
         <SeoAnswerBlocks className="mt-10" showHeading={false} />
@@ -60,7 +60,7 @@ export default function ProfilePage() {
             Project directory
           </h2>
           <p className="mt-2 text-sm text-[var(--text-muted)]">
-            All projects by {CREATOR_NAME} ({GITHUB_HANDLE}) — each page is indexable at nishal.dev.
+            All projects by {CREATOR_NAME} ({GITHUB_HANDLE}). Each page is indexable at nishal.dev.
           </p>
           <ProjectIndexTable />
         </section>

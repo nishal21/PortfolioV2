@@ -67,7 +67,7 @@ export default function ContactSection() {
               {contactInfo.map((item) => {
                 const Icon = contactIcons[item.label as keyof typeof contactIcons] ?? Mail;
                 return (
-                  <a key={item.label} href={item.href} className="cursor-hover studio-contact-line">
+                  <a key={item.label} href={item.href} className="hit-target studio-contact-line">
                     <Icon className="h-4 w-4 shrink-0 text-[var(--studio-accent)]" />
                     <div>
                       <span className="studio-contact-label">{item.label}</span>
@@ -130,7 +130,7 @@ export default function ContactSection() {
                     placeholder="Tell me about your project..."
                     className="studio-input studio-textarea"
                   />
-                  <button type="submit" disabled={isSubmitting} className="cursor-hover studio-submit">
+                  <button type="submit" disabled={isSubmitting} className="hit-target studio-submit">
                     {isSubmitting ? 'Sending...' : (
                       <>
                         Send <Send className="h-4 w-4" />

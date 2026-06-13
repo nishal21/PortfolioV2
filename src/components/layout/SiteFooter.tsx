@@ -38,7 +38,7 @@ export default function SiteFooter() {
         >
           <img
             src="https://websitelaunches.com/badge/nishal.dev.svg?theme=dark"
-            alt="Established online — public launch record on Website Launches"
+            alt="Established online, public launch record on Website Launches"
             width={255}
             height={55}
             loading="lazy"

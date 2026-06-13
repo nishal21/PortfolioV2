@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
     types: {
-      'application/rss+xml': [{ url: FEED_PATH, title: `${CREATOR_NAME} — RSS` }],
+      'application/rss+xml': [{ url: FEED_PATH, title: `${CREATOR_NAME} · RSS` }],
     },
   },
   icons: {
@@ -132,7 +132,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               lineHeight: 1.5,
             }}
           >
-            <strong>Nishal — Nishal K (nishal21)</strong> — AMV editor, music producer, and full-stack developer from
+            <strong>Nishal · Nishal K (nishal21)</strong>. AMV editor, music producer, and full-stack developer from
             Kerala, India. Portfolio:{' '}
             <a href="https://nishal.dev/projects" style={{ color: '#a6c78c' }}>
               projects

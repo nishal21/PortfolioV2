@@ -21,13 +21,13 @@
   padding: 0;
 }
 
-/* Custom cursor: visible on white resume paper (default dot is white + mix-blend) */
-body.resume-route .custom-cursor-dot {
+/* Pointer overlay: dark dot on white resume paper */
+body.resume-route .pointer-dot {
   mix-blend-mode: normal;
   background: #111;
 }
 
-body.resume-route .custom-cursor-ring {
+body.resume-route .pointer-ring {
   border-color: rgba(0, 0, 0, 0.35);
 }
 
@@ -263,8 +263,8 @@ body.resume-route .custom-cursor-ring {
 }
 
 @media print {
-  .custom-cursor-dot,
-  .custom-cursor-ring {
+  .pointer-dot,
+  .pointer-ring {
     display: none !important;
   }
 

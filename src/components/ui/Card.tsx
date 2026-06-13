@@ -19,7 +19,7 @@ export default function Card({ children, className = '', onClick }: CardProps) {
             }
           : undefined
       }
-      className={`panel transition-colors ${onClick ? 'cursor-hover' : ''} ${className}`}
+      className={`panel transition-colors ${onClick ? 'hit-target' : ''} ${className}`}
     >
       {children}
     </div>

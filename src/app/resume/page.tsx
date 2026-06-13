@@ -7,7 +7,7 @@ import './resume.css';
 
 export const metadata: Metadata = {
   title: 'Resume | Nishal K',
-  description: 'Resume for Nishal K — configurable by role (general, developer, creative, full-stack).',
+  description: 'Resume for Nishal K, configurable by role (general, developer, creative, full-stack).',
   robots: { index: true, follow: true },
 };
 

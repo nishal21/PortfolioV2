@@ -26,7 +26,7 @@ function VideoModal({ video, onClose }: { video: Video; onClose: () => void }) {
         <div className="studio-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
           <div className="studio-modal-head">
             <h3 className="studio-modal-title min-w-0 flex-1">{video.title}</h3>
-            <button type="button" onClick={onClose} className="cursor-hover studio-modal-close shrink-0" aria-label="Close">
+            <button type="button" onClick={onClose} className="hit-target studio-modal-close shrink-0" aria-label="Close">
               <X className="h-5 w-5" />
             </button>
           </div>
@@ -57,7 +57,7 @@ function VideoModal({ video, onClose }: { video: Video; onClose: () => void }) {
               href={`https://youtube.com/watch?v=${video.youtubeId}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-hover studio-modal-action studio-modal-action--primary studio-modal-action--warm"
+              className="hit-target studio-modal-action studio-modal-action--primary studio-modal-action--warm"
             >
               <Youtube className="h-4 w-4 shrink-0" aria-hidden />
               <span>Watch</span>
@@ -91,7 +91,7 @@ export default function VideosSection() {
           flagship={
             featured ? (
               <article
-                className="studio-flagship studio-flagship--video cursor-hover group"
+                className="studio-flagship studio-flagship--video hit-target group"
                 onClick={() => setSelected(featured)}
                 onKeyDown={(e) => e.key === 'Enter' && setSelected(featured)}
                 role="button"
@@ -127,7 +127,7 @@ export default function VideosSection() {
                     key={cat.id}
                     type="button"
                     onClick={() => setFilter(cat.id)}
-                    className={`cursor-hover studio-filter ${filter === cat.id ? 'active' : ''}`}
+                    className={`hit-target studio-filter ${filter === cat.id ? 'active' : ''}`}
                   >
                     {cat.label} ({count})
                   </button>
@@ -140,7 +140,7 @@ export default function VideosSection() {
               {reel.map((video) => (
                 <article
                   key={video.id}
-                  className="studio-reel-card studio-reel-card--video cursor-hover"
+                  className="studio-reel-card studio-reel-card--video hit-target"
                   onClick={() => setSelected(video)}
                   onKeyDown={(e) => e.key === 'Enter' && setSelected(video)}
                   role="button"

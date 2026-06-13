@@ -16,7 +16,7 @@ import '../studio.css';
 
 export const metadata: Metadata = {
   title: `Projects by ${CREATOR_NAME} (${GITHUB_HANDLE})`,
-  description: `All projects by ${CREATOR_NAME} — NekoBeat, Otazumi, Publicolio, NMHelper, CarbonLint, GitHub Stars Organizer, and more. Built by ${GITHUB_HANDLE} from Kerala, India.`,
+  description: `All projects by ${CREATOR_NAME}: NekoBeat, Otazumi, Publicolio, NMHelper, CarbonLint, GitHub Stars Organizer, and more. Built by ${GITHUB_HANDLE} from Kerala, India.`,
   keywords: [
     'Nishal projects',
     'nishal21 projects',

@@ -105,7 +105,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={thumb}
-              alt={`${project.title} — project by ${CREATOR_NAME}`}
+              alt={`${project.title}, project by ${CREATOR_NAME}`}
               className="h-full w-full object-cover"
             />
           </div>

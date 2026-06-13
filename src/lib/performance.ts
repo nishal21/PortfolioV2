@@ -13,7 +13,7 @@ export function isMobileViewport() {
   return window.matchMedia('(max-width: 767px)').matches;
 }
 
-/** Skip heavy effects (custom cursor) on touch / small screens */
+/** Skip heavy effects (pointer overlay) on touch / small screens */
 export function heavyEffectsEnabled() {
   if (typeof window === 'undefined') return true;
   if (prefersReducedMotion()) return false;

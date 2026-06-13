@@ -39,7 +39,7 @@ function NavTabButton({
     <button
       ref={setItemRef(index)}
       type="button"
-      className={`ios-item cursor-hover ${mobile ? 'ios-item--mobile' : ''} ${active ? 'active' : ''}`}
+      className={`ios-item hit-target ${mobile ? 'ios-item--mobile' : ''} ${active ? 'active' : ''}`}
       onPointerDown={onItemPointerDown(index)}
       onClick={(e) => {
         e.preventDefault();
@@ -264,7 +264,7 @@ export default function SiteNav() {
         <button
           ref={contactFabRef}
           type="button"
-          className={`ios-nav-fab cursor-hover lg-demo-target ${contactActive ? 'active' : ''}`}
+          className={`ios-nav-fab hit-target lg-demo-target ${contactActive ? 'active' : ''}`}
           data-radius="999"
           onClick={() => scrollTo(mobileContactItem.href)}
           aria-label={mobileContactItem.name}

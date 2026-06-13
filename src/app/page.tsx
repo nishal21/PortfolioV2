@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import PortfolioPage from '@/components/PortfolioPage';
 import { SiteJsonLd } from '@/components/seo/JsonLd';
 import { OG_IMAGE, SITE_NAME, SITE_TITLE, SITE_URL, metaDescription, socialDescription } from '@/lib/seo';

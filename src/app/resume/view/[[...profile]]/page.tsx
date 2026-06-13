@@ -17,8 +17,8 @@ export async function generateMetadata({ params }: ResumeViewPageProps): Promise
   const label = resumeProfiles[id].label;
   const path = id === 'general' ? '/resume/view' : `/resume/view/${id}`;
   return {
-    title: `Resume — ${label}`,
-    description: `Resume for ${CREATOR_NAME} (nishal21) — ${label}. AMV editor, music producer, and full-stack developer from Kerala.`,
+    title: `Resume · ${label}`,
+    description: `Resume for ${CREATOR_NAME} (nishal21), ${label}. AMV editor, music producer, and full-stack developer from Kerala.`,
     alternates: { canonical: absoluteUrl(path) },
     robots: { index: true, follow: true },
   };

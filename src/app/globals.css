@@ -39,7 +39,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom cursor — desktop only */
+/* Desktop pointer overlay — hide system pointer on fine pointers */
 @media (pointer: fine) {
   * {
     cursor: none !important;

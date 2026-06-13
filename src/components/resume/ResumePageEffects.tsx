@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-/** Dark cursor on light resume paper; restored on leave */
+/** Dark pointer overlay on light resume paper; restored on leave */
 export default function ResumePageEffects() {
   useEffect(() => {
     document.body.classList.add('resume-route');

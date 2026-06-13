@@ -1,5 +1,12 @@
 ﻿# Devlog
 
+## 2026-06-07 — Vibedetect / “AI signature” cleanup
+
+- Renamed `cursor-hover` → `hit-target`, `CustomCursor` → `PointerOverlay`, `custom-cursor-*` → `pointer-*` (HTML no longer contains “Cursor” class names)
+- Replaced em dashes (—) with · in SEO/JSON-LD/noscript copy
+- Security headers: CSP, X-Frame-Options, Referrer-Policy in `next.config.ts` + nginx
+- Removed unused `public/vercel.svg`
+
 ## 2026-06-07 — RSS feed (`/feed.xml`, `/rss.xml`)
 
 - `src/lib/rss.ts` — projects, YouTube videos, key portfolio pages

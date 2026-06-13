@@ -28,7 +28,7 @@ export default function SupportStrip() {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-hover studio-support-card"
+              className="hit-target studio-support-card"
               style={
                 {
                   '--support-accent': link.accent,

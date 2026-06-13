@@ -80,7 +80,7 @@ function ProjectModalActions({ project }: { project: Project }) {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`cursor-hover studio-modal-action${primary ? ' studio-modal-action--primary' : ''}`}
+            className={`hit-target studio-modal-action${primary ? ' studio-modal-action--primary' : ''}`}
           >
             <Icon className="h-4 w-4 shrink-0" aria-hidden />
             <span>{label}</span>
@@ -89,7 +89,7 @@ function ProjectModalActions({ project }: { project: Project }) {
           <Link
             key={label}
             href={href}
-            className={`cursor-hover studio-modal-action${primary ? ' studio-modal-action--primary' : ''}`}
+            className={`hit-target studio-modal-action${primary ? ' studio-modal-action--primary' : ''}`}
           >
             <Icon className="h-4 w-4 shrink-0" aria-hidden />
             <span>{label}</span>
@@ -153,7 +153,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
                 {project.title}
               </h3>
             </div>
-            <button type="button" onClick={onClose} className="cursor-hover studio-modal-close shrink-0" aria-label="Close">
+            <button type="button" onClick={onClose} className="hit-target studio-modal-close shrink-0" aria-label="Close">
               <X className="h-5 w-5" />
             </button>
           </div>
@@ -222,12 +222,12 @@ function ProjectCard({
   if (variant === 'flagship') {
     return (
       <article
-        className="studio-flagship cursor-hover group"
+        className="studio-flagship hit-target group"
         onClick={onOpen}
         onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onOpen())}
         role="button"
         tabIndex={0}
-        aria-label={`${project.title} — click for full description`}
+        aria-label={`${project.title}, click for full description`}
       >
         <div className="studio-flagship-media">
           <ImageFrame
@@ -261,12 +261,12 @@ function ProjectCard({
 
   return (
     <article
-      className="studio-reel-card cursor-hover"
+      className="studio-reel-card hit-target"
       onClick={onOpen}
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onOpen())}
       role="button"
       tabIndex={0}
-      aria-label={`${project.title} — click for full description`}
+      aria-label={`${project.title}, click for full description`}
     >
       <ImageFrame
         src={getProjectThumbnail(project.id)}

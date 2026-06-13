@@ -16,7 +16,7 @@ import { buildArticleOpenGraph } from '@/lib/pinterest';
 import '../studio.css';
 
 export const metadata: Metadata = {
-  title: `About ${CREATOR_NAME} (${GITHUB_HANDLE}) — Developer & Creator from Kerala`,
+  title: `About ${CREATOR_NAME} (${GITHUB_HANDLE}) · Developer & Creator from Kerala`,
   description: defaultDescription(),
   alternates: { canonical: absoluteUrl('/about') },
   openGraph: buildArticleOpenGraph({
@@ -80,7 +80,7 @@ export default function AboutPage() {
             All projects by {CREATOR_NAME}
           </h2>
           <p className="mt-2 text-sm text-[var(--text-muted)]">
-            Search any project name — each links to an official page on nishal.dev.
+            Search any project name. Each links to an official page on nishal.dev.
           </p>
           <ProjectIndexTable />
         </section>

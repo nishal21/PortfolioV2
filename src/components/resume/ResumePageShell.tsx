@@ -29,7 +29,7 @@ export default function ResumePageShell({
       <div className="resume-shell">
         {!clean && (
           <p className="mb-3 text-center text-sm no-print">
-            <Link href="/" className="cursor-hover text-[#9ea8b0] underline hover:text-[#e8e3db]">
+            <Link href="/" className="hit-target text-[#9ea8b0] underline hover:text-[#e8e3db]">
               ← Back to portfolio
             </Link>
           </p>

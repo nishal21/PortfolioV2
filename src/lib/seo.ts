@@ -2,7 +2,7 @@ import { projects, getProjectSlug } from '@/data/projects';
 import { socialLinks } from '@/data/contact';
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nishal.dev';
-export const SITE_NAME = 'Nishal — nishal.dev';
+export const SITE_NAME = 'Nishal · nishal.dev';
 export const CREATOR_NAME = 'Nishal K';
 export const GITHUB_HANDLE = 'nishal21';
 
@@ -15,20 +15,20 @@ export const OG_IMAGE = {
   url: '/og-image.jpg',
   width: 1024,
   height: 682,
-  alt: 'Nishal — AMV editor, music producer, and developer from Kerala',
+  alt: 'Nishal · AMV editor, music producer, and developer from Kerala',
 } as const;
 
 /** ≤60 chars — lead with “Nishal” for name searches. */
-export const SITE_TITLE = 'Nishal — AMV Editor, Music Producer & Developer';
+export const SITE_TITLE = 'Nishal · AMV Editor, Music Producer & Developer';
 
 /** ~150–160 chars for `<meta name="description">`. */
 export function metaDescription() {
-  return `Nishal — official portfolio of Nishal K (nishal21). AMV editor, music producer, and full-stack developer from Kerala. NekoBeat, Otazumi, NMHelper, and 60+ GitHub projects.`;
+  return `Nishal · official portfolio of Nishal K (nishal21). AMV editor, music producer, and full-stack developer from Kerala. NekoBeat, Otazumi, NMHelper, and 60+ GitHub projects.`;
 }
 
 /** ~120 chars for Open Graph / X card previews. */
 export function socialDescription() {
-  return `Nishal — AMV editor, music producer & developer from Kerala. Portfolio of Nishal K (nishal21): NekoBeat, Otazumi, NMHelper & open source.`;
+  return `Nishal · AMV editor, music producer & developer from Kerala. Portfolio of Nishal K (nishal21): NekoBeat, Otazumi, NMHelper & open source.`;
 }
 
 export const SITE_KEYWORDS = [
@@ -98,5 +98,5 @@ export function defaultDescription() {
 }
 
 export function projectDescription(title: string, description: string) {
-  return `${title} by ${CREATOR_NAME} (${GITHUB_HANDLE}) — ${description} Official project page on nishal.dev.`;
+  return `${title} by ${CREATOR_NAME} (${GITHUB_HANDLE}): ${description} Official project page on nishal.dev.`;
 }

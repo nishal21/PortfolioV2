@@ -1,6 +1,6 @@
 # nishal.dev
 
-> Nishal — official portfolio of Nishal K (GitHub: nishal21). AMV editor, music producer, and full-stack developer from Kerala, India.
+> Nishal · official portfolio of Nishal K (GitHub: nishal21). AMV editor, music producer, and full-stack developer from Kerala, India.
 
 ## About
 

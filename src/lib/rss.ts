@@ -49,7 +49,7 @@ function projectItems(): RssItem[] {
 
     return {
       id: link,
-      title: `${project.title} — ${project.category}`,
+      title: `${project.title} · ${project.category}`,
       link,
       description: projectDescription(project.title, project.longDescription || project.description),
       pubDate,
@@ -76,7 +76,7 @@ function siteItems(): RssItem[] {
   const pages = [
     {
       path: '/projects',
-      title: 'Projects — open source & creative work',
+      title: 'Projects · open source & creative work',
       description: `All projects by ${CREATOR_NAME} (${GITHUB_HANDLE}) on nishal.dev.`,
       pubDate: new Date('2026-06-01T12:00:00+05:30'),
       category: 'Portfolio',
@@ -84,13 +84,13 @@ function siteItems(): RssItem[] {
     {
       path: '/about',
       title: 'About Nishal K',
-      description: `About ${CREATOR_NAME} — AMV editor, music producer, and developer from Kerala.`,
+      description: `About ${CREATOR_NAME}: AMV editor, music producer, and developer from Kerala.`,
       pubDate: new Date('2026-05-01T12:00:00+05:30'),
       category: 'Portfolio',
     },
     {
       path: '/profile',
-      title: 'Profile — Nishal K (nishal21)',
+      title: 'Profile · Nishal K (nishal21)',
       description: `Professional profile for ${CREATOR_NAME} (${GITHUB_HANDLE}).`,
       pubDate: new Date('2026-05-01T12:00:00+05:30'),
       category: 'Portfolio',

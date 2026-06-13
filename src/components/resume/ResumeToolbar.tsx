@@ -49,7 +49,7 @@ export default function ResumeToolbar({ active }: { active: ResumeProfileId }) {
         </label>
         <select
           id="resume-profile"
-          className="resume-profile-select cursor-hover"
+          className="resume-profile-select hit-target"
           value={active}
           onChange={(e) => setProfile(e.target.value as ResumeProfileId)}
         >
@@ -59,16 +59,16 @@ export default function ResumeToolbar({ active }: { active: ResumeProfileId }) {
             </option>
           ))}
         </select>
-        <button type="button" className="resume-toolbar-btn cursor-hover" onClick={printResume}>
+        <button type="button" className="resume-toolbar-btn hit-target" onClick={printResume}>
           <Printer className="h-4 w-4" aria-hidden />
           Print / Save PDF
         </button>
-        <button type="button" className="resume-toolbar-btn cursor-hover" onClick={copyShareLink}>
+        <button type="button" className="resume-toolbar-btn hit-target" onClick={copyShareLink}>
           <Copy className="h-4 w-4" aria-hidden />
           {copied ? 'Copied' : 'Copy share link'}
         </button>
         <a
-          className="resume-toolbar-btn resume-toolbar-btn--ghost cursor-hover"
+          className="resume-toolbar-btn resume-toolbar-btn--ghost hit-target"
           href={shareUrl}
           target="_blank"
           rel="noopener noreferrer"
