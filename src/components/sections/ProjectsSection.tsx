@@ -57,6 +57,12 @@ function ProjectModalActions({ project }: { project: Project }) {
     project.githubUrl
       ? { href: project.githubUrl, label: 'Repo', icon: Github, primary: false, external: true }
       : null,
+    project.huggingfaceUrl
+      ? { href: project.huggingfaceUrl, label: 'Hugging Face', icon: ExternalLink, primary: false, external: true }
+      : null,
+    project.ollamaUrl
+      ? { href: project.ollamaUrl, label: 'Ollama', icon: ExternalLink, primary: false, external: true }
+      : null,
     project.video
       ? { href: project.video, label: 'Watch', icon: Youtube, primary: false, external: true }
       : null,
@@ -176,6 +182,26 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
                     <li key={f}>{f}</li>
                   ))}
                 </ul>
+              ) : null}
+              {project.attributions && project.attributions.length > 0 ? (
+                <div className="studio-modal-stack">
+                  <p className="studio-meta">Credits</p>
+                  <ul className="studio-modal-features">
+                    {project.attributions.map((credit) => (
+                      <li key={credit.url}>
+                        <a
+                          href={credit.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[var(--studio-accent)] hover:underline"
+                        >
+                          {credit.name}
+                        </a>
+                        {credit.license ? ` (${credit.license})` : null}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ) : null}
               {project.tags.length > 0 ? (
                 <div className="studio-modal-tags">

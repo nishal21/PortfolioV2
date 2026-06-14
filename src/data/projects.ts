@@ -7,6 +7,8 @@ export interface Project {
   tags: string[];
   liveUrl: string | null;
   githubUrl: string | null;
+  huggingfaceUrl?: string | null;
+  ollamaUrl?: string | null;
   status?: 'live' | 'development';
   pinned?: boolean;
   color: string;
@@ -19,6 +21,12 @@ export interface Project {
   images: string[];
   mockup?: string;
   video?: string;
+  /** Third-party data or libraries this project depends on */
+  attributions?: {
+    name: string;
+    url: string;
+    license?: string;
+  }[];
 }
 
 export const projects: Project[] = [
@@ -70,6 +78,77 @@ export const projects: Project[] = [
       "/projects/neko-beat.svg"
     ],
     "pinned": true
+  },
+  {
+    "id": 15,
+    "title": "Geo Q&A",
+    "category": "Machine Learning · Python",
+    "status": "live",
+    "pinned": true,
+    "description": "Plain-English geography Q&A. Verified database and Wikidata first; fine-tuned GPT-2 only when lookup fails.",
+    "longDescription": "Ask about capitals, cities, countries, timezones, and currencies in plain English. Geo Q&A checks dr5hn's Countries States Cities Database and Wikidata (Wikimedia / Wikipedia) before touching a model, and tags answers as [verified database] or [wikidata]. The included GPT-2 was fine-tuned for under $2 on a rented Vast.ai GPU—it is a fallback, not the source of truth. Run python src/main.py for reliable facts; pull nishal21/geo-capital-llm from Hugging Face or Ollama only if you want the small model on its own.",
+    "tags": [
+      "Python",
+      "GPT-2",
+      "Hugging Face",
+      "Wikidata",
+      "Ollama"
+    ],
+    "lastUpdated": "2026-06-07",
+    "liveUrl": null,
+    "githubUrl": "https://github.com/nishal21/capital_llm_model",
+    "huggingfaceUrl": "https://huggingface.co/nishal21/geo-capital-llm",
+    "ollamaUrl": "https://ollama.com/nishal21/geo-capital-llm",
+    "color": "from-teal-400 to-emerald-500",
+    "bgColor": "from-teal-400/10 to-emerald-500/10",
+    "challenges": [
+      "No budget for larger models or scratch training",
+      "LLM-only answers are unreliable for geographic facts"
+    ],
+    "solutions": [
+      "Layered lookup: dataset → Wikidata → GPT-2 fallback",
+      "Honest output tags and --db mode to skip the model"
+    ],
+    "features": [
+      "150k+ cities via Countries States Cities Database (dr5hn)",
+      "Wikidata for capitals and official languages",
+      "GPT-2 fallback labeled [llm fallback]",
+      "Published as nishal21/geo-capital-llm on Hugging Face and Ollama",
+      "Database-only mode with --db"
+    ],
+    "attributions": [
+      {
+        "name": "Countries States Cities Database (dr5hn)",
+        "url": "https://github.com/dr5hn/countries-states-cities-database",
+        "license": "ODbL 1.0"
+      },
+      {
+        "name": "Wikidata (Wikimedia / Wikipedia)",
+        "url": "https://www.wikidata.org/",
+        "license": "CC0"
+      }
+    ],
+    "techStack": {
+      "languages": [
+        "Python"
+      ],
+      "models": [
+        "GPT-2",
+        "geo-capital-llm"
+      ],
+      "data": [
+        "dr5hn/countries-states-cities-database",
+        "Wikidata (Wikimedia)"
+      ],
+      "deployment": [
+        "Hugging Face",
+        "Ollama",
+        "Vast.ai"
+      ]
+    },
+    "images": [
+      "/projects/geo-q-a.svg"
+    ]
   },
   {
     "id": 11,

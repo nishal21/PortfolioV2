@@ -216,6 +216,7 @@ export const resumeExperience: ResumeExperience[] = [
     responsibilities: [
       'Put live web apps out under my name: NekoBeat, Otazumi, Publicolio, Musico, OtakuPulse, CarbonLint',
       'Built GitHub Stars Organizer, a Python CLI that sorts hundreds of starred repos into GitHub lists without a paid LLM',
+      'Shipped Geo Q&A (capital_llm_model): database-first geography Q&A with a GPT-2 fallback, published on Hugging Face and Ollama',
       'Grew Otazumi into anime streaming with auth, reviews, mail, and watch parties',
       'Made Publicolio so people can turn a GitHub profile into a portfolio link',
       'Started NekoDroid, a browser Android emulator with a Rust core compiled to Wasm',

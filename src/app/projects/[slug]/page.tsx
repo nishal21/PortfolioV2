@@ -141,6 +141,28 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <Github className="h-4 w-4" aria-hidden />
             </a>
           ) : null}
+          {project.huggingfaceUrl ? (
+            <a
+              href={project.huggingfaceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--studio-border)] px-5 py-2.5 text-sm font-medium text-[var(--text-soft)] transition hover:border-[var(--studio-accent)]"
+            >
+              Hugging Face
+              <ExternalLink className="h-4 w-4" aria-hidden />
+            </a>
+          ) : null}
+          {project.ollamaUrl ? (
+            <a
+              href={project.ollamaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--studio-border)] px-5 py-2.5 text-sm font-medium text-[var(--text-soft)] transition hover:border-[var(--studio-accent)]"
+            >
+              Ollama
+              <ExternalLink className="h-4 w-4" aria-hidden />
+            </a>
+          ) : null}
           <Link
             href="/#projects"
             className="inline-flex items-center gap-2 rounded-full border border-[var(--studio-border)] px-5 py-2.5 text-sm font-medium text-[var(--text-muted)] transition hover:border-[var(--studio-accent)]"
@@ -168,6 +190,27 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             ))}
           </ul>
         </section>
+
+        {project.attributions && project.attributions.length > 0 ? (
+          <section className="mt-8 max-w-3xl">
+            <h2 className="font-display text-xl font-semibold text-[var(--text-soft)]">Credits</h2>
+            <ul className="mt-3 list-disc space-y-2 pl-5 text-[var(--text-muted)]">
+              {project.attributions.map((credit) => (
+                <li key={credit.url}>
+                  <a
+                    href={credit.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[var(--studio-accent)] hover:underline"
+                  >
+                    {credit.name}
+                  </a>
+                  {credit.license ? ` — ${credit.license}` : null}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
         <section className="mt-8 max-w-3xl">
           <h2 className="font-display text-xl font-semibold text-[var(--text-soft)]">Tech stack</h2>

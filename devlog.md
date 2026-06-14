@@ -1,5 +1,15 @@
 ﻿# Devlog
 
+## 2026-06-07 — Geo Q&A project added
+
+- New entry in `src/data/projects.ts`: **Geo Q&A** (`capital_llm_model`), pinned, second in home reel
+- Links: GitHub, Hugging Face (`nishal21/geo-capital-llm`), Ollama — modal + `/projects/capital_llm_model`
+- Copy matches repo README: database/Wikidata first, GPT-2 fallback, honest about model limits
+- Credits: dr5hn/countries-states-cities-database (ODbL 1.0), Wikidata/Wikimedia (CC0) — modal + project page
+- Thumbnail: `public/projects/geo-q-a.svg`; resume bullet + `llms.txt` updated
+
+**Next:** deploy (`git pull`, `npm ci`, `npm run build`, `pm2 restart portfolio-v2`); verify project modal links on mobile
+
 ## 2026-06-07 — Hero skeleton while liquid glass loads
 
 - `titleReady` in `HeroContext`; `HeroGlassTitle` sets it when all letter masks finish (or plain fallback / no glass)

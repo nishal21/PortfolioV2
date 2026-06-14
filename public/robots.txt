@@ -94,6 +94,7 @@ Allow: /profile
 Allow: /projects
 Allow: /projects/argus
 Allow: /projects/askira
+Allow: /projects/capital_llm_model
 Allow: /projects/carbonlint
 Allow: /projects/extracto
 Allow: /projects/github-stars-organizer
