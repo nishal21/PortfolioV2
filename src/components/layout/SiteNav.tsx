@@ -168,7 +168,7 @@ export default function SiteNav() {
   return (
     <>
       <header className="ios-nav-header">
-        <div ref={desktopNav.navWrapRef} className="ios26-nav lg-demo-target" data-radius="999">
+        <div ref={desktopNav.navWrapRef} className="ios26-nav lg-demo-target" data-radius="999" data-lg-source="page-root">
           <nav ref={desktopNav.navInnerRef} className="ios26-nav-inner">
             <div ref={desktopNav.glowRef} className="nav-glow" aria-hidden="true" />
             <div ref={desktopNav.indicatorRef} className="tab-indicator" aria-hidden="true" />
@@ -188,7 +188,7 @@ export default function SiteNav() {
       </header>
 
       <nav className="ios-nav-dock" aria-label="Site navigation">
-        <div ref={mobileNav.navWrapRef} className="ios26-nav ios26-nav--mobile lg-demo-target" data-radius="999">
+        <div ref={mobileNav.navWrapRef} className="ios26-nav ios26-nav--mobile lg-demo-target" data-radius="999" data-lg-source="page-root">
           <div ref={mobileNav.navInnerRef} className="ios26-nav-inner ios26-nav-inner--mobile">
             <div ref={mobileNav.glowRef} className="nav-glow" aria-hidden="true" />
             <div ref={mobileNav.indicatorRef} className="tab-indicator tab-indicator--mobile" aria-hidden="true" />

@@ -88,6 +88,7 @@ export default function ScrollIntroSection() {
       className={`relative flex min-h-[100dvh] min-h-screen w-full flex-col justify-end overflow-hidden md:min-h-screen${titleReady ? ' hero-title-ready' : ' hero-title-loading'}`}
     >
       <div
+        id="hero-lg-backdrop"
         className="hero-media absolute inset-0 z-0"
         style={{
           backgroundColor: 'var(--ink)',

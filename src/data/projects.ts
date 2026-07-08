@@ -155,7 +155,6 @@ export const projects: Project[] = [
     "title": "RYTU",
     "category": "Productivity · Life OS",
     "status": "live",
-    "pinned": true,
     "description": "Habits, tasks, and planner in one tab. Data stays on your device—no signup.",
     "longDescription": "RYTU is a local-first life OS at rytu.nishal.dev: track habits and streaks, pin focus tasks, plan the week, and read momentum from one Today screen. Habits and tasks live in IndexedDB on your device—no RYTU cloud account, no ads. Optional AI uses your own Groq, OpenAI, Anthropic, or Hack Club AI key, encrypted with AES-GCM before storage. Install as a PWA or use in the browser; export JSON anytime from Settings. Published under NK Codex LLP. Source repo is private.",
     "tags": [

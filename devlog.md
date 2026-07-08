@@ -1,8 +1,27 @@
 ﻿# Devlog
 
+## 2026-07-08 — Firefox real liquid glass (filter + -moz-element)
+
+- Firefox cannot use `backdrop-filter: url(#svg)` — now uses **`filter: url(#svg)`** on a live `-moz-element()` background
+- Hero letters sample `#hero-lg-backdrop`; nav samples `#page-root` (SiteNav moved outside page-root)
+- Same SVG refraction maps as Chrome; scroll/resize sync for fixed nav
+- Vivaldi still on CSS blur fallback
+
+**Next:** deploy; test Firefox nav pill + Nishal title refraction
+
+## 2026-07-08 — Liquid glass: Firefox + Vivaldi fix
+
+- SVG `backdrop-filter: url(#filter)` only works in Chrome/Safari/Edge
+- **Firefox** + **Vivaldi** now use CSS blur/saturate fallback (`liquidGlassSupport.ts`)
+- `feImage` uses `xlink:href` + blob URLs for remaining SVG path (Chrome)
+- Hero letters use `buildTextFilter` in SVG mode; frosted-glass mask fallback elsewhere
+- Root class `lg-css-backdrop` / `lg-svg-backdrop` for targeted CSS
+
+**Next:** deploy; verify nav pill + Nishal title in Firefox and Vivaldi
+
 ## 2026-07-08 — RYTU + Handoff added (private repos)
 
-- **RYTU** (`rytu.nishal.dev`): local-first life OS — habits, tasks, planner, momentum, optional BYOK AI; `githubUrl: null`
+- **RYTU** (`rytu.nishal.dev`): local-first life OS — not pinned; thumbnail `public/projects/rytu.svg` (momentum + habits mock)
 - **Handoff** (`send.nishal.dev`): browser P2P file and text sharing; `githubUrl: null`
 - Portfolio pages: `/projects/rytu`, `/projects/handoff`; thumbnails + `llms.txt` + resume bullet
 - Both pinned on home reel; Live link only (no GitHub button)

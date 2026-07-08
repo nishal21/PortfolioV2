@@ -1022,6 +1022,45 @@ body.studio-modal-open .ios-nav-dock {
   border-radius: inherit;
 }
 
+/* Firefox: SVG filter on -moz-element() backdrop clone */
+html.lg-filter-fx .lg-filter-fx .lg-refr {
+  background-repeat: no-repeat;
+  background-color: transparent;
+}
+
+html.lg-filter-fx .ios26-nav.lg-filter-fx .lg-tint {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+html.lg-filter-fx .hero-letter-host--masked.lg-filter-fx .lg-refr {
+  background-color: transparent;
+}
+
+html.lg-filter-fx .tab-indicator.lg-filter-fx .lg-tint {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Vivaldi / legacy: CSS blur backdrop instead of SVG url(#filter) */
+html.lg-css-backdrop .lg-css-fallback .lg-refr {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+html.lg-css-backdrop .ios26-nav.lg-css-fallback .lg-tint {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.lg-css-backdrop .hero-letter-host--masked.lg-css-fallback .lg-refr {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+html.lg-css-backdrop .hero-letter-host--masked .hero-glass-glyphs {
+  -webkit-text-stroke: 0.65px rgba(255, 255, 255, 0.58);
+}
+
+html.lg-css-backdrop .tab-indicator.lg-css-fallback .lg-tint {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
 /* Mobile bottom dock — floating liquid glass pill + action button */
 .ios-nav-dock {
   display: flex;

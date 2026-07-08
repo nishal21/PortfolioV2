@@ -1,4 +1,12 @@
 import type { LiquidGlassConfig } from './liquidGlassConfig';
+import {
+  type FilterFxBinding,
+  registerFilterFx,
+  resolveBackdropSourceId,
+  syncFilterFxBinding,
+  unregisterFilterFx,
+} from './liquidGlassFilterFx';
+import { cssBackdropGlass, getGlassRenderMode } from './liquidGlassSupport';
 import { heavyEffectsEnabled } from './performance';
 
 type ConfigGetter = () => LiquidGlassConfig;
@@ -6,10 +14,12 @@ type ConfigGetter = () => LiquidGlassConfig;
 interface GlassInstance {
   rebuild: () => void;
   destroy: () => void;
+  filterFx?: FilterFxBinding;
 }
 
 const targets = new Map<HTMLElement, GlassInstance>();
 let defs: SVGDefsElement | null = null;
+let buildingBlobUrls: string[] | null = null;
 
 function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
@@ -144,8 +154,31 @@ function generateSpecularMap(w: number, h: number, radius: number, bezelWidth: n
 
 function svgEl(tag: string, attrs: Record<string, string>) {
   const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
-  Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+  Object.entries(attrs).forEach(([k, v]) => {
+    if (k === 'href') {
+      el.setAttributeNS('http://www.w3.org/1999/xlink', 'href', v);
+      el.setAttribute('href', v);
+    } else {
+      el.setAttribute(k, v);
+    }
+  });
   return el;
+}
+
+function dataUrlToBlobUrl(dataUrl: string): string {
+  const [header, payload] = dataUrl.split(',');
+  if (!payload) return dataUrl;
+  const mime = header.match(/:(.*?);/)?.[1] ?? 'image/png';
+  const binary = atob(payload);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+  return URL.createObjectURL(new Blob([bytes], { type: mime }));
+}
+
+function feImageAttrs(url: string, w: number, h: number, result: string) {
+  const src = url.startsWith('data:') ? dataUrlToBlobUrl(url) : url;
+  if (src.startsWith('blob:') && buildingBlobUrls) buildingBlobUrls.push(src);
+  return { href: src, x: '0', y: '0', width: String(w), height: String(h), result };
 }
 
 function ensureDefs() {
@@ -257,7 +290,7 @@ function buildTextFilter(id: string, w: number, h: number, cfg: LiquidGlassConfi
   });
 
   const blur = svgEl('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: String(cfg.blur), result: 'blurred' });
-  const dispImg = svgEl('feImage', { href: dispUrl, x: '0', y: '0', width: String(w), height: String(h), result: 'disp_map' });
+  const dispImg = svgEl('feImage', feImageAttrs(dispUrl, w, h, 'disp_map'));
   const dispMap = svgEl('feDisplacementMap', {
     in: 'blurred',
     in2: 'disp_map',
@@ -287,7 +320,7 @@ function buildTextFilter(id: string, w: number, h: number, cfg: LiquidGlassConfi
     values: String(cfg.specularSat),
     result: 'wavy_sat',
   });
-  const spec = svgEl('feImage', { href: specUrl, x: '0', y: '0', width: String(w), height: String(h), result: 'spec_layer' });
+  const spec = svgEl('feImage', feImageAttrs(specUrl, w, h, 'spec_layer'));
   const comp = svgEl('feComposite', { in: 'wavy_sat', in2: 'spec_layer', operator: 'in', result: 'spec_masked' });
   const tr = svgEl('feComponentTransfer', { in: 'spec_layer', result: 'spec_faded' });
   tr.appendChild(svgEl('feFuncA', { type: 'linear', slope: String(cfg.specularOpacity) }));
@@ -323,7 +356,7 @@ function buildFilter(id: string, w: number, h: number, radius: number, cfg: Liqu
   });
 
   const blur = svgEl('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: String(cfg.blur), result: 'blurred' });
-  const dispImg = svgEl('feImage', { href: dispUrl, x: '0', y: '0', width: String(w), height: String(h), result: 'disp_map' });
+  const dispImg = svgEl('feImage', feImageAttrs(dispUrl, w, h, 'disp_map'));
   const dispMap = svgEl('feDisplacementMap', {
     in: 'blurred',
     in2: 'disp_map',
@@ -338,7 +371,7 @@ function buildFilter(id: string, w: number, h: number, radius: number, cfg: Liqu
     values: String(cfg.specularSat),
     result: 'displaced_sat',
   });
-  const spec = svgEl('feImage', { href: specUrl, x: '0', y: '0', width: String(w), height: String(h), result: 'spec_layer' });
+  const spec = svgEl('feImage', feImageAttrs(specUrl, w, h, 'spec_layer'));
   const comp = svgEl('feComposite', { in: 'displaced_sat', in2: 'spec_layer', operator: 'in', result: 'spec_masked' });
   const tr = svgEl('feComponentTransfer', { in: 'spec_layer', result: 'spec_faded' });
   tr.appendChild(svgEl('feFuncA', { type: 'linear', slope: String(cfg.specularOpacity) }));
@@ -363,7 +396,14 @@ function applyGlass(el: HTMLElement, cfgGetter: ConfigGetter) {
   el.insertBefore(refr, el.firstChild);
 
   let filterNode: Element | null = null;
+  let filterFx: FilterFxBinding | undefined;
   let timer: ReturnType<typeof setTimeout> | null = null;
+  const blobUrls: string[] = [];
+
+  const revokeBlobs = () => {
+    blobUrls.forEach((url) => URL.revokeObjectURL(url));
+    blobUrls.length = 0;
+  };
 
   const elevate = () => {
     Array.from(el.children).forEach((c) => {
@@ -376,29 +416,97 @@ function applyGlass(el: HTMLElement, cfgGetter: ConfigGetter) {
   };
 
   const rebuild = () => {
-    ensureDefs();
-    if (!defs) return;
     const rect = el.getBoundingClientRect();
     const w = Math.round(el.offsetWidth || rect.width);
     const h = Math.round(el.offsetHeight || rect.height);
     if (w < 4 || h < 4) return;
+
     const glassMode = el.dataset.glassMode ?? '';
     const isLetter = glassMode === 'letter';
     const dataR = parseFloat(el.getAttribute('data-radius') || '0');
     const cssR = parseFloat(getComputedStyle(el).borderTopLeftRadius || '0');
     const r = Math.max(2, Math.min(dataR || cssR || 24, w / 2, h / 2));
-    filterNode?.remove();
     const cfg = cfgGetter();
-    const id = `portfolio-lg-${Math.random().toString(36).slice(2, 10)}`;
-    filterNode = buildFilter(id, w, h, r, cfg);
-    defs.appendChild(filterNode);
+
+    revokeBlobs();
+    filterNode?.remove();
+    filterNode = null;
+
     refr.style.borderRadius = `${r}px`;
-    refr.style.backdropFilter = `url(#${id})`;
-    refr.style.setProperty('-webkit-backdrop-filter', `url(#${id})`);
     tint.style.borderRadius = `${r}px`;
-    tint.style.display = isLetter ? 'none' : 'block';
-    tint.style.backgroundColor = `rgba(${cfg.tintColor},${cfg.tintOpacity})`;
-    tint.style.boxShadow = `inset 0 0 ${cfg.innerShadowBlur}px ${cfg.innerShadowSpread}px ${cfg.innerShadow}`;
+
+    const mode = getGlassRenderMode();
+    const useBackdropSvg = mode === 'backdrop-svg';
+    const useFilterSvg = mode === 'filter-svg';
+
+    tint.style.display = useBackdropSvg && isLetter ? 'none' : 'block';
+
+    if (useBackdropSvg || useFilterSvg) {
+      el.classList.remove('lg-css-fallback');
+      if (useFilterSvg) el.classList.add('lg-filter-fx');
+      else el.classList.remove('lg-filter-fx');
+
+      ensureDefs();
+      if (!defs) return;
+      const id = `portfolio-lg-${Math.random().toString(36).slice(2, 10)}`;
+      buildingBlobUrls = blobUrls;
+      filterNode = isLetter ? buildTextFilter(id, w, h, cfg) : buildFilter(id, w, h, r, cfg);
+      buildingBlobUrls = null;
+      defs.appendChild(filterNode);
+      const filterRef = `url(#${id})`;
+
+      if (useBackdropSvg) {
+        refr.style.filter = 'none';
+        refr.style.backdropFilter = filterRef;
+        refr.style.setProperty('-webkit-backdrop-filter', filterRef);
+        refr.style.removeProperty('background-image');
+        refr.style.removeProperty('background-size');
+        refr.style.removeProperty('background-position');
+        if (filterFx) {
+          unregisterFilterFx(filterFx);
+          filterFx = undefined;
+        }
+      } else {
+        refr.style.backdropFilter = 'none';
+        refr.style.removeProperty('-webkit-backdrop-filter');
+        refr.style.filter = filterRef;
+
+        const sourceId = resolveBackdropSourceId(el);
+        const binding: FilterFxBinding = {
+          refr,
+          host: el,
+          sourceId,
+          scrollSync: sourceId === 'page-root',
+        };
+        if (filterFx) unregisterFilterFx(filterFx);
+        filterFx = binding;
+        registerFilterFx(binding);
+        syncFilterFxBinding(binding);
+      }
+
+      tint.style.backgroundColor = `rgba(${cfg.tintColor},${cfg.tintOpacity})`;
+      tint.style.boxShadow = `inset 0 0 ${cfg.innerShadowBlur}px ${cfg.innerShadowSpread}px ${cfg.innerShadow}`;
+    } else {
+      el.classList.add('lg-css-fallback');
+      el.classList.remove('lg-filter-fx');
+      if (filterFx) {
+        unregisterFilterFx(filterFx);
+        filterFx = undefined;
+      }
+      refr.style.filter = 'none';
+      refr.style.removeProperty('background-image');
+      refr.style.removeProperty('background-size');
+      refr.style.removeProperty('background-position');
+      const isTab = el.classList.contains('tab-indicator');
+      const blurPx = isLetter ? 5 : isTab ? 10 : 14;
+      const backdrop = cssBackdropGlass(blurPx, isLetter);
+      refr.style.backdropFilter = backdrop;
+      refr.style.setProperty('-webkit-backdrop-filter', backdrop);
+      const tintOpacity = isLetter ? 0.05 : Math.max(cfg.tintOpacity, isTab ? 0.1 : 0.08);
+      tint.style.backgroundColor = `rgba(${cfg.tintColor},${tintOpacity})`;
+      tint.style.boxShadow = `inset 0 0 ${cfg.innerShadowBlur}px ${cfg.innerShadowSpread}px ${cfg.innerShadow}, inset 0 1px 0 rgba(255,255,255,0.14)`;
+    }
+
     el.dispatchEvent(new CustomEvent('lg-rebuilt', { bubbles: false }));
     elevate();
   };
@@ -416,8 +524,11 @@ function applyGlass(el: HTMLElement, cfgGetter: ConfigGetter) {
       if (timer) clearTimeout(timer);
       ro.disconnect();
       filterNode?.remove();
+      revokeBlobs();
+      if (filterFx) unregisterFilterFx(filterFx);
       refr.remove();
       tint.remove();
+      el.classList.remove('lg-css-fallback', 'lg-filter-fx');
     },
   });
   rebuild();
