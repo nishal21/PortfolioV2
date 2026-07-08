@@ -1,5 +1,14 @@
 ﻿# Devlog
 
+## 2026-07-08 — RYTU + Handoff added (private repos)
+
+- **RYTU** (`rytu.nishal.dev`): local-first life OS — habits, tasks, planner, momentum, optional BYOK AI; `githubUrl: null`
+- **Handoff** (`send.nishal.dev`): browser P2P file and text sharing; `githubUrl: null`
+- Portfolio pages: `/projects/rytu`, `/projects/handoff`; thumbnails + `llms.txt` + resume bullet
+- Both pinned on home reel; Live link only (no GitHub button)
+
+**Next:** deploy and confirm project modals show Live but not Repo
+
 ## 2026-06-07 — Geo Q&A project added
 
 - New entry in `src/data/projects.ts`: **Geo Q&A** (`capital_llm_model`), pinned, second in home reel
