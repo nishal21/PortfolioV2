@@ -151,60 +151,6 @@ export const projects: Project[] = [
     ]
   },
   {
-    "id": 16,
-    "title": "RYTU",
-    "category": "Productivity · Life OS",
-    "status": "live",
-    "description": "Habits, tasks, and planner in one tab. Data stays on your device—no signup.",
-    "longDescription": "RYTU is a local-first life OS at rytu.nishal.dev: track habits and streaks, pin focus tasks, plan the week, and read momentum from one Today screen. Habits and tasks live in IndexedDB on your device—no RYTU cloud account, no ads. Optional AI uses your own Groq, OpenAI, Anthropic, or Hack Club AI key, encrypted with AES-GCM before storage. Install as a PWA or use in the browser; export JSON anytime from Settings. Published under NK Codex LLP. Source repo is private.",
-    "tags": [
-      "TypeScript",
-      "PWA",
-      "IndexedDB",
-      "Dexie"
-    ],
-    "lastUpdated": "2026-07-03",
-    "liveUrl": "https://rytu.nishal.dev/",
-    "githubUrl": null,
-    "color": "from-violet-400 to-purple-500",
-    "bgColor": "from-violet-400/10 to-purple-500/10",
-    "challenges": [
-      "Habits, tasks, and calendar usually split across apps",
-      "Users who refuse another cloud signup flow"
-    ],
-    "solutions": [
-      "Single Today view with habits, focus tasks, and momentum",
-      "Local-first Dexie/IndexedDB storage with JSON export"
-    ],
-    "features": [
-      "Habits, streaks, and momentum score",
-      "Tasks with up to three pinned focus items",
-      "Planner, routines, and weekly calendar",
-      "Optional BYOK AI (keys encrypted at rest)",
-      "Works offline; installable PWA",
-      "No account, no ads, no RYTU cloud backend"
-    ],
-    "techStack": {
-      "languages": [
-        "TypeScript"
-      ],
-      "storage": [
-        "IndexedDB",
-        "Dexie"
-      ],
-      "platform": [
-        "PWA",
-        "Android"
-      ],
-      "deployment": [
-        "rytu.nishal.dev"
-      ]
-    },
-    "images": [
-      "/projects/rytu.svg"
-    ]
-  },
-  {
     "id": 17,
     "title": "Handoff",
     "category": "Developer Tools · P2P",
@@ -809,6 +755,60 @@ export const projects: Project[] = [
       "/projects/veyra.svg"
     ],
     "pinned": false
+  },
+  {
+    "id": 16,
+    "title": "RYTU",
+    "category": "Productivity · Life OS",
+    "status": "live",
+    "description": "Habits, tasks, and planner in one tab. Data stays on your device—no signup.",
+    "longDescription": "RYTU is a local-first life OS at rytu.nishal.dev: track habits and streaks, pin focus tasks, plan the week, and read momentum from one Today screen. Habits and tasks live in IndexedDB on your device—no RYTU cloud account, no ads. Optional AI uses your own Groq, OpenAI, Anthropic, or Hack Club AI key, encrypted with AES-GCM before storage. Install as a PWA or use in the browser; export JSON anytime from Settings. Published under NK Codex LLP. Source repo is private.",
+    "tags": [
+      "TypeScript",
+      "PWA",
+      "IndexedDB",
+      "Dexie"
+    ],
+    "lastUpdated": "2026-07-03",
+    "liveUrl": "https://rytu.nishal.dev/",
+    "githubUrl": null,
+    "color": "from-violet-400 to-purple-500",
+    "bgColor": "from-violet-400/10 to-purple-500/10",
+    "challenges": [
+      "Habits, tasks, and calendar usually split across apps",
+      "Users who refuse another cloud signup flow"
+    ],
+    "solutions": [
+      "Single Today view with habits, focus tasks, and momentum",
+      "Local-first Dexie/IndexedDB storage with JSON export"
+    ],
+    "features": [
+      "Habits, streaks, and momentum score",
+      "Tasks with up to three pinned focus items",
+      "Planner, routines, and weekly calendar",
+      "Optional BYOK AI (keys encrypted at rest)",
+      "Works offline; installable PWA",
+      "No account, no ads, no RYTU cloud backend"
+    ],
+    "techStack": {
+      "languages": [
+        "TypeScript"
+      ],
+      "storage": [
+        "IndexedDB",
+        "Dexie"
+      ],
+      "platform": [
+        "PWA",
+        "Android"
+      ],
+      "deployment": [
+        "rytu.nishal.dev"
+      ]
+    },
+    "images": [
+      "/projects/rytu.svg"
+    ]
   },
   {
     "id": 12,

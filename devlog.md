@@ -21,7 +21,7 @@
 
 ## 2026-07-08 — RYTU + Handoff added (private repos)
 
-- **RYTU** (`rytu.nishal.dev`): local-first life OS — not pinned; thumbnail `public/projects/rytu.svg` (momentum + habits mock)
+- RYTU moved to end of projects array (unpinned — not in home reel top row); fixed broken `rytu.svg`
 - **Handoff** (`send.nishal.dev`): browser P2P file and text sharing; `githubUrl: null`
 - Portfolio pages: `/projects/rytu`, `/projects/handoff`; thumbnails + `llms.txt` + resume bullet
 - Both pinned on home reel; Live link only (no GitHub button)
