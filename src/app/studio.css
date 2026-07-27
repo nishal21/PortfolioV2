@@ -3,7 +3,12 @@
 .studio-stage {
   position: relative;
   background: var(--studio-bg);
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  /* Static grain — no live SVG feTurbulence (same vibe, cheaper paint) */
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.028) 0.65px, transparent 0.7px),
+    radial-gradient(rgba(255, 255, 255, 0.018) 0.5px, transparent 0.55px);
+  background-size: 3px 3px, 5px 5px;
+  background-position: 0 0, 1px 2px;
 }
 
 .studio-section {

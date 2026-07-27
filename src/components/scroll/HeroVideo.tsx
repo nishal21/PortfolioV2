@@ -71,8 +71,20 @@ export default function HeroVideo({
       onProgress?.(video.currentTime / video.duration);
     };
 
-    video.addEventListener('timeupdate', syncProgress);
-    return () => video.removeEventListener('timeupdate', syncProgress);
+    let progressRaf = 0;
+    const onTimeUpdate = () => {
+      if (progressRaf) return;
+      progressRaf = requestAnimationFrame(() => {
+        progressRaf = 0;
+        syncProgress();
+      });
+    };
+
+    video.addEventListener('timeupdate', onTimeUpdate);
+    return () => {
+      video.removeEventListener('timeupdate', onTimeUpdate);
+      if (progressRaf) cancelAnimationFrame(progressRaf);
+    };
   }, [onProgress]);
 
   useEffect(() => {

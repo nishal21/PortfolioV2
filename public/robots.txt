@@ -98,6 +98,7 @@ Allow: /projects/capital_llm_model
 Allow: /projects/carbonlint
 Allow: /projects/extracto
 Allow: /projects/github-stars-organizer
+Allow: /projects/handoff
 Allow: /projects/musico
 Allow: /projects/nekobeat
 Allow: /projects/nekodroid
@@ -105,6 +106,8 @@ Allow: /projects/nmhelper
 Allow: /projects/otakupulse
 Allow: /projects/otazumi-auth
 Allow: /projects/publicolio
+Allow: /projects/rytu
+Allow: /projects/santra
 Allow: /projects/sigil-extractor
 Allow: /projects/veyra
 Allow: /resume

@@ -86,7 +86,7 @@ export function paintGlyphMask(
       return;
     }
 
-    const dpr = Math.min(window.devicePixelRatio || 1, isAndroid() ? 2.5 : 1.5);
+    const dpr = Math.min(window.devicePixelRatio || 1, isAndroid() ? 2.5 : 2);
     const canvas = document.createElement('canvas');
     canvas.width = Math.ceil(w * dpr);
     canvas.height = Math.ceil(h * dpr);
@@ -98,7 +98,12 @@ export function paintGlyphMask(
     }
 
     ctx.scale(dpr, dpr);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    // Soften glyph silhouette slightly so mask edges aren't stair-stepped
+    ctx.filter = 'blur(0.35px)';
     paintTextToCanvas(ctx, glyphEl, w, h);
+    ctx.filter = 'none';
 
     const finish = (url: string) => {
       applyMaskToLayers(host, url, w, h);

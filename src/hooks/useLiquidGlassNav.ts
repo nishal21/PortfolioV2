@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { enableNavLiquidGlass, removeLiquidGlass, rebuildNavLiquidGlass } from '@/lib/liquidGlass';
-import { NAV_GLASS_CONFIG, TAB_GLASS_CONFIG } from '@/lib/liquidGlassConfig';
+import { NAV_GLASS_CONFIG } from '@/lib/liquidGlassConfig';
 
 function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
@@ -57,7 +57,7 @@ export function useLiquidGlassNav(
       return;
     }
 
-    indicator.style.transition = `left ${durationSec}s ${SLIDE_EASE}, width ${durationSec}s ${SLIDE_EASE}, transform 0.32s ${SLIDE_EASE}, background-color 0.28s ease`;
+    indicator.style.transition = `left ${durationSec}s ${SLIDE_EASE}, width ${durationSec}s ${SLIDE_EASE}, background-color 0.28s ease`;
     indicator.style.left = `${left}px`;
     indicator.style.width = `${width}px`;
   }, []);
@@ -178,10 +178,6 @@ export function useLiquidGlassNav(
       nav.style.setProperty('--ga', String(alpha));
     };
 
-    const queueGlassRebuild = () => {
-      requestAnimationFrame(() => rebuildNavLiquidGlass());
-    };
-
     const positionIndicatorAt = (clientX: number) => {
       const localX = toLocalX(clientX);
       const w = pressWidth;
@@ -199,11 +195,11 @@ export function useLiquidGlassNav(
       /* capture optional */
     }
 
+    // CSS-only pill while dragging — SVG liquid glass on a moving indicator
+    // samples sibling labels via backdrop-filter and shears/ghosts text.
     indicator.classList.add('interacting');
     navWrap.classList.add('engaged');
     setGlow(e.clientX, e.clientY, 0.24);
-    enableNavLiquidGlass(indicator, () => TAB_GLASS_CONFIG);
-    queueGlassRebuild();
 
     const onMove = (ev: PointerEvent) => {
       if (ev.pointerId !== pointerId) return;
@@ -216,7 +212,6 @@ export function useLiquidGlassNav(
       if (dragMode) {
         setGlow(ev.clientX, ev.clientY, 0.18);
         positionIndicatorAt(ev.clientX);
-        queueGlassRebuild();
       } else {
         setGlow(ev.clientX, ev.clientY, 0.22);
       }
@@ -239,7 +234,6 @@ export function useLiquidGlassNav(
         indicator.classList.remove('interacting');
         navWrap.classList.remove('engaged');
         nav.style.setProperty('--ga', '0');
-        removeLiquidGlass(indicator);
       }, 380);
     };
 
@@ -250,7 +244,7 @@ export function useLiquidGlassNav(
         snapToIndex(targetIndex, true, slideDurationSec(tabDelta));
         prevAnimatedIndexRef.current = targetIndex;
         onSelect?.(targetIndex);
-        setTimeout(queueGlassRebuild, 400);
+        setTimeout(() => rebuildNavLiquidGlass(), 400);
       } else {
         snapToIndex(activeIndexRef.current, false);
       }

@@ -275,21 +275,32 @@ function buildTextFilter(id: string, w: number, h: number, cfg: LiquidGlassConfi
   const profile = calcRefractionProfile(cfg.glassThickness, bezel, cfg.ior, 128);
   const maxDisp = Math.max(...Array.from(profile).map(Math.abs)) || 1;
   const dispUrl = generateEdgeDisplacementMap(w, h, bezel, profile, maxDisp);
-  const specUrl = generateEdgeSpecularMap(w, h, bezel * 1.8, cfg.balancedSpecular);
   const scale = maxDisp * cfg.scaleRatio;
+  // Pad filter region so edge refraction isn't clipped into jagged slices
+  const pad = Math.max(8, Math.ceil(scale * 0.35));
+  const fx = -pad;
+  const fy = -pad;
+  const fw = w + pad * 2;
+  const fh = h + pad * 2;
 
   const filter = svgEl('filter', {
     id,
-    x: '0',
-    y: '0',
-    width: String(w),
-    height: String(h),
+    x: String(fx),
+    y: String(fy),
+    width: String(fw),
+    height: String(fh),
     filterUnits: 'userSpaceOnUse',
     primitiveUnits: 'userSpaceOnUse',
     'color-interpolation-filters': 'sRGB',
   });
 
-  const blur = svgEl('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: String(cfg.blur), result: 'blurred' });
+  // Clear glass only: blur + edge refraction. Never desaturate the backdrop
+  // (specularSat:0 used to grey-wash the letters after the filter mounted).
+  const blur = svgEl('feGaussianBlur', {
+    in: 'SourceGraphic',
+    stdDeviation: String(Math.max(0.4, cfg.blur)),
+    result: 'blurred',
+  });
   const dispImg = svgEl('feImage', feImageAttrs(dispUrl, w, h, 'disp_map'));
   const dispMap = svgEl('feDisplacementMap', {
     in: 'blurred',
@@ -299,35 +310,30 @@ function buildTextFilter(id: string, w: number, h: number, cfg: LiquidGlassConfi
     yChannelSelector: 'G',
     result: 'displaced',
   });
-  const turb = svgEl('feTurbulence', {
-    type: 'fractalNoise',
-    baseFrequency: '0.011',
-    numOctaves: '2',
-    seed: '4',
-    result: 'turb',
-  });
-  const turbDisp = svgEl('feDisplacementMap', {
+  const polish = svgEl('feGaussianBlur', {
     in: 'displaced',
-    in2: 'turb',
-    scale: '7',
-    xChannelSelector: 'R',
-    yChannelSelector: 'G',
-    result: 'wavy',
+    stdDeviation: '0.35',
+    result: 'polished',
   });
-  const sat = svgEl('feColorMatrix', {
-    in: 'wavy',
-    type: 'saturate',
-    values: String(cfg.specularSat),
-    result: 'wavy_sat',
-  });
-  const spec = svgEl('feImage', feImageAttrs(specUrl, w, h, 'spec_layer'));
-  const comp = svgEl('feComposite', { in: 'wavy_sat', in2: 'spec_layer', operator: 'in', result: 'spec_masked' });
-  const tr = svgEl('feComponentTransfer', { in: 'spec_layer', result: 'spec_faded' });
-  tr.appendChild(svgEl('feFuncA', { type: 'linear', slope: String(cfg.specularOpacity) }));
-  const b1 = svgEl('feBlend', { in: 'spec_masked', in2: 'wavy_sat', mode: 'normal', result: 'with_sat' });
-  const b2 = svgEl('feBlend', { in: 'spec_faded', in2: 'with_sat', mode: 'normal' });
 
-  filter.append(blur, dispImg, dispMap, turb, turbDisp, sat, spec, comp, tr, b1, b2);
+  // Keep color; optional light edge highlight only (screen, not a dark wash)
+  if (cfg.specularOpacity > 0.01) {
+    const specUrl = generateEdgeSpecularMap(w, h, bezel * 1.4, true);
+    const spec = svgEl('feImage', feImageAttrs(specUrl, w, h, 'spec_layer'));
+    const tr = svgEl('feComponentTransfer', { in: 'spec_layer', result: 'spec_faded' });
+    tr.appendChild(
+      svgEl('feFuncA', { type: 'linear', slope: String(Math.min(cfg.specularOpacity, 0.22)) })
+    );
+    const edge = svgEl('feBlend', {
+      in: 'spec_faded',
+      in2: 'polished',
+      mode: 'screen',
+    });
+    filter.append(blur, dispImg, dispMap, polish, spec, tr, edge);
+  } else {
+    filter.append(blur, dispImg, dispMap, polish);
+  }
+
   return filter;
 }
 
@@ -399,6 +405,7 @@ function applyGlass(el: HTMLElement, cfgGetter: ConfigGetter) {
   let filterFx: FilterFxBinding | undefined;
   let timer: ReturnType<typeof setTimeout> | null = null;
   const blobUrls: string[] = [];
+  let lastRebuildKey = '';
 
   const revokeBlobs = () => {
     blobUrls.forEach((url) => URL.revokeObjectURL(url));
@@ -427,6 +434,19 @@ function applyGlass(el: HTMLElement, cfgGetter: ConfigGetter) {
     const cssR = parseFloat(getComputedStyle(el).borderTopLeftRadius || '0');
     const r = Math.max(2, Math.min(dataR || cssR || 24, w / 2, h / 2));
     const cfg = cfgGetter();
+    const mode = getGlassRenderMode();
+    const rebuildKey = `${w}x${h}x${r}|${glassMode}|${mode}|${cfg.blur}|${cfg.scaleRatio}|${cfg.glassThickness}|${cfg.specularSat}|${cfg.specularOpacity}|${cfg.tintOpacity}`;
+    if (rebuildKey === lastRebuildKey && filterNode && document.documentElement.contains(filterNode)) {
+      if (mode === 'filter-svg' && filterFx) syncFilterFxBinding(filterFx);
+      if (isLetter) {
+        tint.style.display = 'none';
+        tint.style.backgroundColor = 'transparent';
+        tint.style.boxShadow = 'none';
+        refr.style.backgroundColor = 'transparent';
+      }
+      return;
+    }
+    lastRebuildKey = rebuildKey;
 
     revokeBlobs();
     filterNode?.remove();
@@ -435,11 +455,17 @@ function applyGlass(el: HTMLElement, cfgGetter: ConfigGetter) {
     refr.style.borderRadius = `${r}px`;
     tint.style.borderRadius = `${r}px`;
 
-    const mode = getGlassRenderMode();
     const useBackdropSvg = mode === 'backdrop-svg';
     const useFilterSvg = mode === 'filter-svg';
 
-    tint.style.display = useBackdropSvg && isLetter ? 'none' : 'block';
+    // Hero letters: refraction only — no tint wash (reads as muddy/smoked glass)
+    if (isLetter) {
+      tint.style.display = 'none';
+      tint.style.backgroundColor = 'transparent';
+      tint.style.boxShadow = 'none';
+    } else {
+      tint.style.display = 'block';
+    }
 
     if (useBackdropSvg || useFilterSvg) {
       el.classList.remove('lg-css-fallback');
@@ -484,8 +510,10 @@ function applyGlass(el: HTMLElement, cfgGetter: ConfigGetter) {
         syncFilterFxBinding(binding);
       }
 
-      tint.style.backgroundColor = `rgba(${cfg.tintColor},${cfg.tintOpacity})`;
-      tint.style.boxShadow = `inset 0 0 ${cfg.innerShadowBlur}px ${cfg.innerShadowSpread}px ${cfg.innerShadow}`;
+      if (!isLetter) {
+        tint.style.backgroundColor = `rgba(${cfg.tintColor},${cfg.tintOpacity})`;
+        tint.style.boxShadow = `inset 0 0 ${cfg.innerShadowBlur}px ${cfg.innerShadowSpread}px ${cfg.innerShadow}`;
+      }
     } else {
       el.classList.add('lg-css-fallback');
       el.classList.remove('lg-filter-fx');
@@ -498,13 +526,20 @@ function applyGlass(el: HTMLElement, cfgGetter: ConfigGetter) {
       refr.style.removeProperty('background-size');
       refr.style.removeProperty('background-position');
       const isTab = el.classList.contains('tab-indicator');
-      const blurPx = isLetter ? 5 : isTab ? 10 : 14;
+      const blurPx = isLetter ? 6 : isTab ? 10 : 14;
       const backdrop = cssBackdropGlass(blurPx, isLetter);
       refr.style.backdropFilter = backdrop;
       refr.style.setProperty('-webkit-backdrop-filter', backdrop);
-      const tintOpacity = isLetter ? 0.05 : Math.max(cfg.tintOpacity, isTab ? 0.1 : 0.08);
-      tint.style.backgroundColor = `rgba(${cfg.tintColor},${tintOpacity})`;
-      tint.style.boxShadow = `inset 0 0 ${cfg.innerShadowBlur}px ${cfg.innerShadowSpread}px ${cfg.innerShadow}, inset 0 1px 0 rgba(255,255,255,0.14)`;
+      if (isLetter) {
+        refr.style.backgroundColor = 'transparent';
+        tint.style.display = 'none';
+        tint.style.backgroundColor = 'transparent';
+        tint.style.boxShadow = 'none';
+      } else {
+        const tintOpacity = Math.max(cfg.tintOpacity, isTab ? 0.1 : 0.08);
+        tint.style.backgroundColor = `rgba(${cfg.tintColor},${tintOpacity})`;
+        tint.style.boxShadow = `inset 0 0 ${cfg.innerShadowBlur}px ${cfg.innerShadowSpread}px ${cfg.innerShadow}, inset 0 1px 0 rgba(255,255,255,0.14)`;
+      }
     }
 
     el.dispatchEvent(new CustomEvent('lg-rebuilt', { bubbles: false }));

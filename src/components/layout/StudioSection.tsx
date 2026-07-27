@@ -32,7 +32,7 @@ export default function StudioSection({
     >
       <motion.header
         className="studio-section-header"
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={defaultTransition}
       >
@@ -42,9 +42,9 @@ export default function StudioSection({
       </motion.header>
       <motion.div
         className="studio-body"
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ ...defaultTransition, delay: 0.06 }}
+        transition={{ ...defaultTransition, delay: 0.05 }}
       >
         {children}
       </motion.div>

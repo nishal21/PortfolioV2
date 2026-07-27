@@ -2,25 +2,50 @@ export type GlassRenderMode = 'backdrop-svg' | 'filter-svg' | 'css-blur';
 
 let renderModeCached: GlassRenderMode | null = null;
 
-export function isFirefox(): boolean {
-  if (typeof navigator === 'undefined') return false;
-  return /Firefox\//i.test(navigator.userAgent) && !/Seamonkey/i.test(navigator.userAgent);
+function ua() {
+  return typeof navigator !== 'undefined' ? navigator.userAgent : '';
 }
 
-/** Chrome / Safari / Edge — SVG filters via backdrop-filter */
+/** Firefox, Zen, LibreWolf, Waterfox, Tor Browser — Gecko, not Chromium. */
+export function isFirefox(): boolean {
+  const s = ua();
+  if (!s) return false;
+  // Zen / LibreWolf still ship Firefox/ in UA; also catch branded forks.
+  if (/Firefox\//i.test(s) && !/Seamonkey/i.test(s)) return true;
+  if (/ZenBrowser|LibreWolf|Waterfox|IceCat/i.test(s)) return true;
+  // Odd Gecko forks that omit Firefox/ — never Chromium/WebKit.
+  return /Gecko\//i.test(s) && !/(Chrome|Chromium|Edg)\//i.test(s) && !/like Gecko/i.test(s);
+}
+
+/**
+ * Chromium forks where `backdrop-filter: url(#svg)` is broken or flaky.
+ * They still get CSS blur glass (looks good, no shear bugs).
+ */
+export function isSvgBackdropBrokenChromium(): boolean {
+  const s = ua();
+  // Vivaldi: known broken SVG-url backdrop filters
+  if (/Vivaldi/i.test(s)) return true;
+  // Samsung Internet has historically flaky SVG backdrop-filter url()
+  if (/SamsungBrowser/i.test(s)) return true;
+  return false;
+}
+
+/** True when standard CSS blur backdrop is available (all modern engines). */
+export function cssBlurBackdropSupported(): boolean {
+  if (typeof CSS === 'undefined' || !CSS.supports) return true;
+  return (
+    CSS.supports('backdrop-filter', 'blur(1px)') ||
+    CSS.supports('-webkit-backdrop-filter', 'blur(1px)')
+  );
+}
+
+/** Chrome / Edge / Brave / Arc / Opera — SVG filters via backdrop-filter when probe passes */
 export function svgBackdropFilterSupported(): boolean {
   if (typeof document === 'undefined') return false;
 
-  if (typeof CSS !== 'undefined' && CSS.supports) {
-    const hasBlur =
-      CSS.supports('backdrop-filter', 'blur(1px)') ||
-      CSS.supports('-webkit-backdrop-filter', 'blur(1px)');
-    if (!hasBlur) return false;
-  }
-
+  if (!cssBlurBackdropSupported()) return false;
   if (isFirefox()) return false;
-
-  if (/Vivaldi/i.test(navigator.userAgent)) return false;
+  if (isSvgBackdropBrokenChromium()) return false;
 
   try {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -60,9 +85,17 @@ export function svgBackdropFilterSupported(): boolean {
   }
 }
 
-/** Firefox — SVG filters on element + -moz-element() background snapshot */
+/** Firefox / Zen — SVG filters on element + -moz-element() background snapshot */
 export function firefoxFilterGlassSupported(): boolean {
-  return isFirefox();
+  if (!isFirefox()) return false;
+  if (typeof document === 'undefined') return false;
+  try {
+    const probe = document.createElement('div');
+    probe.style.backgroundImage = '-moz-element(#page-root)';
+    return /moz-element/i.test(probe.style.backgroundImage);
+  } catch {
+    return false;
+  }
 }
 
 export function getGlassRenderMode(): GlassRenderMode {
@@ -74,6 +107,11 @@ export function getGlassRenderMode(): GlassRenderMode {
   return renderModeCached;
 }
 
+/** Test helper / HMR — clear cached mode so detection re-runs. */
+export function resetGlassRenderModeCache() {
+  renderModeCached = null;
+}
+
 export function applyGlassRootClass(mode: GlassRenderMode) {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
@@ -81,11 +119,13 @@ export function applyGlassRootClass(mode: GlassRenderMode) {
   if (mode === 'backdrop-svg') root.classList.add('lg-svg-backdrop');
   else if (mode === 'filter-svg') root.classList.add('lg-filter-fx');
   else root.classList.add('lg-css-backdrop');
+  root.dataset.lgMode = mode;
 }
 
 export function cssBackdropGlass(blurPx: number, letter = false): string {
   if (letter) {
-    return `blur(${blurPx}px) saturate(1.5) brightness(1.1) contrast(1.05)`;
+    // Clear letter glass — no brightness/contrast wash that reads as tint
+    return `blur(${blurPx}px) saturate(1.2)`;
   }
   return `blur(${blurPx}px) saturate(1.35) brightness(1.06) contrast(1.02)`;
 }

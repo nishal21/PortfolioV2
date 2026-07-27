@@ -1,5 +1,86 @@
 ﻿# Devlog
 
+## 2026-07-28 — Hero glass: kill grey wash after mount
+
+- Root cause: letter SVG filter used `saturate(0)` on whole backdrop → clear flash, then grey/brown tint
+- Letter filter now: blur + displace only; edge highlight via `screen`; keep full color
+- `specularSat` must stay ≥ 1 for hero letters
+
+**Next:** hard-refresh hero “Nishal”
+
+## 2026-07-28 — Hero glass: clear (no tint)
+
+- Removed tint layer + inner shadow on hero letters; transparent refr only
+- Lighter specular; no smoked fill on CSS fallback
+
+**Next:** hard-refresh hero
+
+## 2026-07-28 — Hero “Nishal” liquid glass cleanup
+
+- Was using **NAV** glass + turbulence (jagged/noisy edges)
+- Now `HERO_GLASS_CONFIG`, no turb warp, soft polish blur, padded filter, sharper mask DPR
+- Lighter letter shadow / stroke
+
+**Next:** hard-refresh home hero; compare letter edges on Chrome
+
+## 2026-07-28 — Pins + order tweak
+
+- Unpinned: RYTU, Handoff, SANTRA, GitHub Stars Organizer
+- Pinned: NMHelper (added)
+- Order after pins: SANTRA → Handoff → RYTU
+
+**Next:** rebuild or `npm run dev` to see home order
+
+## 2026-07-28 — Subdomain projects after pins (no new pins)
+
+- Handoff / SANTRA / RYTU: **unpinned**; sit after existing pinned projects in array order
+- Will not add `pinned: true` unless asked
+
+**Next:** rebuild/`npm run dev` to see order on home reel
+
+## 2026-07-28 — Subdomain products on portfolio
+
+- **SANTRA** added (`santra.nishal.dev`) — offline Kerala school savings ledger; pinned; `/projects/santra.svg`
+- **RYTU** moved up + pinned; **Handoff** date refreshed (`send.nishal.dev`)
+- Updated `llms.txt`, resume bullet, personal 2026 timeline, seo-content Q&A
+
+**Next:** open `/projects/santra` + home reel; confirm Live links
+
+## 2026-07-28 — Cross-browser nav/glass (Chrome, Vivaldi, Zen…)
+
+- Glass modes: Chromium SVG backdrop → Firefox/Zen `-moz-element` → CSS blur (Vivaldi/Samsung)
+- Stronger UA + `-moz-element` probe; `data-lg-mode` on `<html>`
+- Removed `contain:paint` on nav (broke Zen/Firefox sampling)
+- Tab pill: solid fallback + `@supports` blur; scroll helpers use legacy `scrollTo`
+
+**Next:** spot-check nav drag + glass in Chrome, Vivaldi, Zen
+
+## 2026-07-28 — Smoothness pass (keep all features)
+
+- Nav scroll no longer hard-snaps every frame after click; eased cubic RAF scroll
+- Cursor ring/dot lerp; section reveals softer ease; hero fade + slight lift
+- Skip identical liquid-glass rebuilds; throttle hero scrub `timeupdate`
+- Studio grain: static CSS dots instead of live SVG turbulence
+
+**Next:** click nav tabs + scroll hero → studio; feel for hitch-free motion
+
+## 2026-07-28 — Fix nav liquid glass ghosting on drag
+
+- Removed SVG `TAB_GLASS` from moving `.tab-indicator` (was shearing/ghosting labels)
+- Interacting state = CSS blur pill under labels; no per-move glass rebuild
+- Files: `src/hooks/useLiquidGlassNav.ts`, `src/app/globals.css`
+
+**Next:** manually drag desktop nav across tabs over hero photo; confirm no ghost text
+
+## 2026-07-28 — Analyzed portfolio codebase
+
+- Stack: Next 15 / React 19 / Tailwind 4 / Framer + GSAP; live nishal.dev
+- Strengths: brand fonts, studio sections, liquid glass, SEO/GEO/AEO (prior 30/30), no import cycles
+- Gaps: client-heavy home, dual motion libs, graphify CLI not on PATH (graph still present)
+- Canvas: `canvases/portfolio-analysis.canvas.tsx`
+
+**Next:** Lighthouse mobile; reinstall graphifyy; glass browser QA after hero/nav edits
+
 ## 2026-07-08 — Firefox real liquid glass (filter + -moz-element)
 
 - Firefox cannot use `backdrop-filter: url(#svg)` — now uses **`filter: url(#svg)`** on a live `-moz-element()` background

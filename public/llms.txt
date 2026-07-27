@@ -36,6 +36,7 @@ nishal21 is Nishal K's GitHub username with 60+ public repositories. Portfolio s
 - NekoBeat — https://nishal.dev/projects/neko-beat
 - RYTU — https://nishal.dev/projects/rytu (live: https://rytu.nishal.dev/)
 - Handoff — https://nishal.dev/projects/handoff (live: https://send.nishal.dev/)
+- SANTRA — https://nishal.dev/projects/santra (live: https://santra.nishal.dev/)
 - Geo Q&A — https://nishal.dev/projects/capital_llm_model (GitHub: capital_llm_model, HF/Ollama: nishal21/geo-capital-llm)
 - NMHelper — https://nishal.dev/projects/nmhelper
 - NekoDroid — https://nishal.dev/projects/neko-droid

@@ -30,20 +30,21 @@ export const NAV_GLASS_CONFIG: LiquidGlassConfig = {
   balancedSpecular: false,
 };
 
-/** Hero title — full-area refraction so letter bodies warp like nav glass */
+/** Hero title — clear glass (full color through; no desaturate / tint wash) */
 export const HERO_GLASS_CONFIG: LiquidGlassConfig = {
-  glassThickness: 64,
-  bezelWidth: 32,
-  ior: 1.45,
-  scaleRatio: 1.15,
-  blur: 0.6,
-  specularOpacity: 0.52,
-  specularSat: 0,
+  glassThickness: 40,
+  bezelWidth: 18,
+  ior: 1.36,
+  scaleRatio: 0.62,
+  blur: 0.9,
+  specularOpacity: 0.14,
+  // Must stay >= 1 for letter filters — 0 greys the whole backdrop
+  specularSat: 1,
   tintColor: '255,255,255',
-  tintOpacity: 0.03,
-  innerShadow: 'rgba(255,255,255,0.14)',
-  innerShadowBlur: 4,
-  innerShadowSpread: -1,
+  tintOpacity: 0,
+  innerShadow: 'rgba(255,255,255,0)',
+  innerShadowBlur: 0,
+  innerShadowSpread: 0,
   balancedSpecular: true,
 };
 

@@ -6,7 +6,7 @@ import {
   removeLiquidGlass,
   rebuildLiquidGlass,
 } from '@/lib/liquidGlass';
-import { NAV_GLASS_CONFIG } from '@/lib/liquidGlassConfig';
+import { HERO_GLASS_CONFIG } from '@/lib/liquidGlassConfig';
 import {
   ensureHeroFonts,
   maskIsApplied,
@@ -113,7 +113,7 @@ function HeroGlassLetter({
     const host = hostRef.current;
     if (!host) return;
 
-    enableLiquidGlass(host, () => NAV_GLASS_CONFIG, { force: true });
+    enableLiquidGlass(host, () => HERO_GLASS_CONFIG, { force: true });
     setLetterGlassState(host, 'pending');
 
     const onRebuilt = () => {

@@ -18,7 +18,7 @@ export const seoAnswerBlocks = [
   {
     id: 'what-does-nishal-build',
     question: 'What projects does Nishal K build?',
-    answer: `Nishal builds music apps (NekoBeat, Musico), anime platforms (Otazumi), developer tools (Publicolio, CarbonLint, GitHub Stars Organizer), school software (NMHelper), and systems projects in Rust and Python. Full list at ${SITE_URL}/projects.`,
+    answer: `Nishal builds music apps (NekoBeat, Musico), anime platforms (Otazumi), developer tools (Publicolio, CarbonLint, Handoff at send.nishal.dev), school software (NMHelper, SANTRA at santra.nishal.dev), and a local-first life OS (RYTU at rytu.nishal.dev). Full list at ${SITE_URL}/projects.`,
   },
   {
     id: 'where-is-nishal-from',

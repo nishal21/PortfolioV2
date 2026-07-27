@@ -16,7 +16,7 @@ export default function ShowcaseStage({ accent = 'sage', flagship, reel, filters
     <div className={`studio-showcase studio-showcase--${accent}`}>
       <motion.div
         className="studio-showcase-flagship"
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-40px' }}
         transition={defaultTransition}

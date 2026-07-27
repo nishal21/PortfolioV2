@@ -30,7 +30,7 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-    {
+  {
     "id": 2,
     "title": "NekoBeat",
     "category": "Music & Streaming",
@@ -84,7 +84,6 @@ export const projects: Project[] = [
     "title": "Geo Q&A",
     "category": "Machine Learning · Python",
     "status": "live",
-    "pinned": true,
     "description": "Plain-English geography Q&A. Verified database and Wikidata first; fine-tuned GPT-2 only when lookup fails.",
     "longDescription": "Ask about capitals, cities, countries, timezones, and currencies in plain English. Geo Q&A checks dr5hn's Countries States Cities Database and Wikidata (Wikimedia / Wikipedia) before touching a model, and tags answers as [verified database] or [wikidata]. The included GPT-2 was fine-tuned for under $2 on a rented Vast.ai GPU—it is a fallback, not the source of truth. Run python src/main.py for reliable facts; pull nishal21/geo-capital-llm from Hugging Face or Ollama only if you want the small model on its own.",
     "tags": [
@@ -148,116 +147,8 @@ export const projects: Project[] = [
     },
     "images": [
       "/projects/geo-q-a.svg"
-    ]
-  },
-  {
-    "id": 17,
-    "title": "Handoff",
-    "category": "Developer Tools · P2P",
-    "status": "live",
-    "pinned": true,
-    "description": "Send files and text peer-to-peer in the browser. No upload server, no account.",
-    "longDescription": "Handoff at send.nishal.dev shares files and text directly between browsers over a peer link—no middle server holding your data, no signup. Built for quick handoffs between your own devices or someone you trust on the same session. Free to use in the browser. Source repo is private.",
-    "tags": [
-      "TypeScript",
-      "WebRTC",
-      "P2P"
     ],
-    "lastUpdated": "2026-07-08",
-    "liveUrl": "https://send.nishal.dev/",
-    "githubUrl": null,
-    "color": "from-sky-400 to-cyan-500",
-    "bgColor": "from-sky-400/10 to-cyan-500/10",
-    "challenges": [
-      "File drops that force a cloud upload first",
-      "Sharing snippets without pasting into a third-party paste site"
-    ],
-    "solutions": [
-      "Browser-native P2P transfer over WebRTC",
-      "Single link for files and text in one flow"
-    ],
-    "features": [
-      "Peer-to-peer file sharing",
-      "In-browser text and code handoff",
-      "No account required",
-      "No upload server in the middle",
-      "Free at send.nishal.dev"
-    ],
-    "techStack": {
-      "languages": [
-        "TypeScript"
-      ],
-      "apis": [
-        "WebRTC"
-      ],
-      "deployment": [
-        "send.nishal.dev"
-      ]
-    },
-    "images": [
-      "/projects/handoff.svg"
-    ]
-  },
-  {
-    "id": 11,
-    "title": "NMHelper",
-    "category": "Kerala Education",
-    "status": "live",
-    "description": "Noon-meal tracking for Kerala schools. Teachers and clerks log class strength without the paper chase.",
-    "longDescription": "NMHelper swaps manual rounds for Malayalam-friendly forms and meal reports that clerks can actually use.",
-    "tags": [
-      "JavaScript",
-      "TypeScript",
-      "HTML",
-      "CSS"
-    ],
-    "lastUpdated": "2026-05-27",
-    "liveUrl": "https://nmhelper.in/",
-    "githubUrl": null,
-    "color": "from-orange-400 to-red-400",
-    "bgColor": "from-orange-400/10 to-red-400/10",
-    "challenges": [
-      "Low-tech onboarding",
-      "Government meal accuracy"
-    ],
-    "solutions": [
-      "Malayalam UI",
-      "Validated exports"
-    ],
-    "features": [
-      "Strength tracking",
-      "Meal calculations",
-      "Admin dashboards"
-    ],
-    "techStack": {
-      "standards": [
-        "HTML5",
-        "CSS3",
-        "JavaScript (ES2022+)"
-      ],
-      "components": [
-        "React",
-        "Tailwind CSS",
-        "Framer Motion",
-        "Capacitor"
-      ],
-      "backend": [
-        "Node.js",
-        "Express",
-        "PostgreSQL"
-      ],
-      "languages": [
-        "English",
-        "Malayalam"
-      ],
-      "doctype": [
-        "HTML5"
-      ]
-    },
-    "images": [
-      "/projects/nmhelper.svg"
-    ],
-    "pinned": false
+    "pinned": true
   },
   {
     "id": 1,
@@ -358,60 +249,10 @@ export const projects: Project[] = [
     "pinned": true
   },
   {
-    "id": 14,
-    "title": "GitHub Stars Organizer",
-    "category": "Developer Tools · CLI",
-    "status": "live",
-    "pinned": true,
-    "description": "Sort 300+ GitHub stars into lists in minutes. Free heuristics by default, optional LLM if you want it.",
-    "longDescription": "GitHub's API can star repos but not manage Star Lists. This CLI fetches your stars, groups them by topics and language, lets you review the plan, then applies lists through your browser session. No paid AI required to get started.",
-    "tags": [
-      "Python",
-      "CLI",
-      "GitHub API"
-    ],
-    "lastUpdated": "2026-06-08",
-    "liveUrl": null,
-    "githubUrl": "https://github.com/nishal21/github-stars-organizer",
-    "color": "from-amber-400 to-yellow-500",
-    "bgColor": "from-amber-400/10 to-yellow-500/10",
-    "challenges": [
-      "No public API for GitHub Star Lists",
-      "Hundreds of repos to categorize fairly"
-    ],
-    "solutions": [
-      "Heuristic planner with custom category rules",
-      "Dry-run apply and resume after interrupts"
-    ],
-    "features": [
-      "Plan from public metadata only",
-      "Optional multi-provider LLM mode",
-      "Browser session apply with CSRF handling",
-      "PyPI-ready Python package"
-    ],
-    "techStack": {
-      "languages": [
-        "Python"
-      ],
-      "tooling": [
-        "uv",
-        "pytest",
-        "ruff"
-      ],
-      "apis": [
-        "GitHub REST API"
-      ]
-    },
-    "images": [
-      "/projects/github-stars-organizer.svg"
-    ]
-  },
-  {
     "id": 13,
     "title": "Sigil-extractor",
     "category": "Cryptography · Rust",
     "status": "live",
-    "pinned": true,
     "description": "Rust tool that hides license proofs inside datasets using crypto steganography. Pull them back out and verify later.",
     "longDescription": "Sigil-extractor embeds cryptographic license proofs in data so you can prove who licensed what without trusting a server to hold the proof.",
     "tags": [
@@ -446,7 +287,8 @@ export const projects: Project[] = [
     },
     "images": [
       "/projects/sigil-extractor.svg"
-    ]
+    ],
+    "pinned": true
   },
   {
     "id": 8,
@@ -533,6 +375,271 @@ export const projects: Project[] = [
     "pinned": true
   },
   {
+    "id": 11,
+    "title": "NMHelper",
+    "category": "Kerala Education",
+    "status": "live",
+    "description": "Noon-meal tracking for Kerala schools. Teachers and clerks log class strength without the paper chase.",
+    "longDescription": "NMHelper swaps manual rounds for Malayalam-friendly forms and meal reports that clerks can actually use.",
+    "tags": [
+      "JavaScript",
+      "TypeScript",
+      "HTML",
+      "CSS"
+    ],
+    "lastUpdated": "2026-05-27",
+    "liveUrl": "https://nmhelper.in/",
+    "githubUrl": null,
+    "color": "from-orange-400 to-red-400",
+    "bgColor": "from-orange-400/10 to-red-400/10",
+    "challenges": [
+      "Low-tech onboarding",
+      "Government meal accuracy"
+    ],
+    "solutions": [
+      "Malayalam UI",
+      "Validated exports"
+    ],
+    "features": [
+      "Strength tracking",
+      "Meal calculations",
+      "Admin dashboards"
+    ],
+    "techStack": {
+      "standards": [
+        "HTML5",
+        "CSS3",
+        "JavaScript (ES2022+)"
+      ],
+      "components": [
+        "React",
+        "Tailwind CSS",
+        "Framer Motion",
+        "Capacitor"
+      ],
+      "backend": [
+        "Node.js",
+        "Express",
+        "PostgreSQL"
+      ],
+      "languages": [
+        "English",
+        "Malayalam"
+      ],
+      "doctype": [
+        "HTML5"
+      ]
+    },
+    "images": [
+      "/projects/nmhelper.svg"
+    ],
+    "pinned": true
+  },
+  {
+    "id": 18,
+    "title": "SANTRA",
+    "category": "Kerala Education · Desktop",
+    "status": "live",
+    "description": "Offline student savings ledger for Kerala schools. Counter posts, balances, contra, and PDF reports on the school PC.",
+    "longDescription": "SANTRA at santra.nishal.dev is a desktop student savings ledger for Kerala schools. Staff post deposits and withdrawals with a running cash balance, manage per-student accounts, record contra moves between SB, FD, and cash in hand, and print PDF reports for office or auditors. The SQLite ledger lives on the school PC—daily counter work runs fully offline, with no cloud account. Schools are onboarded by hand (WhatsApp or email); the site explains the product, and sign-in lives inside the Windows or Linux installer. Built for the savings desk where messy cash books break month-end totals.",
+    "tags": [
+      "Desktop",
+      "SQLite",
+      "PDF",
+      "Kerala Schools"
+    ],
+    "lastUpdated": "2026-07-28",
+    "liveUrl": "https://santra.nishal.dev/",
+    "githubUrl": null,
+    "color": "from-amber-400 to-orange-500",
+    "bgColor": "from-amber-400/10 to-orange-500/10",
+    "challenges": [
+      "School savings counters lose track when paper cash books drift",
+      "Need offline-first tooling that clerks can run on an existing PC"
+    ],
+    "solutions": [
+      "Local SQLite ledger with counter, accounts, contra, and staff roles",
+      "PDF reports plus hand-onboarded Windows/Linux installers per school"
+    ],
+    "features": [
+      "Deposit and withdrawal posting with running cash balance",
+      "Per-student accounts and savings history",
+      "Contra between SB, FD, and cash in hand",
+      "PDF reports for office, auditors, and parents",
+      "Admin and counter staff logins",
+      "Fully offline after install (SQLite on the school PC)"
+    ],
+    "techStack": {
+      "platform": [
+        "Windows",
+        "Linux",
+        "Desktop"
+      ],
+      "storage": [
+        "SQLite"
+      ],
+      "features": [
+        "PDF reports",
+        "Staff roles"
+      ],
+      "deployment": [
+        "santra.nishal.dev"
+      ]
+    },
+    "images": [
+      "/projects/santra.svg"
+    ]
+  },
+  {
+    "id": 17,
+    "title": "Handoff",
+    "category": "Developer Tools · P2P",
+    "status": "live",
+    "description": "Send files and text peer-to-peer in the browser. No upload server, no account.",
+    "longDescription": "Handoff at send.nishal.dev shares files and text directly between browsers over a peer link—no middle server holding your data, no signup. Built for quick handoffs between your own devices or someone you trust on the same session. Free to use in the browser. Source repo is private.",
+    "tags": [
+      "TypeScript",
+      "WebRTC",
+      "P2P"
+    ],
+    "lastUpdated": "2026-07-28",
+    "liveUrl": "https://send.nishal.dev/",
+    "githubUrl": null,
+    "color": "from-sky-400 to-cyan-500",
+    "bgColor": "from-sky-400/10 to-cyan-500/10",
+    "challenges": [
+      "File drops that force a cloud upload first",
+      "Sharing snippets without pasting into a third-party paste site"
+    ],
+    "solutions": [
+      "Browser-native P2P transfer over WebRTC",
+      "Single link for files and text in one flow"
+    ],
+    "features": [
+      "Peer-to-peer file sharing",
+      "In-browser text and code handoff",
+      "No account required",
+      "No upload server in the middle",
+      "Free at send.nishal.dev"
+    ],
+    "techStack": {
+      "languages": [
+        "TypeScript"
+      ],
+      "apis": [
+        "WebRTC"
+      ],
+      "deployment": [
+        "send.nishal.dev"
+      ]
+    },
+    "images": [
+      "/projects/handoff.svg"
+    ]
+  },
+  {
+    "id": 16,
+    "title": "RYTU",
+    "category": "Productivity · Life OS",
+    "status": "live",
+    "description": "Habits, tasks, and planner in one tab. Data stays on your device—no signup.",
+    "longDescription": "RYTU is a local-first life OS at rytu.nishal.dev: track habits and streaks, pin focus tasks, plan the week, and read momentum from one Today screen. Habits and tasks live in IndexedDB on your device—no RYTU cloud account, no ads. Optional AI uses your own Groq, OpenAI, Anthropic, or Hack Club AI key, encrypted with AES-GCM before storage. Install as a PWA or use in the browser; export JSON anytime from Settings. Published under NK Codex LLP. Source repo is private.",
+    "tags": [
+      "TypeScript",
+      "PWA",
+      "IndexedDB",
+      "Dexie"
+    ],
+    "lastUpdated": "2026-07-28",
+    "liveUrl": "https://rytu.nishal.dev/",
+    "githubUrl": null,
+    "color": "from-violet-400 to-purple-500",
+    "bgColor": "from-violet-400/10 to-purple-500/10",
+    "challenges": [
+      "Habits, tasks, and calendar usually split across apps",
+      "Users who refuse another cloud signup flow"
+    ],
+    "solutions": [
+      "Single Today view with habits, focus tasks, and momentum",
+      "Local-first Dexie/IndexedDB storage with JSON export"
+    ],
+    "features": [
+      "Habits, streaks, and momentum score",
+      "Tasks with up to three pinned focus items",
+      "Planner, routines, and weekly calendar",
+      "Optional BYOK AI (keys encrypted at rest)",
+      "Works offline; installable PWA",
+      "No account, no ads, no RYTU cloud backend"
+    ],
+    "techStack": {
+      "languages": [
+        "TypeScript"
+      ],
+      "storage": [
+        "IndexedDB",
+        "Dexie"
+      ],
+      "platform": [
+        "PWA",
+        "Android"
+      ],
+      "deployment": [
+        "rytu.nishal.dev"
+      ]
+    },
+    "images": [
+      "/projects/rytu.svg"
+    ]
+  },
+  {
+    "id": 14,
+    "title": "GitHub Stars Organizer",
+    "category": "Developer Tools · CLI",
+    "status": "live",
+    "description": "Sort 300+ GitHub stars into lists in minutes. Free heuristics by default, optional LLM if you want it.",
+    "longDescription": "GitHub's API can star repos but not manage Star Lists. This CLI fetches your stars, groups them by topics and language, lets you review the plan, then applies lists through your browser session. No paid AI required to get started.",
+    "tags": [
+      "Python",
+      "CLI",
+      "GitHub API"
+    ],
+    "lastUpdated": "2026-06-08",
+    "liveUrl": null,
+    "githubUrl": "https://github.com/nishal21/github-stars-organizer",
+    "color": "from-amber-400 to-yellow-500",
+    "bgColor": "from-amber-400/10 to-yellow-500/10",
+    "challenges": [
+      "No public API for GitHub Star Lists",
+      "Hundreds of repos to categorize fairly"
+    ],
+    "solutions": [
+      "Heuristic planner with custom category rules",
+      "Dry-run apply and resume after interrupts"
+    ],
+    "features": [
+      "Plan from public metadata only",
+      "Optional multi-provider LLM mode",
+      "Browser session apply with CSRF handling",
+      "PyPI-ready Python package"
+    ],
+    "techStack": {
+      "languages": [
+        "Python"
+      ],
+      "tooling": [
+        "uv",
+        "pytest",
+        "ruff"
+      ],
+      "apis": [
+        "GitHub REST API"
+      ]
+    },
+    "images": [
+      "/projects/github-stars-organizer.svg"
+    ]
+  },
+  {
     "id": 3,
     "title": "Otazumi",
     "category": "Anime & Streaming",
@@ -575,7 +682,6 @@ export const projects: Project[] = [
     "images": [
       "/projects/otazumi.svg"
     ],
-    "pinned": false
   },
   {
     "id": 4,
@@ -618,7 +724,6 @@ export const projects: Project[] = [
     "images": [
       "/projects/otaku-pulse.svg"
     ],
-    "pinned": false
   },
   {
     "id": 5,
@@ -666,7 +771,6 @@ export const projects: Project[] = [
     "images": [
       "/projects/musico.svg"
     ],
-    "pinned": false
   },
   {
     "id": 9,
@@ -713,7 +817,6 @@ export const projects: Project[] = [
     "images": [
       "/projects/argus.svg"
     ],
-    "pinned": false
   },
   {
     "id": 10,
@@ -754,61 +857,6 @@ export const projects: Project[] = [
     "images": [
       "/projects/veyra.svg"
     ],
-    "pinned": false
-  },
-  {
-    "id": 16,
-    "title": "RYTU",
-    "category": "Productivity · Life OS",
-    "status": "live",
-    "description": "Habits, tasks, and planner in one tab. Data stays on your device—no signup.",
-    "longDescription": "RYTU is a local-first life OS at rytu.nishal.dev: track habits and streaks, pin focus tasks, plan the week, and read momentum from one Today screen. Habits and tasks live in IndexedDB on your device—no RYTU cloud account, no ads. Optional AI uses your own Groq, OpenAI, Anthropic, or Hack Club AI key, encrypted with AES-GCM before storage. Install as a PWA or use in the browser; export JSON anytime from Settings. Published under NK Codex LLP. Source repo is private.",
-    "tags": [
-      "TypeScript",
-      "PWA",
-      "IndexedDB",
-      "Dexie"
-    ],
-    "lastUpdated": "2026-07-03",
-    "liveUrl": "https://rytu.nishal.dev/",
-    "githubUrl": null,
-    "color": "from-violet-400 to-purple-500",
-    "bgColor": "from-violet-400/10 to-purple-500/10",
-    "challenges": [
-      "Habits, tasks, and calendar usually split across apps",
-      "Users who refuse another cloud signup flow"
-    ],
-    "solutions": [
-      "Single Today view with habits, focus tasks, and momentum",
-      "Local-first Dexie/IndexedDB storage with JSON export"
-    ],
-    "features": [
-      "Habits, streaks, and momentum score",
-      "Tasks with up to three pinned focus items",
-      "Planner, routines, and weekly calendar",
-      "Optional BYOK AI (keys encrypted at rest)",
-      "Works offline; installable PWA",
-      "No account, no ads, no RYTU cloud backend"
-    ],
-    "techStack": {
-      "languages": [
-        "TypeScript"
-      ],
-      "storage": [
-        "IndexedDB",
-        "Dexie"
-      ],
-      "platform": [
-        "PWA",
-        "Android"
-      ],
-      "deployment": [
-        "rytu.nishal.dev"
-      ]
-    },
-    "images": [
-      "/projects/rytu.svg"
-    ]
   },
   {
     "id": 12,
@@ -854,9 +902,8 @@ export const projects: Project[] = [
     "images": [
       "/projects/askira.svg"
     ],
-    "pinned": false
     }
-  ];
+];
 
 export function getProjectThumbnail(id: number): string | null {
   const project = projects.find((p) => p.id === id);

@@ -7,6 +7,24 @@ export const HERO_RESUME_EVENT = 'hero-resume';
 /** Fixed nav clearance (top bar + padding). */
 export const NAV_SCROLL_OFFSET = 80;
 
+function getScrollY() {
+  return (
+    window.scrollY ||
+    window.pageYOffset ||
+    document.documentElement.scrollTop ||
+    document.body.scrollTop ||
+    0
+  );
+}
+
+function setScrollY(top: number) {
+  try {
+    window.scrollTo({ top, behavior: 'auto' });
+  } catch {
+    window.scrollTo(0, top);
+  }
+}
+
 export function pauseHeroEffects() {
   if (typeof window === 'undefined') return;
   window.dispatchEvent(new Event(HERO_PAUSE_EVENT));
@@ -25,7 +43,7 @@ export function snapHeroTextVisible() {
   copy?.style.setProperty('--hero-fade', '1');
 }
 
-export function isInHeroZone(scrollY = window.scrollY) {
+export function isInHeroZone(scrollY = getScrollY()) {
   return scrollY < window.innerHeight * 0.55;
 }
 
@@ -90,7 +108,7 @@ export function waitUntilSectionReady(href: string, timeoutMs = 5000): Promise<E
 export function getActiveSectionHref(contentReady = true): string {
   if (typeof window === 'undefined') return '#home';
 
-  const y = window.scrollY;
+  const y = getScrollY();
   const vh = window.innerHeight;
 
   if (y < vh * 0.45) return '#home';
@@ -114,15 +132,15 @@ export function getScrollTopForSection(href: string, el?: Element | null) {
   const node = el ?? document.querySelector(href);
   if (!node) return 0;
   const rect = node.getBoundingClientRect();
-  return Math.max(0, window.scrollY + rect.top - NAV_SCROLL_OFFSET);
+  return Math.max(0, getScrollY() + rect.top - NAV_SCROLL_OFFSET);
 }
 
 export function snapToSection(href: string) {
   if (typeof window === 'undefined') return;
-  window.scrollTo({ top: getScrollTopForSection(href), behavior: 'auto' });
+  setScrollY(getScrollTopForSection(href));
 }
 
-/** Keep nudging scroll until the target section is actually in view. */
+/** Keep observing until the target section is in view; hard-snap only as a last resort. */
 export function waitUntilSectionArrived(href: string, timeoutMs = 4500): Promise<void> {
   if (typeof window === 'undefined') return Promise.resolve();
 
@@ -135,9 +153,8 @@ export function waitUntilSectionArrived(href: string, timeoutMs = 4500): Promise
         return;
       }
 
-      snapToSection(href);
-
       if (performance.now() - start >= timeoutMs) {
+        snapToSection(href);
         resolve();
         return;
       }
@@ -151,7 +168,7 @@ export function waitUntilSectionArrived(href: string, timeoutMs = 4500): Promise
 
 export function isSectionArrived(href: string) {
   if (href === '#home') {
-    return window.scrollY < window.innerHeight * 0.4;
+    return getScrollY() < window.innerHeight * 0.4;
   }
 
   const el = document.querySelector(href);
@@ -167,8 +184,62 @@ export function isSectionArrived(href: string) {
 
 /**
  * Scroll to an in-page section and resolve when the target has been reached.
- * Falls back to a hard snap if smooth scroll does not land in time.
+ * Uses an eased RAF scroll for steadier motion than native `behavior: 'smooth'`.
  */
+function easeInOutCubic(t: number) {
+  return t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
+}
+
+function animateScrollTo(top: number, durationMs = 720): Promise<void> {
+  if (typeof window === 'undefined') return Promise.resolve();
+
+  const from = getScrollY();
+  const delta = top - from;
+  if (Math.abs(delta) < 2) {
+    setScrollY(top);
+    return Promise.resolve();
+  }
+
+  const reduced =
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) {
+    setScrollY(top);
+    return Promise.resolve();
+  }
+
+  const distance = Math.abs(delta);
+  const duration = Math.min(durationMs, Math.max(420, distance * 0.55));
+  const start = performance.now();
+
+  return new Promise((resolve) => {
+    let raf = 0;
+    let settled = false;
+
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      cancelAnimationFrame(raf);
+      setScrollY(top);
+      resolve();
+    };
+
+    const step = (now: number) => {
+      if (settled) return;
+      const t = Math.min(1, (now - start) / duration);
+      setScrollY(from + delta * easeInOutCubic(t));
+      if (t < 1) {
+        raf = requestAnimationFrame(step);
+        return;
+      }
+      finish();
+    };
+
+    raf = requestAnimationFrame(step);
+    window.setTimeout(finish, duration + 160);
+  });
+}
+
 function scrollToSectionTarget(href: string, target: Element): Promise<void> {
   const fromHero = isInHeroZone();
   const scrollTop = getScrollTopForSection(href, target);
@@ -180,16 +251,12 @@ function scrollToSectionTarget(href: string, target: Element): Promise<void> {
     pauseHeroEffects();
   }
 
-  if (isSectionArrived(href) && Math.abs(window.scrollY - scrollTop) < 4) {
+  if (isSectionArrived(href) && Math.abs(getScrollY() - scrollTop) < 4) {
     return Promise.resolve();
   }
 
-  window.scrollTo({
-    top: scrollTop,
-    behavior: useInstant ? 'auto' : 'smooth',
-  });
-
   if (useInstant) {
+    setScrollY(scrollTop);
     return new Promise((resolve) => {
       requestAnimationFrame(() => {
         if (!isSectionArrived(href)) {
@@ -200,34 +267,10 @@ function scrollToSectionTarget(href: string, target: Element): Promise<void> {
     });
   }
 
-  return new Promise((resolve) => {
-    let settled = false;
-
-    const finish = () => {
-      if (settled) return;
-      settled = true;
-      window.removeEventListener('scrollend', onScrollEnd);
-      clearInterval(poll);
-      clearTimeout(fallback);
-      resolve();
-    };
-
-    const ensureArrived = () => {
-      if (!isSectionArrived(href)) {
-        snapToSection(href);
-      }
-      finish();
-    };
-
-    const onScrollEnd = () => ensureArrived();
-
-    const poll = setInterval(() => {
-      if (isSectionArrived(href)) ensureArrived();
-    }, 64);
-
-    const fallback = setTimeout(ensureArrived, 2800);
-
-    window.addEventListener('scrollend', onScrollEnd, { once: true });
+  return animateScrollTo(scrollTop).then(() => {
+    if (!isSectionArrived(href)) {
+      snapToSection(href);
+    }
   });
 }
 
