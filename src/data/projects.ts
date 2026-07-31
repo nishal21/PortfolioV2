@@ -436,6 +436,64 @@ export const projects: Project[] = [
     "pinned": true
   },
   {
+    "id": 19,
+    "title": "World News CLI",
+    "category": "Developer Tools · Terminal",
+    "status": "live",
+    "pinned": true,
+    "description": "Full-screen terminal news reader for Python. Headlines, speak aloud, optional AI — free on PyPI as worldnews-cli.",
+    "longDescription": "World News CLI (PyPI: worldnews-cli) is a full-screen Textual news reader for the terminal. Feeds on the left, headlines in the middle, article on the right — keyboard-first with themes, offline cache, custom RSS, speak aloud (Edge TTS by default), and optional AI summarize. Runs on Windows Terminal, macOS, Linux, and Android via Termux. Install with pip install worldnews-cli, then worldnews or python -m worldnews. Product site: nishal21.github.io/News-CLI. Source: github.com/nishal21/News-CLI.",
+    "tags": [
+      "Python",
+      "Textual",
+      "CLI",
+      "PyPI"
+    ],
+    "lastUpdated": "2026-08-01",
+    "liveUrl": "https://nishal21.github.io/News-CLI/",
+    "githubUrl": "https://github.com/nishal21/News-CLI",
+    "color": "from-emerald-400 to-lime-500",
+    "bgColor": "from-emerald-400/10 to-lime-500/10",
+    "challenges": [
+      "Reading news in a terminal without a clunky pager",
+      "PATH and install friction on Windows and Termux"
+    ],
+    "solutions": [
+      "Three-pane Textual TUI with responsive narrow layouts",
+      "Module entry (python -m worldnews) plus clear PATH docs"
+    ],
+    "features": [
+      "Feeds, headline list, and article reader in one TUI",
+      "Speak aloud (Edge TTS free; optional providers)",
+      "Optional AI summarize / explain",
+      "Custom RSS and built-in categories",
+      "Offline cache and keyboard-first controls",
+      "Free on PyPI: pip install worldnews-cli"
+    ],
+    "techStack": {
+      "languages": [
+        "Python"
+      ],
+      "stack": [
+        "Textual",
+        "PyPI"
+      ],
+      "platform": [
+        "Windows",
+        "macOS",
+        "Linux",
+        "Termux"
+      ],
+      "deployment": [
+        "GitHub Pages",
+        "PyPI"
+      ]
+    },
+    "images": [
+      "/projects/world-news-cli.svg"
+    ]
+  },
+  {
     "id": 18,
     "title": "SANTRA",
     "category": "Kerala Education · Desktop",

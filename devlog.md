@@ -1,5 +1,13 @@
 ﻿# Devlog
 
+## 2026-08-01 — World News CLI added (pinned)
+
+- Project: World News CLI — live https://nishal21.github.io/News-CLI/, GitHub nishal21/News-CLI, PyPI worldnews-cli
+- Pinned after NMHelper; cover `public/projects/world-news-cli.svg`; slug `/projects/news-cli`
+- Updated llms.txt, resume, seo-content, timeline
+
+**Next:** deploy; confirm pin badge + Live/Repo links
+
 ## 2026-07-28 — Hero glass: kill grey wash after mount
 
 - Root cause: letter SVG filter used `saturate(0)` on whole backdrop → clear flash, then grey/brown tint

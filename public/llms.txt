@@ -34,6 +34,7 @@ nishal21 is Nishal K's GitHub username with 60+ public repositories. Portfolio s
 ## Projects (by Nishal K / nishal21)
 
 - NekoBeat — https://nishal.dev/projects/neko-beat
+- World News CLI — https://nishal.dev/projects/news-cli (live: https://nishal21.github.io/News-CLI/, PyPI: worldnews-cli)
 - RYTU — https://nishal.dev/projects/rytu (live: https://rytu.nishal.dev/)
 - Handoff — https://nishal.dev/projects/handoff (live: https://send.nishal.dev/)
 - SANTRA — https://nishal.dev/projects/santra (live: https://santra.nishal.dev/)

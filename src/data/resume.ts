@@ -214,7 +214,7 @@ export const resumeExperience: ResumeExperience[] = [
     dateRange: 'Jan 2024 - Present',
     role: 'Full-Stack Developer · Open-Source Project Lead',
     responsibilities: [
-      'Put live web apps out under my name: NekoBeat, Otazumi, Publicolio, Musico, OtakuPulse, CarbonLint, RYTU (rytu.nishal.dev), Handoff (send.nishal.dev), SANTRA (santra.nishal.dev)',
+      'Put live web apps and tools out under my name: NekoBeat, World News CLI (worldnews-cli on PyPI), Otazumi, Publicolio, Musico, OtakuPulse, CarbonLint, RYTU (rytu.nishal.dev), Handoff (send.nishal.dev), SANTRA (santra.nishal.dev)',
       'Built GitHub Stars Organizer, a Python CLI that sorts hundreds of starred repos into GitHub lists without a paid LLM',
       'Shipped Geo Q&A (capital_llm_model): database-first geography Q&A with a GPT-2 fallback, published on Hugging Face and Ollama',
       'Grew Otazumi into anime streaming with auth, reviews, mail, and watch parties',

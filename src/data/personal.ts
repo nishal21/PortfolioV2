@@ -18,7 +18,7 @@ export const personal = {
     { year: '2023', event: '3D animation experiments, motion side projects' },
     { year: '2024', event: 'JARVIS, open-source tooling' },
     { year: '2025', event: 'NMHelper, Musico, Otazumi, OtakuPulse' },
-    { year: '2026', event: 'NekoBeat, RYTU, Handoff, SANTRA, Publicolio, CarbonLint, GitHub Stars Organizer' },
+    { year: '2026', event: 'NekoBeat, World News CLI, RYTU, Handoff, SANTRA, Publicolio, CarbonLint' },
   ],
   stats: [
     { number: '60+', label: 'GitHub Repos' },
