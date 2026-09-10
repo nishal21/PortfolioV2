@@ -104,12 +104,33 @@ Expected: HSTS present, `X-XSS-Protection: 1; mode=block`, HTML `Cache-Control: 
 
 ---
 
+## Error pages (404 / 5xx)
+
+| Layer | What users see | Where |
+| --- | --- | --- |
+| Missing route on **nishal.dev** | Next.js studio 404 (`not-found.tsx`) | App Router |
+| React crash on **nishal.dev** | `error.tsx` / `global-error.tsx` | App Router |
+| Next/PM2 down (502/503/504) | Static `deploy/static/error-offline.html` | Nginx `error_page` |
+| **Subdomains** (rytu / send / santra / …) | **Not** this Next app — each vhost needs its own `error_page` or app 404 | Per-site nginx |
+
+Install static offline page (apex):
+
+```bash
+sudo mkdir -p /var/www/nishal.dev
+sudo cp /opt/portfolio-v2/deploy/static/error-offline.html /var/www/nishal.dev/
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+Reuse the same HTML on other `*.nishal.dev` vhosts by copying it and adding the same `error_page 502 503 504` block — Next portfolio 404s never cover those hosts.
+
+---
+
 ## Troubleshooting
 
 
 | Problem         | Check                                                                  |
 | --------------- | ---------------------------------------------------------------------- |
-| 502 Bad Gateway | `pm2 logs portfolio-v2`                                                |
+| 502 Bad Gateway | `pm2 logs portfolio-v2` + `/var/www/nishal.dev/error-offline.html`     |
 | NMHelper broke  | `nginx -t` — only add `nishal.dev` site block                          |
 | Wrong URLs      | `.env.production` → `NEXT_PUBLIC_SITE_URL=https://nishal.dev`, rebuild |
 | Google blocked  | `curl https://nishal.dev/robots.txt` — must show `Allow: /`            |

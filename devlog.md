@@ -1,5 +1,30 @@
 ﻿# Devlog
 
+## 2026-09-10 — Studio 404 / error pages
+
+- Shared `ErrorStage` (film “frame missing”): `not-found.tsx`, `error.tsx`, `global-error.tsx`
+- CSS in `studio.css`; nginx 502/503/504 → `deploy/static/error-offline.html`
+- Subdomains: Next 404 only covers apex; reuse `nginx-error-pages.inc` per vhost
+
+**Next:** deploy app; `cp` offline HTML + reload nginx; optional include on rytu/send/santra
+
+## 2026-09-10 — Clean Cloudflare DNS for nishal.dev
+
+- Apex site fixed earlier (LE renew); www CNAME now present
+- Remove accidental `*.nishal.dev.nishal.dev` records; fix Hostinger autoconfig/DKIM names
+- Done: cert now covers `nishal.dev` + `www.nishal.dev` (expires 2026-12-09)
+
+**Next:** optional Hostinger mail CNAME cleanup in CF; ignore nginx http2 redefine warnings unless sites break
+
+## 2026-09-10 — nishal.dev Cloudflare 526
+
+- Symptom: `curl -I https://nishal.dev` → `HTTP/2 526` (`server: cloudflare`)
+- Origin OK: `curl -I http://127.0.0.1:3002` → 200; PM2 `portfolio-v2` healthy
+- Fix path: Cloudflare SSL mode vs origin cert (Full vs Full strict); renew/fix nginx LE cert; verify origin with Host header over HTTPS
+- Server Action log spam = stale clients after deploys; hard refresh after fix
+
+**Next:** on VPS run cert/nginx checks below; in CF set SSL to Full or renew origin cert for Full strict
+
 ## 2026-08-01 — World News CLI added (pinned)
 
 - Project: World News CLI — live https://nishal21.github.io/News-CLI/, GitHub nishal21/News-CLI, PyPI worldnews-cli

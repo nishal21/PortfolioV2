@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Studio offline · nishal.dev</title>
+    <style>
+      :root {
+        --ink: #050608;
+        --text: #f2f0eb;
+        --muted: #9ea8b0;
+        --sage: #a6c78c;
+        --warm: #d4a854;
+        --border: rgba(255, 255, 255, 0.1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'DM Sans', system-ui, sans-serif;
+        background: #090b0f
+          radial-gradient(ellipse 70% 55% at 20% 40%, rgba(166, 199, 140, 0.08), transparent 55%);
+        color: var(--text);
+        display: flex;
+        align-items: center;
+      }
+      .wrap {
+        width: min(40rem, calc(100% - 3rem));
+        margin: 0 auto;
+        padding: 4rem 0;
+      }
+      .meta {
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--sage);
+        font-weight: 600;
+      }
+      h1 {
+        font-family: Syne, system-ui, sans-serif;
+        font-size: clamp(2rem, 6vw, 3rem);
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+        margin: 1rem 0 0;
+      }
+      .code {
+        font-family: Syne, system-ui, sans-serif;
+        font-size: clamp(4.5rem, 18vw, 7rem);
+        font-weight: 800;
+        letter-spacing: -0.06em;
+        line-height: 0.9;
+        margin: 1rem 0 0;
+        background: linear-gradient(135deg, #e8e3db 20%, var(--sage) 55%, var(--warm) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      p {
+        color: var(--muted);
+        line-height: 1.6;
+        max-width: 34rem;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-top: 1.75rem;
+      }
+      a.btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.7rem 1.15rem;
+        border-radius: 999px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      a.primary {
+        background: var(--sage);
+        color: #061008;
+      }
+      a.ghost {
+        border: 1px solid var(--border);
+        color: var(--text);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <p class="meta">503 · Studio offline · nishal.dev</p>
+      <p class="code" aria-hidden="true">503</p>
+      <h1>The server dropped the feed</h1>
+      <p>
+        This hop failed (bad gateway or temporary outage). The portfolio app may be restarting —
+        wait a few seconds and try again.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="https://nishal.dev/">Home</a>
+        <a class="btn ghost" href="javascript:location.reload()">Refresh</a>
+        <a class="btn ghost" href="https://nishal.dev/projects">Projects</a>
+      </div>
+    </main>
+  </body>
+</html>

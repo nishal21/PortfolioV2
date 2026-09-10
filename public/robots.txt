@@ -102,6 +102,7 @@ Allow: /projects/handoff
 Allow: /projects/musico
 Allow: /projects/nekobeat
 Allow: /projects/nekodroid
+Allow: /projects/news-cli
 Allow: /projects/nmhelper
 Allow: /projects/otakupulse
 Allow: /projects/otazumi-auth
