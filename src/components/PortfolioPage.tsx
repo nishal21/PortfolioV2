@@ -1,13 +1,21 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { HeroProvider } from '@/components/scroll/HeroContext';
 import ScrollIntroSection from '@/components/scroll/ScrollIntroSection';
 import SiteNav from '@/components/layout/SiteNav';
 import AboutSection from '@/components/sections/AboutSection';
-import SkillsSection from '@/components/sections/SkillsSection';
 import ProjectsSection from '@/components/sections/ProjectsSection';
-import VideosSection from '@/components/sections/VideosSection';
-import ContactSection from '@/components/sections/ContactSection';
+
+const SkillsSection = dynamic(() => import('@/components/sections/SkillsSection'), {
+  loading: () => <div className="min-h-[40vh]" aria-hidden />,
+});
+const VideosSection = dynamic(() => import('@/components/sections/VideosSection'), {
+  loading: () => <div className="min-h-[50vh]" aria-hidden />,
+});
+const ContactSection = dynamic(() => import('@/components/sections/ContactSection'), {
+  loading: () => <div className="min-h-[40vh]" aria-hidden />,
+});
 
 function PortfolioBody() {
   return (

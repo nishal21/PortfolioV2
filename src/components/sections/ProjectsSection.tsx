@@ -260,7 +260,7 @@ function ProjectCard({
             src={getProjectThumbnail(project.id)}
             alt={`${project.title} by ${CREATOR_NAME}`}
             fallbackLabel={isProjectInDevelopment(project) ? 'In development' : 'Live'}
-            loading="eager"
+            loading="lazy"
             {...projectCardCoverProps}
           />
         </div>

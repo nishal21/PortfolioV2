@@ -2,6 +2,7 @@
 Creator: Nishal K
 GitHub: nishal21
 Peerlist: https://peerlist.io/nishal21
+X: https://x.com/Etainment2
 Site: https://nishal.dev
 RSS: https://nishal.dev/feed.xml
 Location: Malappuram, Kerala, India
@@ -11,6 +12,6 @@ Contact: nishal@nishal.dev
 Next.js, Vercel, Kerala open-source community
 
 /* SITE */
-Last update: 2026-06-09
+Last update: 2026-09-13
 Copyright: © 2020-2026 Nishal K. All rights reserved.
 Standards: HTML5, CSS3, JSON-LD, IndexNow

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { ArrowDown } from 'lucide-react';
 import HeroVideo from './HeroVideo';
 import HeroGlassTitle from './HeroGlassTitle';
@@ -8,20 +8,14 @@ import HeroSkeleton from './HeroSkeleton';
 import { useHero } from './HeroContext';
 import { personal } from '@/data/personal';
 import { CREATOR_NAME, GITHUB_HANDLE } from '@/lib/seo';
-import { HERO_VIDEO_CREDIT_URL, heroPosterSrc } from '@/lib/heroMedia';
+import { HERO_VIDEO_CREDIT_URL, HERO_VIDEO_POSTER, HERO_VIDEO_POSTER_MOBILE } from '@/lib/heroMedia';
 import { HERO_RESUME_EVENT, scrollToSection, snapHeroTextVisible } from '@/lib/scrollNav';
-import { isMobileViewport } from '@/lib/performance';
 import { useMounted } from '@/lib/useMounted';
 
 export default function ScrollIntroSection() {
   const { ready, titleReady, heroInView, heroPaused, setHeroReady, emitProgress, subscribeProgress } =
     useHero();
   const mounted = useMounted();
-  const [heroPoster, setHeroPoster] = useState(() => heroPosterSrc());
-
-  useEffect(() => {
-    if (isMobileViewport()) setHeroPoster(heroPosterSrc({ mobile: true }));
-  }, []);
   const copyRef = useRef<HTMLDivElement>(null);
   const posterRef = useRef<HTMLImageElement>(null);
   const scrubRef = useRef<HTMLDivElement>(null);
@@ -92,20 +86,22 @@ export default function ScrollIntroSection() {
         className="hero-media absolute inset-0 z-0"
         style={{
           backgroundColor: 'var(--ink)',
-          backgroundImage: `url(${heroPoster})`,
+          backgroundImage: `url(${HERO_VIDEO_POSTER_MOBILE})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
         <img
           ref={posterRef}
-          src={heroPoster}
+          src={HERO_VIDEO_POSTER_MOBILE}
+          srcSet={`${HERO_VIDEO_POSTER_MOBILE} 720w, ${HERO_VIDEO_POSTER} 1280w`}
+          sizes="100vw"
           alt=""
           className="hero-poster"
           width={1280}
           height={720}
           fetchPriority="high"
-          decoding="sync"
+          decoding="async"
           aria-hidden="true"
           onLoad={setHeroReady}
         />

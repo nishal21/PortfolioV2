@@ -79,9 +79,10 @@ export function HeroProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    // Safety net only — title should unlock immediately via HeroGlassTitle.
     const fallback = window.setTimeout(() => {
       setTitleReadyState(true);
-    }, 3200);
+    }, 900);
     return () => window.clearTimeout(fallback);
   }, []);
 

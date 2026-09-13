@@ -45,13 +45,14 @@ export default function HeroVideo({
   useEffect(() => {
     if (!mobile || loadVideo) return;
 
+    // Defer mobile video until after LCP so the poster + title win the network.
     const start = () => setLoadVideo(true);
     if (typeof requestIdleCallback !== 'undefined') {
-      const id = requestIdleCallback(start, { timeout: 700 });
+      const id = requestIdleCallback(start, { timeout: 2800 });
       return () => cancelIdleCallback(id);
     }
 
-    const t = window.setTimeout(start, 350);
+    const t = window.setTimeout(start, 2200);
     return () => window.clearTimeout(t);
   }, [loadVideo, mobile]);
 
@@ -130,7 +131,7 @@ export default function HeroVideo({
       playsInline
       loop
       autoPlay={loadVideo && !reducedMotion && !paused}
-      preload={mobile ? 'none' : 'auto'}
+      preload="none"
       disablePictureInPicture
       disableRemotePlayback
       aria-hidden="true"

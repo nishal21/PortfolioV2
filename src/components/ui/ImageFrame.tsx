@@ -40,15 +40,23 @@ export default function ImageFrame({
       className={`relative overflow-hidden border border-[var(--border-subtle)] bg-[#0c0e11] ${aspectClass} ${className}`}
     >
       {src && !failed ? (
-        <img
-          src={src}
-          alt={alt}
-          loading={loading}
-          decoding="async"
-          className={`absolute inset-0 block h-full w-full ${fitClass}`}
-          onLoad={() => setFailed(false)}
-          onError={() => setFailed(true)}
-        />
+        <picture>
+          {/\.jpe?g$/i.test(src) ? (
+            <>
+              <source srcSet={src.replace(/\.jpe?g$/i, '.avif')} type="image/avif" />
+              <source srcSet={src.replace(/\.jpe?g$/i, '.webp')} type="image/webp" />
+            </>
+          ) : null}
+          <img
+            src={src}
+            alt={alt}
+            loading={loading}
+            decoding="async"
+            className={`absolute inset-0 block h-full w-full ${fitClass}`}
+            onLoad={() => setFailed(false)}
+            onError={() => setFailed(true)}
+          />
+        </picture>
       ) : (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-4">
           <div className="h-px w-12 bg-[var(--amber)]" />

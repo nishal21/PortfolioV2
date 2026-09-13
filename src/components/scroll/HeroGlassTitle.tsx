@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   enableLiquidGlass,
   removeLiquidGlass,
@@ -175,14 +175,9 @@ function HeroGlassLetter({
 
 export default function HeroGlassTitle({ children }: HeroGlassTitleProps) {
   const { setTitleReady } = useHero();
-  const [glassOn, setGlassOn] = useState<boolean | null>(null);
+  // Paint plain title immediately for LCP; upgrade to liquid glass after idle.
+  const [enhanceGlass, setEnhanceGlass] = useState(false);
   const titleReadySentRef = useRef(false);
-  const readyLettersRef = useRef(0);
-
-  const letterCount = useMemo(
-    () => children.split('').filter((char) => char !== ' ').length,
-    [children]
-  );
 
   const markTitleReady = useCallback(() => {
     if (titleReadySentRef.current) return;
@@ -190,38 +185,23 @@ export default function HeroGlassTitle({ children }: HeroGlassTitleProps) {
     setTitleReady();
   }, [setTitleReady]);
 
-  const onLetterReady = useCallback(() => {
-    readyLettersRef.current += 1;
-    if (readyLettersRef.current >= letterCount) {
-      markTitleReady();
-    }
-  }, [letterCount, markTitleReady]);
+  useEffect(() => {
+    markTitleReady();
+  }, [markTitleReady]);
 
   useEffect(() => {
-    setGlassOn(heroLiquidGlassEnabled());
+    if (!heroLiquidGlassEnabled()) return;
+
+    const start = () => setEnhanceGlass(true);
+    if (typeof requestIdleCallback !== 'undefined') {
+      const id = requestIdleCallback(start, { timeout: 1400 });
+      return () => cancelIdleCallback(id);
+    }
+    const t = window.setTimeout(start, 500);
+    return () => window.clearTimeout(t);
   }, []);
 
-  useEffect(() => {
-    if (glassOn === false) {
-      markTitleReady();
-    }
-  }, [glassOn, markTitleReady]);
-
-  useEffect(() => {
-    if (glassOn && letterCount === 0) {
-      markTitleReady();
-    }
-  }, [glassOn, letterCount, markTitleReady]);
-
-  if (glassOn === null) {
-    return (
-      <h1 className="hero-title hero-title--pending font-display" aria-hidden="true">
-        {children}
-      </h1>
-    );
-  }
-
-  if (glassOn === false) {
+  if (!enhanceGlass) {
     return (
       <h1 className="hero-title hero-title--fallback hero-glass-wrap font-display">{children}</h1>
     );
@@ -238,7 +218,7 @@ export default function HeroGlassTitle({ children }: HeroGlassTitleProps) {
               &nbsp;
             </span>
           ) : (
-            <HeroGlassLetter key={`${char}-${index}`} char={char} onReady={onLetterReady} />
+            <HeroGlassLetter key={`${char}-${index}`} char={char} />
           )
         )}
       </span>

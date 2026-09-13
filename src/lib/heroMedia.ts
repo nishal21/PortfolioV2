@@ -23,11 +23,13 @@ export const HERO_VIDEO_IS_REMOTE = HERO_VIDEO_SRC.startsWith('http');
 
 /** First-frame still for crawlers and the pre-video backdrop. */
 export function heroPosterSrc(options?: { mobile?: boolean }) {
-  const w = options?.mobile ? 960 : 1280;
-  return `${CLOUDINARY_BASE}/so_0,q_auto,f_jpg,w_${w}/${CLOUDINARY_HERO_ID}.jpg`;
+  const w = options?.mobile ? 720 : 1280;
+  // f_auto negotiates WebP/AVIF; keep .jpg public id for Cloudinary compatibility
+  return `${CLOUDINARY_BASE}/so_0,q_auto,f_auto,w_${w},c_limit/${CLOUDINARY_HERO_ID}.jpg`;
 }
 
 export const HERO_VIDEO_POSTER = heroPosterSrc();
+export const HERO_VIDEO_POSTER_MOBILE = heroPosterSrc({ mobile: true });
 
 /** Hint first frame without a separate poster image request. */
 export function heroVideoSrcWithTimeHint(src: string) {

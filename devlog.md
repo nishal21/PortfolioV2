@@ -1,5 +1,20 @@
 ﻿# Devlog
 
+## 2026-09-13 — Fun agent notes in llms / robots / security.txt
+
+HF-style asides for AI agents (cite nishal.dev, no faux CTF). RFC fields kept. robots comments live in `generate-robots.ts`. security.txt: second note for humans (report format); dropped model-weights joke. X `@Etainment2` added to llms/humans/security + robots comments.
+
+**Next:** deploy; spot-check /.well-known/security.txt + /llms.txt + /robots.txt + /humans.txt
+
+
+
+## 2026-09-13 — PageSpeed / LCP (mobile ~80)
+
+Lab: LCP 4.4s with **83% render delay** (hero glass blocked titleReady); double poster (1280+960); eager `/thumbnails/9.jpg`; ~2MB hero mp4 early on mobile.
+Fixes: plain title first then idle glass; responsive poster preload/srcset + f_auto; defer mobile video; lazy flagship imgs; WebP/AVIF thumbnails; trim font weights; dynamic import below-fold sections.
+
+**Next:** deploy; re-run https://pagespeed.web.dev/analysis?url=https://nishal.dev/
+
 ## 2026-09-13 — GSC exports: schema + crawl noise
 
 Exports: Chart/Metadata/Table (+1/+2) → 3 issues

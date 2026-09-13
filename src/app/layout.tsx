@@ -2,7 +2,11 @@ import type { Metadata } from 'next';
 import { Syne, DM_Sans, Noto_Sans_Malayalam } from 'next/font/google';
 import { copyrightNotice } from '@/components/layout/SiteFooter';
 import RootProviders from '@/components/layout/RootProviders';
-import { HERO_VIDEO_IS_REMOTE, HERO_VIDEO_POSTER } from '@/lib/heroMedia';
+import {
+  HERO_VIDEO_IS_REMOTE,
+  HERO_VIDEO_POSTER,
+  HERO_VIDEO_POSTER_MOBILE,
+} from '@/lib/heroMedia';
 import { FEED_PATH } from '@/lib/rss';
 import {
   CREATOR_NAME,
@@ -19,19 +23,23 @@ import './globals.css';
 const syne = Syne({
   variable: '--font-display',
   subsets: ['latin'],
-  weight: ['500', '600', '700', '800'],
+  weight: ['600', '700', '800'],
+  display: 'swap',
 });
 
 const dmSans = DM_Sans({
   variable: '--font-body',
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600'],
+  display: 'swap',
 });
 
 const notoMalayalam = Noto_Sans_Malayalam({
   variable: '--font-noto-malayalam',
   subsets: ['malayalam'],
   weight: ['400', '700'],
+  display: 'swap',
+  preload: false,
 });
 
 const siteVerificationOther: Record<string, string> = {};
@@ -117,7 +125,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         {HERO_VIDEO_IS_REMOTE ? (
-          <link rel="preload" href={HERO_VIDEO_POSTER} as="image" fetchPriority="high" />
+          <>
+            <link
+              rel="preload"
+              href={HERO_VIDEO_POSTER_MOBILE}
+              as="image"
+              media="(max-width: 767px)"
+              fetchPriority="high"
+            />
+            <link
+              rel="preload"
+              href={HERO_VIDEO_POSTER}
+              as="image"
+              media="(min-width: 768px)"
+              fetchPriority="high"
+            />
+          </>
         ) : null}
         <meta name="copyright" content={copyrightNotice()} />
       </head>

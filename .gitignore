@@ -23,6 +23,7 @@ dist/
 .vscode/
 .idea/
 *.swp
+.tmp/
 *.swo
 
 # OS
