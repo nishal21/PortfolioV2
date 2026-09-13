@@ -7,10 +7,31 @@ import {
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
+    const noindex = { key: 'X-Robots-Tag', value: 'noindex, follow' };
+
     return [
       {
         source: '/_next/static/:path*',
-        headers: [{ key: 'Cache-Control', value: STATIC_CACHE_CONTROL }],
+        headers: [
+          { key: 'Cache-Control', value: STATIC_CACHE_CONTROL },
+          noindex,
+        ],
+      },
+      {
+        source: '/manifest.webmanifest',
+        headers: [noindex],
+      },
+      {
+        source: '/favicon.ico',
+        headers: [noindex],
+      },
+      {
+        source: '/apple-icon',
+        headers: [noindex],
+      },
+      {
+        source: '/apple-icon/:path*',
+        headers: [noindex],
       },
       {
         source: '/:path*',

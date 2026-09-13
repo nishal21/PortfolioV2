@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight, Github } from 'lucide-react';
 import { projects, getProjectSlug, getProjectThumbnail } from '@/data/projects';
 import ProjectIndexTable from '@/components/seo/ProjectIndexTable';
-import { SiteJsonLd } from '@/components/seo/JsonLd';
+import { ProjectsPageJsonLd } from '@/components/seo/JsonLd';
 import {
   CREATOR_NAME,
   GITHUB_HANDLE,
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
 export default function ProjectsIndexPage() {
   return (
     <div className="studio-stage min-h-screen text-[var(--text)]">
-      <SiteJsonLd />
+      <ProjectsPageJsonLd />
       <div className="page-container py-12 md:py-16">
         <Link
           href="/"

@@ -4,89 +4,227 @@
 # Search, social, and AI crawlers
 User-agent: Googlebot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: Googlebot-Image
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: Googlebot-News
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: Googlebot-Video
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: Google-InspectionTool
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: Storebot-Google
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: Bingbot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: msnbot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: Slurp
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: DuckDuckBot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: Baiduspider
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: YandexBot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: applebot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: facebot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: facebookexternalhit
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: LinkedInBot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: Twitterbot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: Pinterestbot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: Discordbot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: TelegramBot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: GPTBot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: Bytespider
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 User-agent: cohere-ai
 Allow: /
+Disallow: /api/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 
 # Default rule
 User-agent: *
 Disallow: /api/
-Disallow: /_next/
+Disallow: /_next/static/media/
+Disallow: /feed.xml
+Disallow: /rss.xml
+Disallow: /manifest.webmanifest
 Allow: /
 Allow: /about
 Allow: /privacy

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import ProjectIndexTable from '@/components/seo/ProjectIndexTable';
-import { AboutPageJsonLd, SiteJsonLd } from '@/components/seo/JsonLd';
+import { AboutPageJsonLd } from '@/components/seo/JsonLd';
 import { personal } from '@/data/personal';
 import { entityDefinition, seoTrustSignals } from '@/data/seo-content';
 import {
@@ -38,7 +38,6 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="studio-stage min-h-screen text-[var(--text)]">
-      <SiteJsonLd />
       <AboutPageJsonLd />
 
       <div className="page-container py-12 md:py-16">

@@ -1,6 +1,5 @@
 import { projects, getProjectSlug } from '@/data/projects';
 import { personal } from '@/data/personal';
-import { videos } from '@/data/videos';
 import { seoAnswerBlocks, seoTrustSignals } from '@/data/seo-content';
 import { resumeContact } from '@/data/resume';
 import {
@@ -12,7 +11,6 @@ import {
   SITE_URL,
   absoluteUrl,
 } from '@/lib/seo';
-import { videoDurationIso, videoUploadDateIso } from '@/lib/videoSchema';
 
 type JsonLdProps = {
   data: Record<string, unknown> | Record<string, unknown>[];
@@ -104,13 +102,14 @@ export function SiteJsonLd() {
     },
   };
 
+  // ProfilePage.mainEntity must be a Person object (not a bare @id) for GSC.
   const profilePage = {
     '@type': 'ProfilePage',
     '@id': `${SITE_URL}/#profile`,
     url: SITE_URL,
     name: `${CREATOR_NAME} · Portfolio`,
     description: personal.tagline,
-    mainEntity: { '@id': `${SITE_URL}/#person` },
+    mainEntity: person,
     isPartOf: { '@id': `${SITE_URL}/#website` },
     speakable: {
       '@type': 'SpeakableSpecification',
@@ -152,21 +151,6 @@ export function SiteJsonLd() {
     })),
   };
 
-  const videoObjects = videos.slice(0, 6).map((video) => ({
-    '@type': 'VideoObject',
-    name: video.title,
-    description: video.description,
-    thumbnailUrl: video.thumbnail.startsWith('http')
-      ? video.thumbnail
-      : absoluteUrl(video.thumbnail),
-    uploadDate: videoUploadDateIso(video.date),
-    duration: videoDurationIso(video.duration),
-    contentUrl: `https://www.youtube.com/watch?v=${video.youtubeId}`,
-    embedUrl: `https://www.youtube.com/embed/${video.youtubeId}`,
-    author: { '@id': `${SITE_URL}/#person` },
-    publisher: { '@id': `${SITE_URL}/#organization` },
-  }));
-
   const siteNav = {
     '@type': 'SiteNavigationElement',
     name: 'Main navigation',
@@ -181,57 +165,106 @@ export function SiteJsonLd() {
     ],
   };
 
+  // No VideoObject here — GSC flags "Video isn't on a watch page" when YouTube
+  // clips are marked up on portfolio/listing pages (home, /about, /projects).
+
   return (
     <JsonLd
       data={{
         '@context': 'https://schema.org',
-        '@graph': [person, organization, website, profilePage, webPage, itemList, siteNav, ...videoObjects],
+        '@graph': [person, organization, website, profilePage, webPage, itemList, siteNav],
       }}
     />
   );
 }
 
 export function AboutPageJsonLd() {
-  const aboutPage = {
-    '@context': 'https://schema.org',
-    '@type': 'AboutPage',
-    '@id': `${absoluteUrl('/about')}#aboutpage`,
-    url: absoluteUrl('/about'),
-    name: `About ${CREATOR_NAME}`,
-    description: `Background, awards, and projects of ${CREATOR_NAME} (${GITHUB_HANDLE}).`,
-    mainEntity: { '@id': `${SITE_URL}/#person` },
-    isPartOf: { '@id': `${SITE_URL}/#website` },
-    speakable: {
-      '@type': 'SpeakableSpecification',
-      cssSelector: ['.seo-speakable'],
-    },
-  };
+  const person = personNode();
 
-  return <JsonLd data={aboutPage} />;
+  return (
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@graph': [
+          person,
+          {
+            '@type': 'AboutPage',
+            '@id': `${absoluteUrl('/about')}#aboutpage`,
+            url: absoluteUrl('/about'),
+            name: `About ${CREATOR_NAME}`,
+            description: `Background, awards, and projects of ${CREATOR_NAME} (${GITHUB_HANDLE}).`,
+            mainEntity: person,
+            isPartOf: { '@id': `${SITE_URL}/#website` },
+            speakable: {
+              '@type': 'SpeakableSpecification',
+              cssSelector: ['.seo-speakable'],
+            },
+          },
+        ],
+      }}
+    />
+  );
 }
 
 export function ProfilePageJsonLd() {
-  const profilePage = {
-    '@context': 'https://schema.org',
-    '@type': 'ProfilePage',
-    '@id': `${absoluteUrl('/profile')}#profilepage`,
-    url: absoluteUrl('/profile'),
-    name: `Profile · ${CREATOR_NAME}`,
-    description: `Who is ${CREATOR_NAME}? What is ${GITHUB_HANDLE}? Projects, location, and contact.`,
-    mainEntity: { '@id': `${SITE_URL}/#person` },
-    isPartOf: { '@id': `${SITE_URL}/#website` },
-    speakable: {
-      '@type': 'SpeakableSpecification',
-      cssSelector: ['.seo-speakable'],
-    },
-    hasPart: seoAnswerBlocks.map((block) => ({
-      '@type': 'WebPageElement',
-      name: block.question,
-      description: block.answer,
-    })),
-  };
+  const person = personNode();
 
-  return <JsonLd data={profilePage} />;
+  return (
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@graph': [
+          person,
+          {
+            '@type': 'ProfilePage',
+            '@id': `${absoluteUrl('/profile')}#profilepage`,
+            url: absoluteUrl('/profile'),
+            name: `Profile · ${CREATOR_NAME}`,
+            description: `Who is ${CREATOR_NAME}? What is ${GITHUB_HANDLE}? Projects, location, and contact.`,
+            mainEntity: person,
+            isPartOf: { '@id': `${SITE_URL}/#website` },
+            speakable: {
+              '@type': 'SpeakableSpecification',
+              cssSelector: ['.seo-speakable'],
+            },
+            hasPart: seoAnswerBlocks.map((block) => ({
+              '@type': 'WebPageElement',
+              name: block.question,
+              description: block.answer,
+            })),
+          },
+        ],
+      }}
+    />
+  );
+}
+
+export function ProjectsPageJsonLd() {
+  return (
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        '@id': `${absoluteUrl('/projects')}#collection`,
+        url: absoluteUrl('/projects'),
+        name: `Projects by ${CREATOR_NAME}`,
+        description: `All projects by ${CREATOR_NAME} (${GITHUB_HANDLE}) on nishal.dev.`,
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        about: { '@id': `${SITE_URL}/#person` },
+        mainEntity: {
+          '@type': 'ItemList',
+          name: `Projects by ${CREATOR_NAME}`,
+          numberOfItems: projects.length,
+          itemListElement: projects.map((project, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: project.title,
+            url: absoluteUrl(`/projects/${getProjectSlug(project)}`),
+          })),
+        },
+      }}
+    />
+  );
 }
 
 export function ProjectJsonLd({

@@ -39,16 +39,29 @@ const crawlers = [
   'cohere-ai',
 ];
 
+const botRules = [
+  'Allow: /',
+  'Disallow: /api/',
+  // Keep chunks crawlable for rendering; block only hashed media fonts Google was indexing.
+  'Disallow: /_next/static/media/',
+  'Disallow: /feed.xml',
+  'Disallow: /rss.xml',
+  'Disallow: /manifest.webmanifest',
+];
+
 const lines = [
   '# nishal.dev — allow crawlers; explicit public pages listed below',
   '# Auto-maintained: npm run generate:robots',
   '',
   '# Search, social, and AI crawlers',
-  ...crawlers.flatMap((bot) => [`User-agent: ${bot}`, 'Allow: /', '']),
+  ...crawlers.flatMap((bot) => [`User-agent: ${bot}`, ...botRules, '']),
   '# Default rule',
   'User-agent: *',
   'Disallow: /api/',
-  'Disallow: /_next/',
+  'Disallow: /_next/static/media/',
+  'Disallow: /feed.xml',
+  'Disallow: /rss.xml',
+  'Disallow: /manifest.webmanifest',
   ...paths.map((path) => `Allow: ${path}`),
   '',
   `Sitemap: ${SITE_URL}/sitemap.xml`,

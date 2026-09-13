@@ -1,5 +1,15 @@
 ﻿# Devlog
 
+## 2026-09-13 — GSC exports: schema + crawl noise
+
+Exports: Chart/Metadata/Table (+1/+2) → 3 issues
+1. `/profile` Invalid mainEntity → embed full `Person` on ProfilePage/AboutPage
+2. Video isn’t on a watch page (/, /about, /projects) → remove VideoObject from SiteJsonLd; about/projects use page-local JSON-LD only
+3. Crawled–not indexed (fonts, favicon, apple-icon, manifest, feed, www) → `X-Robots-Tag: noindex` + robots Disallow media/feed/manifest
+Out of repo: `weather.nishal.dev/llms.txt`; www already 301→apex
+
+**Next:** deploy; GSC URL Inspection → Validate fix on `/profile`, `/`, `/about`, `/projects`
+
 ## 2026-09-10 — Studio 404 / error pages
 
 - Shared `ErrorStage` (film “frame missing”): `not-found.tsx`, `error.tsx`, `global-error.tsx`
