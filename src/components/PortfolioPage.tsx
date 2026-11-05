@@ -3,9 +3,11 @@
 import dynamic from 'next/dynamic';
 import KineticHero from '@/components/hero/KineticHero';
 import SiteNav from '@/components/layout/SiteNav';
-import AboutSection from '@/components/sections/AboutSection';
 import ProjectsSection from '@/components/sections/ProjectsSection';
 
+const AboutSection = dynamic(() => import('@/components/sections/AboutSection'), {
+  loading: () => <div className="min-h-[50vh]" aria-hidden />,
+});
 const SkillsSection = dynamic(() => import('@/components/sections/SkillsSection'), {
   loading: () => <div className="min-h-[40vh]" aria-hidden />,
 });

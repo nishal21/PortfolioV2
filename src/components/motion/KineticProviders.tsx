@@ -59,14 +59,13 @@ export default function KineticProviders({ children }: { children: ReactNode }) 
 
     if (prefersReducedMotion() || detectDeviceTier() < 2) return;
 
-    void bootLenis();
-
     const schedule =
       typeof window !== 'undefined' && 'requestIdleCallback' in window
-        ? (cb: () => void) => window.requestIdleCallback(cb, { timeout: 2200 })
-        : (cb: () => void) => window.setTimeout(cb, 900);
+        ? (cb: () => void) => window.requestIdleCallback(cb, { timeout: 4000 })
+        : (cb: () => void) => window.setTimeout(cb, 1800);
 
     idleId = schedule(() => {
+      void bootLenis();
       void bootGsap();
     }) as number;
 
