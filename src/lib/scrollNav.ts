@@ -111,10 +111,10 @@ export function getActiveSectionHref(contentReady = true): string {
   const y = getScrollY();
   const vh = window.innerHeight;
 
-  if (y < vh * 0.45) return '#home';
+  if (y < vh * 0.28) return '#home';
   if (!contentReady) return '#home';
 
-  const marker = y + NAV_SCROLL_OFFSET + 40;
+  const marker = y + NAV_SCROLL_OFFSET + Math.min(160, window.innerHeight * 0.22);
   let current = '#home';
 
   for (const item of navItems) {

@@ -7,7 +7,7 @@ export default function SkillsSection() {
   return (
     <StudioSection
       id="skills"
-      label="Craft"
+      label="03 / Skills"
       title="Expertise"
       description="I edit and produce first. Then I write the code that has to ship with it."
     >

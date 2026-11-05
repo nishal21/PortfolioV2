@@ -10,7 +10,7 @@ export default function AboutSection() {
   return (
     <StudioSection
       id="about"
-      label="About"
+      label="02 / About"
       title={`About ${CREATOR_NAME}`}
       description={`${personal.tagline} GitHub: ${GITHUB_HANDLE}.`}
     >

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { projects, getProjectSlug } from '@/data/projects';
 import { FEATURED_PROJECT_TITLES } from '@/data/featured';
@@ -15,33 +16,56 @@ export default function ProjectsSection() {
   const archive = projects.filter((p) => !featuredTitles.includes(p.title));
 
   return (
-    <StudioSection id="projects" label="Selected work" title="Projects that shipped." accent="warm">
+    <StudioSection id="projects" label="04 / Selected work" title="Projects that shipped." accent="warm">
       <p className="studio-desc" style={{ marginTop: '-1rem', marginBottom: '1.75rem' }}>
         Six featured builds. Everything else lives in the archive below — same honesty, less noise.
       </p>
 
       <div className="kinetic-featured-grid">
-        {featured.map((project) => {
+        {featured.map((project, i) => {
           const slug = getProjectSlug(project);
+          const cover = project.images?.[0];
           return (
             <article key={project.id} className="kinetic-featured-card">
-              <h3>
-                <Link href={`/projects/${slug}`}>{project.title}</Link>
-              </h3>
-              <p>{project.description}</p>
-              <div className="kinetic-featured-meta">
-                <span>{project.category}</span>
-                {project.status ? <span>{project.status}</span> : null}
-                {project.liveUrl ? (
-                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                    Live
-                  </a>
-                ) : null}
-                {project.githubUrl ? (
-                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                    GitHub
-                  </a>
-                ) : null}
+              <Link href={`/projects/${slug}`} className="kinetic-featured-media">
+                {cover ? (
+                  <Image
+                    src={cover}
+                    alt=""
+                    width={640}
+                    height={360}
+                    className="kinetic-featured-img"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                ) : (
+                  <div className="kinetic-featured-fallback" aria-hidden="true">
+                    <span>{String(i + 1).padStart(2, '0')}</span>
+                    <span>{project.title}</span>
+                  </div>
+                )}
+              </Link>
+              <div className="kinetic-featured-body">
+                <p className="kinetic-featured-idx" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </p>
+                <h3>
+                  <Link href={`/projects/${slug}`}>{project.title}</Link>
+                </h3>
+                <p>{project.description}</p>
+                <div className="kinetic-featured-meta">
+                  <span>{project.category}</span>
+                  {project.status ? <span>{project.status}</span> : null}
+                  {project.liveUrl ? (
+                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                      Live
+                    </a>
+                  ) : null}
+                  {project.githubUrl ? (
+                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                      GitHub
+                    </a>
+                  ) : null}
+                </div>
               </div>
             </article>
           );
@@ -73,4 +97,3 @@ export default function ProjectsSection() {
     </StudioSection>
   );
 }
-

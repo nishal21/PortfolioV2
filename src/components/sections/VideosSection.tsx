@@ -52,7 +52,7 @@ function VideoModal({ video, onClose }: { video: Video; onClose: () => void }) {
               </p>
             </div>
           </div>
-          <div className="studio-modal-actions" role="group" aria-label="Video links">
+          <div className="studio-modal-actions" role="group" aria-label="Video actions">
             <a
               href={`https://youtube.com/watch?v=${video.youtubeId}`}
               target="_blank"
@@ -81,7 +81,7 @@ export default function VideosSection() {
     <>
       <StudioSection
         id="videos"
-        label="Reel"
+        label="05 / Videos"
         title="AMV edits & remixes"
         description="Cuts and music work on @DemonKing0.___"
         accent="warm"

@@ -12,7 +12,7 @@ import {
 import { getActiveSectionHref, scrollToSection } from '@/lib/scrollNav';
 
 /**
- * Solid Kinetic Studio nav — no liquid glass, no backdrop-filter.
+ * Sharp Kinetic Studio chrome — no pills, no glass, no backdrop-filter.
  */
 export default function SiteNav() {
   const [active, setActive] = useState('#home');
@@ -69,29 +69,43 @@ export default function SiteNav() {
   return (
     <>
       <header className="kinetic-nav-header">
-        <nav className="kinetic-nav" aria-label="Primary">
-          {navItems.map((item) => (
-            <button
-              key={item.href}
-              type="button"
-              className={`kinetic-nav-item ${active === item.href ? 'is-active' : ''}`}
-              onClick={(e) => {
-                e.preventDefault();
-                scrollTo(item.href);
-              }}
-              aria-current={active === item.href ? 'page' : undefined}
-            >
-              {item.name === 'Home' ? 'NK' : item.name}
-            </button>
-          ))}
-        </nav>
+        <div className="kinetic-nav-bar">
+          <button
+            type="button"
+            className="kinetic-nav-mark"
+            onClick={() => scrollTo('#home')}
+            aria-label="Home"
+          >
+            NK
+          </button>
+          <nav className="kinetic-nav" aria-label="Primary">
+            {navItems.map((item, i) => (
+              <button
+                key={item.href}
+                type="button"
+                className={`kinetic-nav-item ${active === item.href ? 'is-active' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollTo(item.href);
+                }}
+                aria-current={active === item.href ? 'page' : undefined}
+              >
+                <span className="kinetic-nav-num" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                {item.name}
+              </button>
+            ))}
+          </nav>
+        </div>
       </header>
 
       <nav className="kinetic-nav-dock" aria-label="Site navigation">
         <div className="kinetic-nav-dock-inner">
           {mobileTabItems.map((item) => {
             const Icon = navIcons[item.href];
-            const on = mobileTabIndexForHref(active) === mobileTabItems.indexOf(item) && !contactActive;
+            const on =
+              mobileTabIndexForHref(active) === mobileTabItems.indexOf(item) && !contactActive;
             return (
               <button
                 key={item.href}
@@ -101,7 +115,7 @@ export default function SiteNav() {
                 aria-current={on ? 'page' : undefined}
               >
                 {Icon ? <Icon className="kinetic-dock-icon" strokeWidth={2} aria-hidden /> : null}
-                <span>{item.name === 'Home' ? 'Home' : item.name}</span>
+                <span>{item.name}</span>
               </button>
             );
           })}
