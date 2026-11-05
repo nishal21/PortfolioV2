@@ -3176,3 +3176,40 @@ img[alt*="Cartesia Startups"] {
     box-sizing: border-box;
   }
 }
+/* v4 contact CTA — sharp Kinetic, no soft pills */
+.studio-contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: center;
+}
+.studio-contact-actions .connect-btn-shell,
+.studio-contact-actions .connect-btn-inner,
+.connect-btn-shell,
+.connect-btn-inner {
+  border-radius: 0 !important;
+}
+.studio-contact-actions .connect-btn-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.15rem;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(8,10,14,0.9);
+  color: var(--text-soft);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+.studio-contact-actions .connect-btn-inner:hover {
+  border-color: rgba(201,149,58,0.65);
+  background: rgba(201,149,58,0.1);
+  color: #f2e6c9;
+}
+.studio-contact-social a,
+.studio-contact-socials a {
+  border-radius: 0 !important;
+}
