@@ -5,11 +5,6 @@ export const contactInfo = [
     href: 'mailto:nishal@nishal.dev',
   },
   {
-    label: 'Phone',
-    value: '+91 xxxxxxxxxx',
-    href: 'tel:+91xxxxxxxxxxx',
-  },
-  {
     label: 'Location',
     value: 'Malappuram, Kerala, India',
     href: 'https://maps.google.com/?q=Malappuram,Kerala,India',

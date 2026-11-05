@@ -2837,3 +2837,199 @@ html body .liquidGlass-effect {
 .studio-contact-actions a {
   clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
 }
+
+/* === Kinetic Hero v3 composition === */
+.kinetic-hero--v3 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  min-height: 100dvh;
+  padding: 4.5rem 0 4rem;
+  overflow: hidden;
+}
+.kinetic-hero--v3 .kinetic-hero-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.kinetic-hero--v3 .kinetic-hero-canvas {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.kinetic-hero--v3 .kinetic-hero-canvas.is-live {
+  opacity: 1;
+}
+.kinetic-hero--v3 .kinetic-hero-vignette {
+  background:
+    linear-gradient(90deg, rgba(5,6,8,0.92) 0%, rgba(5,6,8,0.55) 42%, rgba(5,6,8,0.15) 70%, rgba(5,6,8,0.35) 100%),
+    linear-gradient(180deg, rgba(5,6,8,0.2) 0%, rgba(5,6,8,0.05) 40%, rgba(5,6,8,0.85) 100%);
+}
+.kinetic-hero--v3 .kinetic-hero-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  max-width: 72rem;
+  min-width: 0;
+  padding-bottom: 1rem;
+}
+.kinetic-hero--v3 .kinetic-hero-copy {
+  max-width: min(34rem, 100%);
+  min-width: 0;
+}
+.kinetic-hero--v3 .kinetic-hero-title {
+  max-width: 100%;
+}
+.kinetic-hero--v3 .kinetic-hero-name {
+  font-size: clamp(2.8rem, 11vw, 6.2rem);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.kinetic-hero--v3 .kinetic-hero-tag {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+.kinetic-hero--v3 .kinetic-hero-meta {
+  flex-wrap: wrap;
+  max-width: 100%;
+  gap: 0.4rem 0.85rem;
+}
+.kinetic-hero--v3 .kinetic-hero-loc {
+  overflow-wrap: anywhere;
+}
+.kinetic-hero--v3 .kinetic-hero-timecode {
+  top: 4.6rem;
+  right: max(1rem, env(safe-area-inset-right));
+  max-width: calc(100vw - 2rem);
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+.kinetic-hero--v3 .kinetic-hero-cta {
+  max-width: 100%;
+}
+.kinetic-hero--v3 .kinetic-frame-btn {
+  min-width: 0;
+  flex: 1 1 auto;
+  max-width: 100%;
+}
+
+/* AMV cut-in letter reveal — visible for LCP, then beat cuts */
+.kinetic-hero--v3 .kinetic-glyph {
+  display: inline-block;
+  opacity: 1 !important;
+  clip-path: none !important;
+  transform: none !important;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .kinetic-hero--v3.is-ready .kinetic-glyph {
+    animation: kinetic-cut-in 0.55s steps(2, end) both;
+    animation-delay: calc(60ms + var(--i, 0) * 70ms);
+  }
+}
+@keyframes kinetic-cut-in {
+  0% { opacity: 0; transform: translate(-0.08em, 0.12em) skewX(-8deg); filter: brightness(2); }
+  40% { opacity: 1; transform: translate(0.04em, -0.04em) skewX(4deg); filter: brightness(1.4); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+
+@media (max-width: 767px) {
+  .kinetic-hero--v3 {
+    padding: 3.4rem 0 6.8rem;
+    min-height: auto;
+  }
+  .kinetic-hero--v3 .kinetic-hero-stage {
+    position: absolute;
+    inset: 0;
+    height: 42vh;
+    bottom: auto;
+  }
+  .kinetic-hero--v3 {
+    padding-top: calc(42vh - 1rem);
+  }
+  .kinetic-hero--v3 .kinetic-hero-vignette {
+    background:
+      linear-gradient(180deg, rgba(5,6,8,0.15) 0%, rgba(5,6,8,0.55) 55%, #050608 100%);
+  }
+  .kinetic-hero--v3 .kinetic-hero-inner {
+    align-items: flex-start;
+    padding-top: 0.5rem;
+  }
+  .kinetic-hero--v3 .kinetic-hero-name {
+    font-size: clamp(2.6rem, 14vw, 3.6rem);
+  }
+  .kinetic-hero--v3 .kinetic-hero-timecode {
+    top: 0.85rem;
+    right: 0.75rem;
+    font-size: 0.58rem;
+  }
+  .kinetic-hero--v3::before,
+  .kinetic-hero--v3::after {
+    top: 0.75rem;
+  }
+  .kinetic-hero--v3 .kinetic-hero-frame-bl,
+  .kinetic-hero--v3 .kinetic-hero-frame-br {
+    bottom: 5.5rem;
+  }
+  .kinetic-hero--v3 .kinetic-hero-scroll {
+    bottom: 5.5rem;
+  }
+  .kinetic-hero--v3 .kinetic-hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .kinetic-hero--v3 .kinetic-frame-btn {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* Hard ban horizontal overflow */
+html, body, #page-root, .kinetic-hero, .kinetic-hero-inner, .kinetic-hero-copy {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+/* Featured media real covers */
+.kinetic-featured-media {
+  position: relative;
+  background: #0a0d12;
+}
+.kinetic-featured-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
+  filter: saturate(1.05) contrast(1.02);
+}
+.kinetic-featured-card:hover .kinetic-featured-img {
+  transform: scale(1.045);
+  filter: saturate(1.12) contrast(1.05);
+}
+.kinetic-featured-idx { display: none; }
+
+@font-face {
+  font-family: 'Noto Sans Malayalam Subset';
+  font-style: normal;
+  font-weight: 700;
+  font-display: optional;
+  src: url('/fonts/noto-malayalam-nishal.woff2') format('woff2');
+  unicode-range: U+0D28, U+0D36, U+0D3E-0D3F, U+0D7D;
+}
+.font-malayalam {
+  font-family: 'Noto Sans Malayalam Subset', var(--font-noto-malayalam), system-ui, sans-serif;
+}
+
+.kinetic-ascii-credit {
+  margin: 0.65rem 0 0;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.kinetic-ascii-credit a { color: var(--amber); text-decoration: none; }
+.kinetic-ascii-live { max-height: 10rem; overflow: hidden; }

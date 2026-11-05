@@ -60,7 +60,7 @@ export const projects: Project[] = [
       "languages": ["TypeScript"],
       "deployment": ["Vercel"]
     },
-    "images": [],
+    "images": ["/projects/covers/firstpr.webp"],
     "pinned": true
   },
   {
@@ -107,9 +107,7 @@ export const projects: Project[] = [
         "GitHub Pages"
       ]
     },
-    "images": [
-      "/projects/neko-beat.svg"
-    ],
+    "images": ["/projects/covers/nekobeat.webp"],
     "pinned": true
   },
   {
@@ -229,9 +227,7 @@ export const projects: Project[] = [
         "Android ABI"
       ]
     },
-    "images": [
-      "/projects/neko-droid.svg"
-    ],
+    "images": ["/projects/covers/nekodroid.webp"],
     "pinned": true
   },
   {
@@ -463,9 +459,7 @@ export const projects: Project[] = [
         "HTML5"
       ]
     },
-    "images": [
-      "/projects/nmhelper.svg"
-    ],
+    "images": ["/projects/covers/nmhelper.webp"],
     "pinned": true
   },
   {
@@ -624,9 +618,7 @@ export const projects: Project[] = [
         "send.nishal.dev"
       ]
     },
-    "images": [
-      "/projects/handoff.svg"
-    ]
+    "images": ["/projects/covers/handoff.webp"]
   },
   {
     "id": 16,
@@ -770,9 +762,7 @@ export const projects: Project[] = [
         "otazumi-review"
       ]
     },
-    "images": [
-      "/projects/otazumi.svg"
-    ],
+    "images": ["/projects/covers/otazumi.webp"],
   },
   {
     "id": 4,

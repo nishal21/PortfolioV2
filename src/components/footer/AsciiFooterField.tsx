@@ -81,11 +81,7 @@ export default function AsciiFooterField() {
         </div>
       )}
       <p className="kinetic-ascii-credit">
-        ASCII via{' '}
-        <a href="https://ascii.rest/" target="_blank" rel="noopener noreferrer">
-          ascii.rest
-        </a>
-        {' '}Banner + equalizer · static figlet fallback
+        <a href="https://ascii.rest/" target="_blank" rel="noopener noreferrer">ascii.rest</a>
       </p>
     </div>
   );

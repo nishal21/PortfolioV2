@@ -14,6 +14,7 @@ export default function KineticProviders({ children }: { children: ReactNode }) 
     let idleId = 0;
 
     async function bootLenis() {
+      if (typeof window !== 'undefined' && /(?:^|[?&])nolenis(?:=|$)/.test(window.location.search)) return;
       if (!lenisEnabled()) return;
       try {
         const { default: Lenis } = await import('lenis');
@@ -23,7 +24,8 @@ export default function KineticProviders({ children }: { children: ReactNode }) 
           raf = requestAnimationFrame(loop);
         };
         raf = requestAnimationFrame(loop);
-        destroyLenis = () => {
+        (window as Window & { __lenis?: typeof lenis }).__lenis = lenis;
+        destroyLenis = () => { delete (window as Window & { __lenis?: unknown }).__lenis;
           cancelAnimationFrame(raf);
           lenis.destroy();
         };
@@ -83,4 +85,5 @@ export default function KineticProviders({ children }: { children: ReactNode }) 
 
   return <>{children}</>;
 }
+
 

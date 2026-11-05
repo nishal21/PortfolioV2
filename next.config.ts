@@ -5,6 +5,9 @@ import {
 } from './src/lib/securityHeaders';
 
 const nextConfig: NextConfig = {
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
+  },
   transpilePackages: ['ascii.rest', 'lenis'],
   poweredByHeader: false,
   async headers() {
@@ -68,4 +71,5 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
 

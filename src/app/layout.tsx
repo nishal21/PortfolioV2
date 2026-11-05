@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Syne, DM_Sans, Noto_Sans_Malayalam } from 'next/font/google';
+import { Syne, DM_Sans } from 'next/font/google';
 import { copyrightNotice } from '@/components/layout/SiteFooter';
 import RootProviders from '@/components/layout/RootProviders';
 import { FEED_PATH } from '@/lib/rss';
@@ -18,7 +18,7 @@ import './globals.css';
 const syne = Syne({
   variable: '--font-display',
   subsets: ['latin'],
-  weight: ['600', '700', '800'],
+  weight: ['700', '800'],
   display: 'swap',
 });
 
@@ -27,14 +27,6 @@ const dmSans = DM_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
   display: 'swap',
-});
-
-const notoMalayalam = Noto_Sans_Malayalam({
-  variable: '--font-noto-malayalam',
-  subsets: ['malayalam'],
-  weight: ['400', '700'],
-  display: 'swap',
-  preload: false,
 });
 
 const siteVerificationOther: Record<string, string> = {};
@@ -119,7 +111,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="copyright" content={copyrightNotice()} />
       </head>
-      <body className={`${syne.variable} ${dmSans.variable} ${notoMalayalam.variable} antialiased`}>
+      <body className={`${syne.variable} ${dmSans.variable} antialiased`}>
         <noscript>
           <div className="noscript-notice">
             <strong>Nishal · Nishal K (nishal21)</strong>. AMV editor, music producer, and full-stack developer from

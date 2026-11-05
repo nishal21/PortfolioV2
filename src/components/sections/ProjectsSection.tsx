@@ -45,9 +45,6 @@ export default function ProjectsSection() {
                 )}
               </Link>
               <div className="kinetic-featured-body">
-                <p className="kinetic-featured-idx" aria-hidden="true">
-                  {String(i + 1).padStart(2, '0')}
-                </p>
                 <h3>
                   <Link href={`/projects/${slug}`}>{project.title}</Link>
                 </h3>
