@@ -2825,3 +2825,15 @@ html body .liquidGlass-effect {
   transform: none !important;
   transition: none !important;
 }
+
+.studio-contact-actions a,
+.studio-contact-actions button,
+.studio-form input,
+.studio-form textarea,
+.studio-form button,
+.studio-contact-form {
+  border-radius: 0 !important;
+}
+.studio-contact-actions a {
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
