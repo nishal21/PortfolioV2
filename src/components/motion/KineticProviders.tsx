@@ -4,14 +4,14 @@ import { useEffect, type ReactNode } from 'react';
 import { lenisEnabled, prefersReducedMotion, detectDeviceTier } from '@/lib/deviceTier';
 
 /**
- * Lenis on tier >= 2. GSAP ScrollTrigger loads on idle to protect TBT.
+ * Lenis + GSAP ScrollTrigger boot AFTER first scroll or long idle (TBT).
  */
 export default function KineticProviders({ children }: { children: ReactNode }) {
   useEffect(() => {
     let destroyLenis: (() => void) | undefined;
     let raf = 0;
     let ctxCleanup: (() => void) | undefined;
-    let idleId = 0;
+    let started = false;
 
     async function bootLenis() {
       if (typeof window !== 'undefined' && /(?:^|[?&])nolenis(?:=|$)/.test(window.location.search)) return;
@@ -25,7 +25,8 @@ export default function KineticProviders({ children }: { children: ReactNode }) 
         };
         raf = requestAnimationFrame(loop);
         (window as Window & { __lenis?: typeof lenis }).__lenis = lenis;
-        destroyLenis = () => { delete (window as Window & { __lenis?: unknown }).__lenis;
+        destroyLenis = () => {
+          delete (window as Window & { __lenis?: unknown }).__lenis;
           cancelAnimationFrame(raf);
           lenis.destroy();
         };
@@ -41,7 +42,6 @@ export default function KineticProviders({ children }: { children: ReactNode }) 
         const stMod = await import('gsap/ScrollTrigger');
         const ScrollTrigger = stMod.ScrollTrigger;
         gsap.registerPlugin(ScrollTrigger);
-
         const cards = gsap.utils.toArray('.kinetic-featured-card') as HTMLElement[];
         cards.forEach((el, i) => {
           gsap.from(el, {
@@ -52,38 +52,36 @@ export default function KineticProviders({ children }: { children: ReactNode }) 
             scrollTrigger: { trigger: el, start: 'top 90%', once: true },
           });
         });
-
         ctxCleanup = () => ScrollTrigger.getAll().forEach((t: { kill: () => void }) => t.kill());
       } catch {
         /* optional */
       }
     }
 
-    if (prefersReducedMotion() || detectDeviceTier() < 2) return;
-
-    const schedule =
-      typeof window !== 'undefined' && 'requestIdleCallback' in window
-        ? (cb: () => void) => window.requestIdleCallback(cb, { timeout: 4000 })
-        : (cb: () => void) => window.setTimeout(cb, 1800);
-
-    idleId = schedule(() => {
+    function start() {
+      if (started) return;
+      started = true;
       void bootLenis();
       void bootGsap();
-    }) as number;
+      window.removeEventListener('scroll', start);
+      window.removeEventListener('pointerdown', start);
+    }
+
+    if (prefersReducedMotion() || detectDeviceTier() < 2) return;
+
+    window.addEventListener('scroll', start, { once: true, passive: true });
+    window.addEventListener('pointerdown', start, { once: true, passive: true });
+    const t = globalThis.setTimeout(start, 6000) as unknown as number;
 
     return () => {
+      globalThis.clearTimeout(t);
+      window.removeEventListener('scroll', start);
+      window.removeEventListener('pointerdown', start);
       destroyLenis?.();
       ctxCleanup?.();
       if (raf) cancelAnimationFrame(raf);
-      if (typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
-        window.cancelIdleCallback(idleId);
-      } else {
-        clearTimeout(idleId);
-      }
     };
   }, []);
 
   return <>{children}</>;
 }
-
-

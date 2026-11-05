@@ -17,7 +17,7 @@ export default function KineticHero() {
   const wrapRef = useRef<HTMLElement>(null);
   const [ready, setReady] = useState(false);
   const [sceneOn, setSceneOn] = useState(false);
-  const [tc, setTc] = useState('00:00:00:00');
+  const tcRef = useRef<HTMLDivElement>(null);
   const ptr = useRef({ x: 0.65, y: 0.35 });
 
   useEffect(() => {
@@ -26,22 +26,35 @@ export default function KineticHero() {
   }, []);
 
   useEffect(() => {
-    if (prefersReducedMotion()) return;
+    if (prefersReducedMotion() || detectDeviceTier() < 2) return;
     let raf = 0;
+    let last = 0;
     const start = performance.now();
     const pad = (n: number) => String(n).padStart(2, '0');
     const tick = (now: number) => {
-      const totalFrames = Math.floor((now - start) / (1000 / 24));
-      const frames = totalFrames % 24;
-      const secsTotal = Math.floor(totalFrames / 24);
-      const s = secsTotal % 60;
-      const m = Math.floor(secsTotal / 60) % 60;
-      const h = Math.floor(secsTotal / 3600);
-      setTc(`${pad(h)}:${pad(m)}:${pad(s)}:${pad(frames)}`);
+      // ~8fps DOM text only — no React setState (protects TBT)
+      if (now - last > 120) {
+        last = now;
+        const totalFrames = Math.floor((now - start) / (1000 / 24));
+        const frames = totalFrames % 24;
+        const secsTotal = Math.floor(totalFrames / 24);
+        const s = secsTotal % 60;
+        const m = Math.floor(secsTotal / 60) % 60;
+        const h = Math.floor(secsTotal / 3600);
+        if (tcRef.current) tcRef.current.textContent = `${pad(h)}:${pad(m)}:${pad(s)}:${pad(frames)}`;
+      }
       raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    const schedule =
+      'requestIdleCallback' in window
+        ? (cb: () => void) => window.requestIdleCallback(cb, { timeout: 2500 })
+        : (cb: () => void) => globalThis.setTimeout(cb, 1200);
+    const handle = schedule(() => { raf = requestAnimationFrame(tick); }) as unknown as number;
+    return () => {
+      cancelAnimationFrame(raf);
+      if ('cancelIdleCallback' in window) window.cancelIdleCallback(handle);
+      else globalThis.clearTimeout(handle);
+    };
   }, []);
 
   useEffect(() => {
@@ -50,8 +63,8 @@ export default function KineticHero() {
     const boot = () => { if (!cancelled) setSceneOn(true); };
     const schedule: (cb: () => void) => number =
       typeof window !== 'undefined' && 'requestIdleCallback' in window
-        ? (cb) => window.requestIdleCallback(cb, { timeout: 1800 }) as unknown as number
-        : (cb) => globalThis.setTimeout(cb, 600) as unknown as number;
+        ? (cb) => window.requestIdleCallback(cb, { timeout: 4500 }) as unknown as number
+        : (cb) => globalThis.setTimeout(cb, 2500) as unknown as number;
     const handle = schedule(boot);
     return () => {
       cancelled = true;
@@ -259,8 +272,6 @@ export default function KineticHero() {
     };
   }, [sceneOn]);
 
-  const letters = personal.name.split('');
-
   return (
     <section
       id="home"
@@ -275,7 +286,7 @@ export default function KineticHero() {
 
       <div className="kinetic-hero-frame-bl" aria-hidden="true" />
       <div className="kinetic-hero-frame-br" aria-hidden="true" />
-      <div className="kinetic-hero-timecode" aria-hidden="true">{tc}</div>
+      <div ref={tcRef} className="kinetic-hero-timecode" aria-hidden="true">00:00:00:00</div>
 
       <div className="page-container kinetic-hero-inner">
         <div className="kinetic-hero-copy">
@@ -287,14 +298,7 @@ export default function KineticHero() {
           </div>
 
           <h1 className="kinetic-hero-title">
-            <span className="sr-only">{personal.name}</span>
-            <span className="kinetic-hero-name" aria-hidden="true">
-              {letters.map((ch, i) => (
-                <span key={`${ch}-${i}`} className="kinetic-glyph" style={{ ['--i' as string]: i }}>
-                  {ch}
-                </span>
-              ))}
-            </span>
+            <span className="kinetic-hero-name kinetic-glyph">{personal.name}</span>
             <span className="kinetic-hero-ml font-malayalam" lang="ml">
               {personal.malayalamName}
             </span>

@@ -19,7 +19,8 @@ const syne = Syne({
   variable: '--font-display',
   subsets: ['latin'],
   weight: ['700', '800'],
-  display: 'swap',
+  display: 'optional',
+  preload: true,
 });
 
 const dmSans = DM_Sans({

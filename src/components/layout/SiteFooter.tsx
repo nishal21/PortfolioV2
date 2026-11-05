@@ -1,70 +1,72 @@
 import Link from 'next/link';
 import { personal } from '@/data/personal';
 import { CREATOR_NAME } from '@/lib/seo';
+import { socialLinks } from '@/data/contact';
 import AsciiFooterField from '@/components/footer/AsciiFooterField';
-import CartesiaLockup from '@/components/footer/CartesiaLockup';
 
 export const COPYRIGHT_START = 2020;
 
 export function copyrightNotice(year = new Date().getFullYear()) {
-  return `Copyright © ${COPYRIGHT_START}-${year} ${CREATOR_NAME}. All rights reserved.`;
+  return `Copyright \u00a9 ${COPYRIGHT_START}-${year} ${CREATOR_NAME}. All rights reserved.`;
 }
+
+const FOOTER_NAV = [
+  { label: 'About', href: '/about' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Profile', href: '/profile' },
+  { label: 'Resume', href: '/resume' },
+  { label: 'Privacy', href: '/privacy' },
+] as const;
 
 export default function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="studio-footer page-container kinetic-footer">
+    <footer className="kinetic-footer page-container">
       <AsciiFooterField />
 
-      <div className="kinetic-footer-meta">
-        <p className="font-display text-sm font-semibold text-[var(--text-muted)]">
-          {personal.name} · Kerala · {year}
-        </p>
-        <p id="copyright" className="copyright-notice mt-1 text-xs text-[var(--text-dim)]">
-          {copyrightNotice(year)}
-        </p>
-        <p className="mt-1 text-xs text-[var(--text-dim)]">
-          AMV · Music · Code ·{' '}
-          <Link href="/about" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
-            About
-          </Link>
-          {' · '}
-          <Link href="/profile" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
-            Profile
-          </Link>
-          {' · '}
-          <Link href="/projects" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
-            Projects
-          </Link>
-          {' · '}
-          <Link href="/resume" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
-            Resume
-          </Link>
-          {' · '}
-          <Link href="/privacy" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
-            Privacy
-          </Link>
-        </p>
+      <div className="kinetic-footer-grid">
+        <div className="kinetic-footer-brand">
+          <p className="kinetic-footer-signoff">
+            {personal.name} <span aria-hidden="true">·</span> Kerala
+          </p>
+          <p className="kinetic-footer-tag">{personal.tagline}</p>
+          <p id="copyright" className="copyright-notice kinetic-footer-copy">
+            {copyrightNotice(year)}
+          </p>
+        </div>
 
-        <div className="kinetic-footer-credits">
-          <CartesiaLockup />
-          <a
-            href="https://websitelaunches.com/site/nishal.dev"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="studio-footer-badge-link"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="https://websitelaunches.com/badge/nishal.dev.svg?theme=dark"
-              alt="Established online, public launch record on Website Launches"
-              width={255}
-              height={55}
-              loading="lazy"
-              decoding="async"
-            />
-          </a>
+        <nav className="kinetic-footer-col" aria-label="Footer">
+          <p className="kinetic-footer-heading">Navigate</p>
+          <ul>
+            {FOOTER_NAV.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href}>{item.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav className="kinetic-footer-col" aria-label="Social">
+          <p className="kinetic-footer-heading">Connect</p>
+          <ul>
+            {socialLinks.map((item) => (
+              <li key={item.label}>
+                <a href={item.href} target="_blank" rel="noopener noreferrer">
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="kinetic-footer-col">
+          <p className="kinetic-footer-heading">Craft</p>
+          <ul>
+            <li>AMV</li>
+            <li>Music</li>
+            <li>Code</li>
+          </ul>
         </div>
       </div>
     </footer>
