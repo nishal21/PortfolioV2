@@ -1,8 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { HeroProvider } from '@/components/scroll/HeroContext';
-import ScrollIntroSection from '@/components/scroll/ScrollIntroSection';
+import KineticHero from '@/components/hero/KineticHero';
 import SiteNav from '@/components/layout/SiteNav';
 import AboutSection from '@/components/sections/AboutSection';
 import ProjectsSection from '@/components/sections/ProjectsSection';
@@ -17,7 +16,7 @@ const ContactSection = dynamic(() => import('@/components/sections/ContactSectio
   loading: () => <div className="min-h-[40vh]" aria-hidden />,
 });
 
-function PortfolioBody() {
+export default function PortfolioPage() {
   return (
     <>
       <SiteNav />
@@ -25,7 +24,7 @@ function PortfolioBody() {
         id="page-root"
         className="relative min-h-screen overflow-x-hidden bg-[var(--ink)] pb-[calc(5.75rem+env(safe-area-inset-bottom))] text-[var(--text)] md:pb-0"
       >
-        <ScrollIntroSection />
+        <KineticHero />
         <main id="main-content" className="relative z-10 studio-stage">
           <div className="studio-content--in">
             <AboutSection />
@@ -37,13 +36,5 @@ function PortfolioBody() {
         </main>
       </div>
     </>
-  );
-}
-
-export default function PortfolioPage() {
-  return (
-    <HeroProvider>
-      <PortfolioBody />
-    </HeroProvider>
   );
 }
