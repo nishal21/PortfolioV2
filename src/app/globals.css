@@ -1227,3 +1227,290 @@ html.lg-css-backdrop .tab-indicator.lg-css-fallback .lg-tint {
   width: 22px;
   height: 22px;
 }
+
+
+/* === Kinetic Studio Phase 1 === */
+:root {
+  --amber: #c9953a;
+  --studio-warm: #c9953a;
+  --studio-accent: #c9953a;
+}
+
+/* Prefer OS cursor — no site-wide cursor:none */
+@media (pointer: fine) {
+  * {
+    cursor: auto !important;
+  }
+  a, button, [role="button"], summary, input, textarea, select {
+    cursor: pointer !important;
+  }
+}
+
+.kinetic-footer {
+  padding-top: 2.5rem;
+  padding-bottom: 2rem;
+  border-top: 1px solid var(--studio-border);
+  margin-top: 2rem;
+}
+
+.kinetic-ascii {
+  margin-bottom: 1.5rem;
+  min-height: 5.5rem;
+  overflow: hidden;
+}
+
+.kinetic-ascii-static {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: clamp(0.45rem, 1.6vw, 0.7rem);
+  line-height: 1.15;
+  color: var(--amber);
+  opacity: 0.85;
+  white-space: pre;
+  overflow: hidden;
+}
+
+.kinetic-ascii-live {
+  max-height: 9rem;
+  overflow: hidden;
+  opacity: 0.9;
+}
+
+.kinetic-ascii-credit {
+  margin-top: 0.4rem;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+}
+
+.kinetic-ascii-credit a {
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.kinetic-footer-credits {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 1.25rem;
+}
+
+.cartesia-lockup {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-decoration: none;
+}
+
+.cartesia-lockup-note {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Featured / archive */
+.kinetic-featured-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .kinetic-featured-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.kinetic-featured-card {
+  border: 1px solid var(--studio-border);
+  border-radius: 12px;
+  padding: 1.25rem 1.35rem;
+  background: var(--studio-surface);
+  transition: border-color 0.22s ease, transform 0.22s ease;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .kinetic-featured-card:hover {
+    border-color: rgba(201, 149, 58, 0.45);
+    transform: translateY(-2px);
+  }
+}
+.kinetic-featured-card h3 {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  color: var(--text-soft);
+  margin: 0 0 0.5rem;
+}
+.kinetic-featured-card p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.kinetic-featured-meta {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+.kinetic-featured-meta a {
+  color: var(--amber);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.kinetic-archive {
+  margin-top: 2.5rem;
+}
+.kinetic-archive-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--studio-border);
+}
+.kinetic-archive-list li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  justify-content: space-between;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--studio-border);
+  font-size: 0.92rem;
+}
+.kinetic-archive-list a {
+  color: var(--text-soft);
+  text-decoration: none;
+}
+.kinetic-archive-list a:hover {
+  color: var(--amber);
+}
+
+/* Voice dock */
+.voice-dock {
+  position: fixed;
+  z-index: 80;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+}
+.voice-dock-fab {
+  border: 1px solid rgba(201, 149, 58, 0.5);
+  background: #0e1118;
+  color: var(--text-soft);
+  border-radius: 999px;
+  padding: 0.7rem 1.15rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+}
+.voice-dock-panel {
+  width: min(22rem, calc(100vw - 2rem));
+  max-height: min(70vh, 28rem);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--studio-border);
+  border-radius: 14px;
+  background: #0e1118;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+.voice-dock-head {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  padding: 0.9rem 1rem 0.6rem;
+  border-bottom: 1px solid var(--studio-border);
+}
+.voice-dock-title {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+.voice-dock-sub {
+  margin: 0.25rem 0 0;
+  font-size: 0.68rem;
+  line-height: 1.4;
+  color: var(--text-dim);
+}
+.voice-dock-x {
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0 0.25rem;
+}
+.voice-dock-notice {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  font-size: 0.72rem;
+  color: var(--amber);
+  background: rgba(201, 149, 58, 0.08);
+}
+.voice-dock-log {
+  flex: 1;
+  overflow: auto;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.voice-dock-empty {
+  margin: 0;
+  color: var(--text-dim);
+}
+.voice-you { color: var(--text-soft); margin: 0 0 0.55rem; }
+.voice-site { color: var(--text-muted); margin: 0 0 0.55rem; white-space: pre-wrap; }
+.voice-dock-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.65rem;
+  border-top: 1px solid var(--studio-border);
+}
+.voice-dock-input {
+  flex: 1 1 8rem;
+  min-width: 0;
+  border: 1px solid var(--studio-border);
+  border-radius: 8px;
+  background: #090b0f;
+  color: var(--text);
+  padding: 0.45rem 0.6rem;
+  font-size: 0.85rem;
+}
+.voice-dock-primary,
+.voice-dock-secondary {
+  border-radius: 8px;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.voice-dock-primary {
+  border: 1px solid rgba(201, 149, 58, 0.55);
+  background: rgba(201, 149, 58, 0.15);
+  color: var(--text-soft);
+}
+.voice-dock-secondary {
+  border: 1px solid var(--studio-border);
+  background: transparent;
+  color: var(--text-muted);
+}
+
+@media (max-width: 767px) {
+  .voice-dock {
+    bottom: calc(5.75rem + env(safe-area-inset-bottom));
+  }
+}

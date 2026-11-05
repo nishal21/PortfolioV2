@@ -240,6 +240,7 @@ Allow: /projects/askira
 Allow: /projects/capital_llm_model
 Allow: /projects/carbonlint
 Allow: /projects/extracto
+Allow: /projects/firstpr
 Allow: /projects/github-stars-organizer
 Allow: /projects/handoff
 Allow: /projects/musico

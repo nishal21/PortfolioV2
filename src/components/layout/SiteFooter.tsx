@@ -1,62 +1,71 @@
 import Link from 'next/link';
 import { personal } from '@/data/personal';
 import { CREATOR_NAME } from '@/lib/seo';
+import AsciiFooterField from '@/components/footer/AsciiFooterField';
+import CartesiaLockup from '@/components/footer/CartesiaLockup';
 
 export const COPYRIGHT_START = 2020;
 
 export function copyrightNotice(year = new Date().getFullYear()) {
-  return `Copyright © ${COPYRIGHT_START}–${year} ${CREATOR_NAME}. All rights reserved.`;
+  return `Copyright © ${COPYRIGHT_START}-${year} ${CREATOR_NAME}. All rights reserved.`;
 }
 
 export default function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="studio-footer page-container">
-      <p className="font-display text-sm font-semibold text-[var(--text-muted)]">
-        {personal.name} · Kerala · {year}
-      </p>
-      <p id="copyright" className="copyright-notice mt-1 text-xs text-[var(--text-dim)]">
-        {copyrightNotice(year)}
-      </p>
-      <p className="mt-1 text-xs text-[var(--text-dim)]">
-        AMV · Music · Code ·{' '}
-        <Link href="/about" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
-          About
-        </Link>
-        {' · '}
-        <Link href="/profile" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
-          Profile
-        </Link>
-        {' · '}
-        <Link href="/projects" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
-          Projects
-        </Link>
-        {' · '}
-        <Link href="/resume" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
-          Resume
-        </Link>
-        {' · '}
-        <Link href="/privacy" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
-          Privacy
-        </Link>
-      </p>
-      <div className="studio-footer-badges">
-        <a
-          href="https://websitelaunches.com/site/nishal.dev"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="studio-footer-badge-link"
-        >
-          <img
-            src="https://websitelaunches.com/badge/nishal.dev.svg?theme=dark"
-            alt="Established online, public launch record on Website Launches"
-            width={255}
-            height={55}
-            loading="eager"
-            decoding="async"
-          />
-        </a>
+    <footer className="studio-footer page-container kinetic-footer">
+      <AsciiFooterField />
+
+      <div className="kinetic-footer-meta">
+        <p className="font-display text-sm font-semibold text-[var(--text-muted)]">
+          {personal.name} · Kerala · {year}
+        </p>
+        <p id="copyright" className="copyright-notice mt-1 text-xs text-[var(--text-dim)]">
+          {copyrightNotice(year)}
+        </p>
+        <p className="mt-1 text-xs text-[var(--text-dim)]">
+          AMV · Music · Code ·{' '}
+          <Link href="/about" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
+            About
+          </Link>
+          {' · '}
+          <Link href="/profile" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
+            Profile
+          </Link>
+          {' · '}
+          <Link href="/projects" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
+            Projects
+          </Link>
+          {' · '}
+          <Link href="/resume" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
+            Resume
+          </Link>
+          {' · '}
+          <Link href="/privacy" className="underline decoration-[var(--studio-border)] hover:text-[var(--text-muted)]">
+            Privacy
+          </Link>
+        </p>
+
+        <div className="kinetic-footer-credits">
+          <CartesiaLockup />
+          <a
+            href="https://websitelaunches.com/site/nishal.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="studio-footer-badge-link"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://websitelaunches.com/badge/nishal.dev.svg?theme=dark"
+              alt="Established online, public launch record on Website Launches"
+              width={255}
+              height={55}
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+        </div>
       </div>
     </footer>
   );

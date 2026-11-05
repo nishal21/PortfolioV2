@@ -5,6 +5,7 @@ import {
 } from './src/lib/securityHeaders';
 
 const nextConfig: NextConfig = {
+  transpilePackages: ['ascii.rest', 'lenis'],
   poweredByHeader: false,
   async headers() {
     const noindex = { key: 'X-Robots-Tag', value: 'noindex, follow' };
@@ -67,3 +68,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+

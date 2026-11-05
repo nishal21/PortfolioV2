@@ -31,6 +31,39 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    "id": 101,
+    "title": "FirstPR",
+    "category": "Open Source · Developer Tools",
+    "status": "live",
+    "description": "Find, understand, and review your first open-source pull request.",
+    "longDescription": "FirstPR helps newcomers find a good first open-source PR, understand the change, and review it with less fear. Live at firstpr.nishal.dev.",
+    "tags": ["TypeScript", "Next.js", "Open Source"],
+    "lastUpdated": "2026-11-01",
+    "liveUrl": "https://firstpr.nishal.dev",
+    "githubUrl": null,
+    "color": "from-amber-400 to-orange-500",
+    "bgColor": "from-amber-400/10 to-orange-500/10",
+    "challenges": [
+      "First-time contributors get lost in issue noise",
+      "Hard to tell which PRs are good learning material"
+    ],
+    "solutions": [
+      "Guided discovery for approachable PRs",
+      "Clear review framing for beginners"
+    ],
+    "features": [
+      "First-PR discovery",
+      "Review-oriented framing",
+      "Public web app"
+    ],
+    "techStack": {
+      "languages": ["TypeScript"],
+      "deployment": ["Vercel"]
+    },
+    "images": [],
+    "pinned": true
+  },
+  {
     "id": 2,
     "title": "NekoBeat",
     "category": "Music & Streaming",
