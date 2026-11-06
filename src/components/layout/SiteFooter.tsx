@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { personal } from '@/data/personal';
 import { CREATOR_NAME } from '@/lib/seo';
 import { socialLinks } from '@/data/contact';
-import AsciiFooterField from '@/components/footer/AsciiFooterField';
 
 export const COPYRIGHT_START = 2020;
 
@@ -12,62 +11,63 @@ export function copyrightNotice(year = new Date().getFullYear()) {
 
 const FOOTER_NAV = [
   { label: 'About', href: '/about' },
-  { label: 'Projects', href: '/projects' },
-  { label: 'Profile', href: '/profile' },
-  { label: 'Resume', href: '/resume' },
-  { label: 'Privacy', href: '/privacy' },
+  { label: 'Work', href: '/projects' },
+  { label: 'Contact', href: '/#contact' },
 ] as const;
 
 export default function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="kinetic-footer page-container">
-      <AsciiFooterField />
+    <footer className="garden-footer">
+      <div className="garden-footer-scene" aria-hidden="true">
+        <picture>
+          <source type="image/avif" srcSet="/garden/footer-bg-desktop.avif" />
+          <source type="image/webp" srcSet="/garden/footer-bg-desktop.webp" />
+          <img
+            src="/garden/footer-bg-desktop.webp"
+            alt=""
+            width={1280}
+            height={720}
+            loading="lazy"
+            decoding="async"
+            className="garden-footer-bg-img"
+          />
+        </picture>
+        <div className="garden-footer-veil" />
+      </div>
 
-      <div className="kinetic-footer-grid">
-        <div className="kinetic-footer-brand">
-          <p className="kinetic-footer-signoff">
-            {personal.name} <span aria-hidden="true">·</span> Kerala
-          </p>
-          <p className="kinetic-footer-tag">{personal.tagline}</p>
-          <p id="copyright" className="copyright-notice kinetic-footer-copy">
-            {copyrightNotice(year)}
-          </p>
-        </div>
+      <div className="garden-footer-inner page-container">
+        <p className="garden-footer-kicker">{personal.tagline}</p>
+        <p className="garden-footer-name" aria-hidden="true">
+          nishal
+        </p>
+        <h2 className="sr-only">Nishal</h2>
 
-        <nav className="kinetic-footer-col" aria-label="Footer">
-          <p className="kinetic-footer-heading">Navigate</p>
-          <ul>
-            {FOOTER_NAV.map((item) => (
-              <li key={item.href}>
+        <div className="garden-footer-meta">
+          <p id="copyright" className="copyright-notice garden-footer-copy">
+            © Nishal {year} · nishal21
+          </p>
+          <nav className="garden-footer-links" aria-label="Footer">
+            {FOOTER_NAV.map((item, i) => (
+              <span key={item.href}>
+                {i > 0 ? <span aria-hidden="true"> · </span> : null}
                 <Link href={item.href}>{item.label}</Link>
-              </li>
+              </span>
             ))}
-          </ul>
-        </nav>
-
-        <nav className="kinetic-footer-col" aria-label="Social">
-          <p className="kinetic-footer-heading">Connect</p>
-          <ul>
-            {socialLinks.map((item) => (
-              <li key={item.label}>
-                <a href={item.href} target="_blank" rel="noopener noreferrer">
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <div className="kinetic-footer-col">
-          <p className="kinetic-footer-heading">Craft</p>
-          <ul>
-            <li>AMV</li>
-            <li>Music</li>
-            <li>Code</li>
-          </ul>
+          </nav>
         </div>
+
+        <nav className="garden-footer-socials" aria-label="Social">
+          {socialLinks.map((item, i) => (
+            <span key={item.label}>
+              {i > 0 ? <span aria-hidden="true"> · </span> : null}
+              <a href={item.href} target="_blank" rel="noopener noreferrer">
+                {item.label}
+              </a>
+            </span>
+          ))}
+        </nav>
       </div>
     </footer>
   );

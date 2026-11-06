@@ -3213,3 +3213,417 @@ img[alt*="Cartesia Startups"] {
 .studio-contact-socials a {
   border-radius: 0 !important;
 }
+
+/* ========== Garden Direction A (approved visual lock) ========== */
+:root {
+  --garden-dusk: #2a1f3d;
+  --garden-dusk-deep: #140f1c;
+  --garden-mist: #c9b8d9;
+  --garden-leaf: #1e3a2f;
+  --garden-ink: #0c0a10;
+  --garden-text: #f7f4fb;
+  --garden-muted: rgba(247, 244, 251, 0.72);
+  --garden-dim: rgba(247, 244, 251, 0.48);
+  --amber: #c4a4d8; /* remap accent away from copper toward soft lilac */
+  --studio-accent: #c4a4d8;
+  --ink: var(--garden-ink);
+  --text: var(--garden-text);
+  --text-soft: var(--garden-text);
+  --text-muted: var(--garden-muted);
+  --text-dim: var(--garden-dim);
+}
+
+body {
+  background: var(--garden-dusk-deep) !important;
+  color: var(--garden-text);
+}
+
+/* Hide leftover kinetic HUD chrome */
+.kinetic-hero,
+.kinetic-nav-header,
+.kinetic-nav-dock,
+.kinetic-ascii,
+.kinetic-hero-timecode,
+.kinetic-hero-frame-bl,
+.kinetic-hero-frame-br,
+.kinetic-hero-scroll {
+  /* kept in CSS for old pages but unused on home */
+}
+
+.garden-nav-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+.garden-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 0 0;
+  pointer-events: none;
+}
+.garden-nav-mark,
+.garden-nav-link {
+  pointer-events: auto;
+  background: none;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+}
+.garden-nav-mark {
+  font-weight: 600;
+}
+.garden-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.garden-nav-item-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.garden-nav-dot {
+  opacity: 0.55;
+  color: #fff;
+}
+.garden-nav-link {
+  opacity: 0.78;
+  font-weight: 500;
+}
+.garden-nav-link.is-active,
+.garden-nav-link:hover,
+.garden-nav-link:focus-visible {
+  opacity: 1;
+  outline: none;
+}
+.garden-nav-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.garden-nav-dock {
+  position: fixed;
+  left: 50%;
+  bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 40;
+  display: none;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.35rem 0.45rem;
+  background: rgba(12, 10, 16, 0.72);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  backdrop-filter: none;
+}
+@media (max-width: 767px) {
+  .garden-nav-dock { display: flex; }
+  .garden-nav-links { display: none; }
+}
+.garden-dock-item,
+.garden-dock-mail {
+  background: transparent;
+  border: 0;
+  color: rgba(247,244,251,0.7);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.55rem 0.65rem;
+  cursor: pointer;
+  border-radius: 999px;
+}
+.garden-dock-item.is-active,
+.garden-dock-mail.is-active {
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+}
+.garden-dock-mail {
+  font-size: 0.95rem;
+  padding: 0.45rem 0.7rem;
+}
+
+.garden-hero {
+  position: relative;
+  min-height: 100svh;
+  min-height: 100dvh;
+  overflow: clip;
+  color: #fff;
+  isolation: isolate;
+}
+.garden-hero-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.garden-hero-bg,
+.garden-hero-fg {
+  position: absolute;
+  inset: -4%;
+  will-change: transform;
+}
+.garden-hero-bg-img,
+.garden-hero-fg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.garden-hero-mist {
+  position: absolute;
+  inset: 18% 8% 28%;
+  background:
+    radial-gradient(ellipse at 50% 55%, rgba(235, 225, 245, 0.42), transparent 62%),
+    linear-gradient(180deg, transparent, rgba(180, 160, 205, 0.18));
+  filter: blur(18px);
+  opacity: 0.4;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+.garden-hero-fg {
+  z-index: 2;
+  mix-blend-mode: normal;
+}
+.garden-hero-inner {
+  position: relative;
+  z-index: 3;
+  min-height: 100svh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5.5rem 1rem 6.5rem;
+}
+.garden-hero-kicker {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: clamp(0.78rem, 1.4vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  color: rgba(255,255,255,0.88);
+}
+.garden-hero-name {
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(4.2rem, 18vw, 11rem);
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+  text-transform: lowercase;
+  color: #fff;
+  text-shadow:
+    0 2px 24px rgba(40, 20, 60, 0.35),
+    0 0 60px rgba(180, 150, 210, 0.18);
+  text-wrap: balance;
+}
+.garden-hero-cta {
+  position: absolute;
+  left: max(1.25rem, calc((100% - 72rem) / 2 + 1.25rem));
+  bottom: 1.6rem;
+  background: none;
+  border: 0;
+  color: #fff;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 0.92rem;
+  cursor: pointer;
+  opacity: 0.9;
+  padding: 0.4rem 0;
+}
+.garden-hero-cta:hover,
+.garden-hero-cta:focus-visible {
+  opacity: 1;
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media (max-width: 767px) {
+  .garden-hero-name {
+    font-size: clamp(3.4rem, 22vw, 5.5rem);
+  }
+  .garden-hero-cta {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 5.8rem;
+  }
+  .garden-hero-fg { opacity: 0.92; }
+}
+
+.garden-footer {
+  position: relative;
+  isolation: isolate;
+  min-height: 70vh;
+  overflow: clip;
+  color: #fff;
+  margin-top: 4rem;
+}
+.garden-footer-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.garden-footer-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  display: block;
+}
+.garden-footer-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20,15,28,0.25), rgba(20,15,28,0.15) 40%, rgba(12,10,16,0.55));
+  pointer-events: none;
+}
+.garden-footer-inner {
+  position: relative;
+  z-index: 1;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  padding: 4rem 1rem 2.25rem;
+}
+.garden-footer-kicker {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.72);
+  max-width: 36ch;
+}
+.garden-footer-name {
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(3.5rem, 14vw, 9rem);
+  line-height: 0.86;
+  letter-spacing: -0.05em;
+  text-transform: lowercase;
+  color: #fff;
+  text-shadow: 0 2px 28px rgba(30, 15, 50, 0.4);
+}
+.garden-footer-meta {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-top: 2.5rem;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.78);
+}
+.garden-footer-links a,
+.garden-footer-socials a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+}
+.garden-footer-links a:hover,
+.garden-footer-socials a:hover,
+.garden-footer-links a:focus-visible,
+.garden-footer-socials a:focus-visible {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  outline: none;
+}
+.garden-footer-socials {
+  margin-top: 0.85rem;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.65);
+}
+
+/* Sections over dusk canvas */
+.studio-stage,
+.studio-section,
+#page-root {
+  background: transparent;
+}
+.studio-label {
+  color: rgba(196, 164, 216, 0.95) !important;
+}
+.studio-title {
+  color: var(--garden-text) !important;
+  letter-spacing: -0.03em;
+}
+.studio-desc,
+.studio-about-intro,
+.studio-about-bio p {
+  color: var(--garden-muted) !important;
+}
+.kinetic-featured-card,
+.studio-stat,
+.studio-about-quote,
+.studio-contact-form,
+.studio-support-card,
+.kinetic-support-btn {
+  background: rgba(18, 14, 26, 0.72) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  border-radius: 0.75rem !important;
+}
+.kinetic-support-btn,
+.studio-form button[type="submit"] {
+  clip-path: none !important;
+  border-radius: 0.65rem !important;
+}
+.studio-form .studio-input,
+.studio-form input:not([type="hidden"]):not(.hidden),
+.studio-form textarea {
+  background: rgba(10, 8, 14, 0.85) !important;
+  border-color: rgba(255,255,255,0.14) !important;
+  border-radius: 0.55rem !important;
+}
+
+/* Soften voice dock into garden */
+.connect-btn-shell,
+[class*="voice"],
+.talk-fab,
+button[aria-label*="Talk"],
+button[aria-label*="talk"] {
+  border-radius: 0.75rem !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .garden-hero-bg,
+  .garden-hero-fg,
+  .garden-hero-mist {
+    transform: none !important;
+  }
+}
+
+/* Garden voice / dock polish */
+.garden-nav-dock {
+  background: rgba(12, 10, 16, 0.55) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+button.garden-dock-mail.is-active,
+.garden-dock-item.is-active {
+  background: rgba(255,255,255,0.1) !important;
+  color: #fff !important;
+}
+/* Talk FAB — garden, not copper HUD */
+[class*="VoiceDock"] button,
+.voice-dock button,
+button[aria-label*="Talk" i],
+button[aria-label*="voice" i],
+.talk-fab,
+.ios-talk,
+.kinetic-talk {
+  border-color: rgba(255,255,255,0.22) !important;
+  background: rgba(12, 10, 16, 0.7) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  border-radius: 0.85rem !important;
+}

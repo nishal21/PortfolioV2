@@ -1,25 +1,20 @@
 'use client';
 
-import { Mail } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { navItems } from '@/data/personal';
 import {
   mobileContactItem,
-  mobileTabIndexForHref,
   mobileTabItems,
-  navIcons,
 } from '@/data/navMeta';
 import { getActiveSectionHref, scrollToSection } from '@/lib/scrollNav';
 
 /**
- * Sharp Kinetic Studio chrome — no pills, no glass, no backdrop-filter.
+ * Sparse garden chrome — white text on dusk, no pills / glass / HUD.
  */
 export default function SiteNav() {
   const [active, setActive] = useState('#home');
   const navLockRef = useRef<string | null>(null);
   const scrollGenRef = useRef(0);
   const spyCooldownUntilRef = useRef(0);
-  const scrollIdleRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const contactActive = active === mobileContactItem.href;
 
@@ -51,83 +46,80 @@ export default function SiteNav() {
     const onScroll = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(pickActive);
-      if (navLockRef.current) return;
-      if (scrollIdleRef.current) clearTimeout(scrollIdleRef.current);
-      scrollIdleRef.current = setTimeout(() => pickActive(), 120);
     };
     pickActive();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     return () => {
       cancelAnimationFrame(raf);
-      if (scrollIdleRef.current) clearTimeout(scrollIdleRef.current);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
     };
   }, []);
 
+  const topLinks = [
+    { name: 'Work', href: '#projects' },
+    { name: 'About', href: '#about' },
+    { name: 'Contact', href: '#contact' },
+  ];
+
   return (
     <>
-      <header className="kinetic-nav-header">
-        <div className="kinetic-nav-bar">
+      <header className="garden-nav-header">
+        <div className="garden-nav-bar page-container">
           <button
             type="button"
-            className="kinetic-nav-mark"
+            className="garden-nav-mark"
             onClick={() => scrollTo('#home')}
             aria-label="Home"
           >
             NK
           </button>
-          <nav className="kinetic-nav" aria-label="Primary">
-            {navItems.map((item, i) => (
-              <button
-                key={item.href}
-                type="button"
-                className={`kinetic-nav-item ${active === item.href ? 'is-active' : ''}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollTo(item.href);
-                }}
-                aria-current={active === item.href ? 'page' : undefined}
-              >
-                <span className="kinetic-nav-num" aria-hidden="true">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                {item.name}
-              </button>
+          <nav className="garden-nav-links" aria-label="Primary">
+            {topLinks.map((item, i) => (
+              <span key={item.href} className="garden-nav-item-wrap">
+                {i > 0 ? (
+                  <span className="garden-nav-dot" aria-hidden="true">
+                    ·
+                  </span>
+                ) : null}
+                <button
+                  type="button"
+                  className={`garden-nav-link${active === item.href ? ' is-active' : ''}`}
+                  onClick={() => scrollTo(item.href)}
+                  aria-current={active === item.href ? 'page' : undefined}
+                >
+                  {item.name}
+                </button>
+              </span>
             ))}
           </nav>
         </div>
       </header>
 
-      <nav className="kinetic-nav-dock" aria-label="Site navigation">
-        <div className="kinetic-nav-dock-inner">
-          {mobileTabItems.map((item) => {
-            const Icon = navIcons[item.href];
-            const on =
-              mobileTabIndexForHref(active) === mobileTabItems.indexOf(item) && !contactActive;
-            return (
-              <button
-                key={item.href}
-                type="button"
-                className={`kinetic-dock-item ${on ? 'is-active' : ''}`}
-                onClick={() => scrollTo(item.href)}
-                aria-current={on ? 'page' : undefined}
-              >
-                {Icon ? <Icon className="kinetic-dock-icon" strokeWidth={2} aria-hidden /> : null}
-                <span>{item.name}</span>
-              </button>
-            );
-          })}
-        </div>
+      <nav className="garden-nav-dock" aria-label="Mobile">
+        {mobileTabItems.map((item) => {
+          const isActive = active === item.href;
+          return (
+            <button
+              key={item.href}
+              type="button"
+              className={`garden-dock-item${isActive ? ' is-active' : ''}`}
+              onClick={() => scrollTo(item.href)}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              <span className="garden-dock-label">{item.name}</span>
+            </button>
+          );
+        })}
         <button
           type="button"
-          className={`kinetic-dock-fab ${contactActive ? 'is-active' : ''}`}
+          className={`garden-dock-mail${contactActive ? ' is-active' : ''}`}
           onClick={() => scrollTo(mobileContactItem.href)}
-          aria-label={mobileContactItem.name}
+          aria-label="Contact"
           aria-current={contactActive ? 'page' : undefined}
         >
-          <Mail className="kinetic-dock-icon" strokeWidth={2} aria-hidden />
+          ✉
         </button>
       </nav>
     </>
