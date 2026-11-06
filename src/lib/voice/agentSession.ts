@@ -27,10 +27,45 @@ export interface VoiceCallbacks {
   onState: (state: VoiceState) => void;
   onTurn: (turn: { id: number; role: 'user' | 'assistant'; text: string; final: boolean }) => void;
   onError: (code: VoiceErrorCode) => void;
+  /** Fired once on `session_ready`, i.e. when the call is really connected. */
+  onReady?: () => void;
+}
+
+export interface VoiceLevels {
+  /** RMS of the mic signal, 0..1. */
+  input: number;
+  /** RMS of the agent audio being played, 0..1. */
+  output: number;
 }
 
 export interface VoiceSession {
   stop: () => void;
+  /** Live audio levels measured from the real mic and playback graph. */
+  levels: () => VoiceLevels;
+}
+
+export interface VoiceStartOptions {
+  signal?: AbortSignal;
+  /** AudioContext created synchronously in the click handler, to keep the user gesture. */
+  ctx?: AudioContext;
+}
+
+export function createAudioContext(): AudioContext | null {
+  if (typeof window === 'undefined') return null;
+  const Ctx =
+    window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (!Ctx) return null;
+  const ctx = new Ctx();
+  void ctx.resume();
+  return ctx;
+}
+
+function rms(analyser: AnalyserNode | null, buf: Float32Array<ArrayBuffer>): number {
+  if (!analyser) return 0;
+  analyser.getFloatTimeDomainData(buf);
+  let sum = 0;
+  for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i];
+  return Math.sqrt(sum / buf.length);
 }
 
 export function voiceSupported(): boolean {
@@ -60,16 +95,29 @@ export async function fetchVoiceToken(fetchImpl: typeof fetch = fetch): Promise<
 }
 
 /** Must be called from a click/tap handler (mic + audio need a user gesture). */
-export async function startVoiceSession(cb: VoiceCallbacks, signal?: AbortSignal): Promise<VoiceSession | null> {
+export async function startVoiceSession(
+  cb: VoiceCallbacks,
+  opts: VoiceStartOptions = {}
+): Promise<VoiceSession | null> {
+  const { signal } = opts;
   if (!voiceSupported()) {
+    void opts.ctx?.close().catch(() => undefined);
     cb.onError('unsupported');
     return null;
   }
 
-  const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-  const ctx = new Ctx();
+  const ctx = opts.ctx ?? createAudioContext()!;
   void ctx.resume();
   cb.onState('connecting');
+
+  // Real level meters: one on the mic, one on everything we play back.
+  const levelBuf = new Float32Array(512);
+  let inAnalyser: AnalyserNode | null = null;
+  const outAnalyser = ctx.createAnalyser();
+  outAnalyser.fftSize = 512;
+  const outBus = ctx.createGain();
+  outBus.connect(outAnalyser);
+  outAnalyser.connect(ctx.destination);
 
   let stream: MediaStream | null = null;
   let ws: WebSocket | null = null;
@@ -142,6 +190,9 @@ export async function startVoiceSession(cb: VoiceCallbacks, signal?: AbortSignal
     const sink = ctx.createGain();
     sink.gain.value = 0;
     source.connect(worklet).connect(sink).connect(ctx.destination);
+    inAnalyser = ctx.createAnalyser();
+    inAnalyser.fftSize = 512;
+    source.connect(inAnalyser);
   } catch {
     fail('unsupported');
     return null;
@@ -157,7 +208,7 @@ export async function startVoiceSession(cb: VoiceCallbacks, signal?: AbortSignal
     buf.copyToChannel(samples, 0);
     const node = ctx.createBufferSource();
     node.buffer = buf;
-    node.connect(ctx.destination);
+    node.connect(outBus);
     const at = Math.max(ctx.currentTime + 0.02, playhead);
     node.start(at);
     playhead = at + buf.duration;
@@ -210,6 +261,7 @@ export async function startVoiceSession(cb: VoiceCallbacks, signal?: AbortSignal
     switch (ev.type) {
       case 'session_ready':
         ready = true;
+        cb.onReady?.();
         cb.onState('listening');
         break;
       case 'audio_output':
@@ -266,5 +318,9 @@ export async function startVoiceSession(cb: VoiceCallbacks, signal?: AbortSignal
 
   capTimer = window.setTimeout(() => fail('time_limit'), VOICE_MAX_SESSION_MS);
 
-  return { stop: cleanup };
+  return {
+    stop: cleanup,
+    levels: () =>
+      stopped ? { input: 0, output: 0 } : { input: rms(inAnalyser, levelBuf), output: rms(outAnalyser, levelBuf) },
+  };
 }

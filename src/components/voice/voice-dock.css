@@ -1,0 +1,405 @@
+/* ---------------------------------------------------------------
+   Voice dock: one glass pill that morphs between
+   idle CTA → call bar (state · real level meter · timer · end)
+   with a single caption floating above it. Garden palette:
+   dusk ink, lavender light, white lowercase DM Sans.
+---------------------------------------------------------------- */
+
+.vdock {
+  --vd-ink: #17121f;
+  --vd-lav: #c9b8ff;
+  --vd-line: rgba(255, 255, 255, 0.16);
+  --vd-muted: rgba(240, 236, 250, 0.7);
+  --vd-ease: cubic-bezier(0.2, 0, 0, 1);
+  --vd-h: 3.25rem;
+  --vd-idle-w: 11.75rem;
+  --vd-open-w: min(22rem, calc(100vw - 2rem));
+  position: fixed;
+  z-index: 60;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: calc(1.25rem + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  pointer-events: none;
+  font-family: var(--font-body), system-ui, sans-serif;
+  color: #fff;
+}
+.vdock > * { pointer-events: auto; }
+
+/* Shared glass: opaque first, blur only where supported. */
+.vdock__shell,
+.vdock__type,
+.vdock__caption,
+.vdock__chips button {
+  background: rgba(23, 18, 31, 0.92);
+  box-shadow:
+    inset 0 0 0 1px var(--vd-line),
+    0 12px 32px rgba(10, 6, 18, 0.32);
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .vdock__shell,
+  .vdock__type,
+  .vdock__caption,
+  .vdock__chips button {
+    background: rgba(30, 23, 42, 0.6);
+    -webkit-backdrop-filter: blur(18px) saturate(1.3);
+    backdrop-filter: blur(18px) saturate(1.3);
+  }
+}
+
+.vdock__row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Secondary action: type instead. Folds away once the dock is open. */
+.vdock__type {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 0;
+  border-radius: 50%;
+  color: var(--vd-muted);
+  cursor: pointer;
+  transition:
+    opacity 0.2s ease,
+    transform 0.32s var(--vd-ease),
+    width 0.32s var(--vd-ease),
+    margin 0.32s var(--vd-ease),
+    color 0.15s ease;
+}
+.vdock__type:hover { color: #fff; }
+.vdock:not([data-phase='idle']) .vdock__type {
+  width: 0;
+  margin-right: -0.5rem;
+  opacity: 0;
+  transform: scale(0.6);
+  pointer-events: none;
+}
+
+/* The morphing pill. */
+.vdock__shell {
+  position: relative;
+  height: var(--vd-h);
+  width: var(--vd-idle-w);
+  border-radius: 999px;
+  overflow: hidden;
+  transition: width 0.38s var(--vd-ease);
+}
+.vdock:not([data-phase='idle']) .vdock__shell { width: var(--vd-open-w); }
+
+.vdock__cta,
+.vdock__bar,
+.vdock__form {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  animation: vdock-in 0.26s 0.08s var(--vd-ease) backwards;
+}
+
+.vdock__cta {
+  gap: 0.7rem;
+  padding: 0 1.25rem 0 0.5rem;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.vdock__cta:hover { background: rgba(255, 255, 255, 0.06); }
+.vdock__cta:active { background: rgba(255, 255, 255, 0.1); }
+
+/* Garden orb: a jasmine crop from the hero plate. */
+.vdock__orb {
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: #6f6590 url('/voice/orb.webp') center / cover;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.28),
+    0 0 0 0 rgba(201, 184, 255, 0.5);
+}
+.vdock[data-phase='idle'] .vdock__orb { animation: vdock-bloom 3.6s ease-in-out infinite; }
+/* In a call the halo follows the agent's measured output level. */
+.vdock__orb--call {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.28),
+    0 0 0 calc(var(--lv, 0) * 7px) rgba(201, 184, 255, 0.4);
+  transition: box-shadow 0.08s linear;
+}
+
+.vdock__bar {
+  gap: 0.75rem;
+  padding: 0 0.375rem 0 0.5rem;
+}
+.vdock__state {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.vdock__label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--vd-muted);
+}
+.vdock[data-phase='listening'] .vdock__label,
+.vdock[data-phase='speaking'] .vdock__label { color: #fff; }
+
+.vdock__meter {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 0.875rem;
+}
+.vdock__meter i {
+  flex: 1;
+  max-width: 3px;
+  height: 100%;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.85);
+  transform: scaleY(0.14);
+  transition: transform 0.09s linear, background-color 0.2s ease;
+  opacity: 0.4;
+}
+.vdock__meter[data-live] i { opacity: 1; }
+.vdock__meter[data-src='agent'] i { background: var(--vd-lav); }
+/* Connecting: an honest indeterminate sweep, not a fake level. */
+.vdock[data-phase='connecting'] .vdock__meter i {
+  animation: vdock-sweep 1.4s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+.vdock__time {
+  min-width: 2.9rem;
+  text-align: right;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.vdock__end,
+.vdock__send {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
+}
+.vdock__end:hover { background: rgba(255, 255, 255, 0.18); }
+.vdock__end--hang { background: #ffb3a8; color: var(--vd-ink); }
+.vdock__end--hang:hover { background: #ffc8c0; }
+.vdock__end:active,
+.vdock__send:not(:disabled):active { transform: scale(0.94); }
+.vdock__send { background: #fff; color: var(--vd-ink); }
+.vdock__send:disabled { opacity: 0.3; cursor: default; }
+
+.vdock__form {
+  gap: 0.375rem;
+  padding: 0 0.25rem 0 1.15rem;
+}
+.vdock__form input {
+  flex: 1;
+  min-width: 0;
+  height: 2.75rem;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 1rem; /* 16px: no iOS zoom */
+}
+.vdock__form input::placeholder { color: rgba(255, 255, 255, 0.55); }
+.vdock[data-phase='typing'] .vdock__shell:focus-within { box-shadow: inset 0 0 0 2px #fff, 0 12px 32px rgba(10, 6, 18, 0.32); }
+
+/* Floating layer above the pill: one caption, or suggestion chips. */
+.vdock__float {
+  width: var(--vd-open-w);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.vdock__float:empty { display: none; }
+
+.vdock__caption {
+  max-width: 100%;
+  max-height: min(16rem, 40svh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.75rem 1rem 0.8rem;
+  border-radius: 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  text-wrap: pretty;
+  animation: vdock-caption 0.24s var(--vd-ease) backwards;
+}
+.vdock__caption p { margin: 0; }
+.vdock__caption[data-who='note'] { color: rgba(255, 255, 255, 0.86); font-size: 0.875rem; }
+.vdock__caption[role='alert'] { box-shadow: inset 0 0 0 1px rgba(255, 179, 168, 0.55), 0 12px 32px rgba(10, 6, 18, 0.32); }
+.vdock__who {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vd-lav);
+}
+.vdock__caption[data-who='you'] .vdock__who { color: var(--vd-muted); }
+
+.vdock__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.6rem;
+}
+.vdock__links a,
+.vdock__textlink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 0.95rem;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--vd-ink);
+  background: var(--vd-lav);
+  text-decoration: none;
+  cursor: pointer;
+}
+.vdock__links a:hover,
+.vdock__textlink:hover { background: #fff; }
+.vdock__textlink { margin-top: 0.6rem; }
+
+.vdock__chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.375rem;
+}
+.vdock__chips button {
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+  animation: vdock-caption 0.24s var(--vd-ease) backwards;
+}
+.vdock__chips button:nth-child(2) { animation-delay: 40ms; }
+.vdock__chips button:nth-child(3) { animation-delay: 80ms; }
+.vdock__chips button:hover { background: rgba(60, 48, 82, 0.8); }
+
+.vdock :where(button, a):focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+.vdock__cta:focus-visible { outline-offset: -3px; }
+
+@keyframes vdock-in {
+  from { opacity: 0; transform: translateY(4px); }
+}
+@keyframes vdock-caption {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+}
+@keyframes vdock-bloom {
+  0%, 100% { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28), 0 0 0 0 rgba(201, 184, 255, 0.45); }
+  50% { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28), 0 0 0 5px rgba(201, 184, 255, 0); }
+}
+@keyframes vdock-sweep {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.9; }
+}
+
+/* ---- Page coordination ---------------------------------------- */
+
+/* Desktop: the dock sits at the end of the hero bar row; the row keeps clear of it. */
+@media (min-width: 768px) {
+  .vdock {
+    right: max(clamp(1.25rem, 3vw, 2.5rem), env(safe-area-inset-right));
+    bottom: calc(clamp(1.25rem, 2.6vw, 2rem) + env(safe-area-inset-bottom));
+  }
+  body .garden-hero__bar {
+    padding-right: calc(clamp(1.25rem, 3vw, 2.5rem) + 16.25rem);
+    transition: padding-right 0.38s var(--vd-ease);
+  }
+  html[data-voice='open'] body .garden-hero__bar,
+  html[data-voice='typing'] body .garden-hero__bar {
+    padding-right: calc(clamp(1.25rem, 3vw, 2.5rem) + 23rem);
+  }
+}
+
+/* Phones: one row above the homepage tab dock, corner elsewhere. */
+@media (max-width: 767px) {
+  .vdock {
+    --vd-open-w: calc(100vw - 1.5rem - env(safe-area-inset-left) - env(safe-area-inset-right));
+    right: max(0.75rem, env(safe-area-inset-right));
+    bottom: calc(5.75rem + env(safe-area-inset-bottom));
+  }
+  body:not(:has(.ios-nav-dock)) .vdock { bottom: calc(1rem + env(safe-area-inset-bottom)); }
+  /* Lift the word just enough on short phones that the bar never touches it. */
+  body .garden-hero {
+    --g-base: max(40%, calc(20.5rem + env(safe-area-inset-bottom)));
+  }
+  body .garden-hero__bar {
+    padding-bottom: calc(9.75rem + env(safe-area-inset-bottom));
+    transition: opacity 0.2s ease, visibility 0.2s;
+  }
+  /* A caption needs the space the hero CTAs use: they step aside until it closes
+     (Projects/About stay in the tab dock). */
+  /* !important: the hero's scroll timeline writes inline opacity/visibility. */
+  html[data-voice-caption] body .garden-hero__bar {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vdock *,
+  body .garden-hero__bar {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .vdock__shell,
+  .vdock__type,
+  .vdock__caption,
+  .vdock__chips button {
+    background: var(--vd-ink);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: inset 0 0 0 2px #fff;
+  }
+}
+
+@media print {
+  .vdock { display: none; }
+}
