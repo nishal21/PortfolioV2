@@ -4071,3 +4071,99 @@ button[aria-label*="voice" i],
     height: 15% !important;
   }
 }
+
+/* ===== QA: ink-true monumental width + mobile non-overlap stack ===== */
+/* Prior width:92vw only sized the box; glyph ink was ~49%. Size by font. */
+.garden-hero-name,
+.garden-footer-name {
+  width: auto !important;
+  max-width: 96vw !important;
+  font-size: clamp(5.25rem, 35vw, 32rem) !important;
+  letter-spacing: -0.055em !important;
+  font-weight: 700 !important;
+}
+
+/* Keep baselines clear of FG strip as glyphs grow taller */
+.garden-hero-type {
+  padding-bottom: clamp(7.25rem, 15vh, 10.5rem) !important;
+}
+.garden-footer-type {
+  padding-bottom: clamp(6.75rem, 14vh, 10rem) !important;
+}
+.garden-hero-fg,
+.garden-footer-fg {
+  height: 15% !important;
+}
+
+@media (max-width: 767px) {
+  /*
+    Mobile regions (bottom-up, safe-area aware):
+      nav  → ~0.65rem from bottom
+      CTA + TALK action band → ~4.6–4.75rem from bottom
+      24px+ clear gap
+      wordmark above that
+  */
+  .garden-hero-type {
+    justify-content: flex-end !important;
+    padding-top: 3.25rem !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    padding-bottom: calc(9.35rem + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  .garden-hero-name,
+  .garden-footer-name {
+    /* Natural Inter; aim ~80–90% ink without colliding TALK */
+    font-size: clamp(3.6rem, 23.5vw, 5.5rem) !important;
+    width: auto !important;
+    max-width: calc(100vw - 1.5rem) !important;
+    letter-spacing: -0.045em !important;
+  }
+  .garden-hero-cta {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px)) !important;
+    z-index: 6 !important;
+    white-space: nowrap !important;
+  }
+  /* TALK shares action band, right edge — below name, clear of centered CTA */
+  .voice-dock {
+    bottom: calc(4.6rem + env(safe-area-inset-bottom, 0px)) !important;
+    right: max(0.7rem, env(safe-area-inset-right, 0px)) !important;
+    left: auto !important;
+    top: auto !important;
+  }
+  .garden-nav-mobile {
+    bottom: calc(0.55rem + env(safe-area-inset-bottom, 0px)) !important;
+    z-index: 40 !important;
+  }
+  .garden-hero-fg,
+  .garden-footer-fg {
+    height: 13% !important;
+  }
+  .garden-footer-type {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
+/* ===== QA tweak: ≥24px name→action gap; ~90% desktop ink; larger mobile ink ===== */
+.garden-hero-name,
+.garden-footer-name {
+  font-size: clamp(5.5rem, 36.5vw, 33rem) !important;
+}
+@media (max-width: 767px) {
+  .garden-hero-type {
+    padding-bottom: calc(10rem + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  .garden-hero-name,
+  .garden-footer-name {
+    font-size: clamp(4rem, 32vw, 7rem) !important;
+    max-width: calc(100vw - 1.25rem) !important;
+  }
+  .garden-hero-cta {
+    bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  .voice-dock {
+    bottom: calc(4.35rem + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
