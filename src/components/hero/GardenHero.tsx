@@ -6,7 +6,7 @@ import { detectDeviceTier, prefersReducedMotion } from '@/lib/deviceTier';
 
 /**
  * Garden hero — approved Direction A lock.
- * Semantic text + layered scenic media (not a flattened screenshot).
+ * Layer order: background → mist → monumental type → foreground foliage (overlaps letters).
  */
 export default function GardenHero() {
   const wrapRef = useRef<HTMLElement>(null);
@@ -42,7 +42,6 @@ export default function GardenHero() {
       }
       if (mistRef.current) {
         mistRef.current.style.transform = `translate3d(${dx * 12}px, ${dy * 6}px, 0)`;
-        mistRef.current.style.opacity = String(0.35 + Math.abs(dx) * 0.08);
       }
       if (fgRef.current) {
         fgRef.current.style.transform = `translate3d(${dx * 18}px, ${dy * 10}px, 0)`;
@@ -74,25 +73,12 @@ export default function GardenHero() {
   }, []);
 
   return (
-    <section
-      id="home"
-      ref={wrapRef}
-      className="garden-hero"
-      aria-label="Introduction"
-    >
+    <section id="home" ref={wrapRef} className="garden-hero" aria-label="Introduction">
       <div className="garden-hero-scene" aria-hidden="true">
         <div ref={bgRef} className="garden-hero-bg">
           <picture>
-            <source
-              media="(max-width: 767px)"
-              type="image/avif"
-              srcSet="/garden/hero-bg-mobile.avif"
-            />
-            <source
-              media="(max-width: 767px)"
-              type="image/webp"
-              srcSet="/garden/hero-bg-mobile.webp"
-            />
+            <source media="(max-width: 767px)" type="image/avif" srcSet="/garden/hero-bg-mobile.avif" />
+            <source media="(max-width: 767px)" type="image/webp" srcSet="/garden/hero-bg-mobile.webp" />
             <source type="image/avif" srcSet="/garden/hero-bg-desktop.avif" />
             <source type="image/webp" srcSet="/garden/hero-bg-desktop.webp" />
             <img
@@ -107,41 +93,40 @@ export default function GardenHero() {
           </picture>
         </div>
         <div ref={mistRef} className="garden-hero-mist" />
-        <div ref={fgRef} className="garden-hero-fg">
-          <picture>
-            <source
-              media="(max-width: 767px)"
-              type="image/webp"
-              srcSet="/garden/hero-fg-mobile.webp"
-            />
-            <source type="image/webp" srcSet="/garden/hero-fg-desktop.webp" />
-            <img
-              src="/garden/hero-fg-desktop.webp"
-              alt=""
-              width={1280}
-              height={720}
-              decoding="async"
-              loading="lazy"
-              className="garden-hero-fg-img"
-            />
-          </picture>
-        </div>
       </div>
 
-      <div className="garden-hero-inner page-container">
+      {/* Type sits UNDER foreground foliage so leaves overlap letters */}
+      <div className="garden-hero-type page-container">
         <p className="garden-hero-kicker">AMV · music · code</p>
         <h1 className="garden-hero-name">nishal</h1>
         <p className="sr-only">
           Nishal — AMV editor, music producer, and full-stack developer from Kerala.
         </p>
-        <button
-          type="button"
-          className="garden-hero-cta"
-          onClick={() => void scrollToSection('#projects')}
-        >
-          Selected work →
-        </button>
       </div>
+
+      <div ref={fgRef} className="garden-hero-fg" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" type="image/webp" srcSet="/garden/hero-fg-mobile.webp" />
+          <source type="image/webp" srcSet="/garden/hero-fg-desktop.webp" />
+          <img
+            src="/garden/hero-fg-desktop.webp"
+            alt=""
+            width={1280}
+            height={720}
+            decoding="async"
+            loading="lazy"
+            className="garden-hero-fg-img"
+          />
+        </picture>
+      </div>
+
+      <button
+        type="button"
+        className="garden-hero-cta"
+        onClick={() => void scrollToSection('#projects')}
+      >
+        Selected work →
+      </button>
     </section>
   );
 }

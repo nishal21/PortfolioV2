@@ -3627,3 +3627,348 @@ button[aria-label*="voice" i],
   box-shadow: none !important;
   border-radius: 0.85rem !important;
 }
+
+/* ===== Garden visual-lock refine: monumental type + FG overlap + mobile ===== */
+.garden-hero {
+  position: relative;
+  min-height: 100svh;
+  min-height: 100dvh;
+  overflow: clip;
+  color: #fff;
+  isolation: isolate;
+}
+.garden-hero-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.garden-hero-bg {
+  position: absolute;
+  inset: -4%;
+  z-index: 0;
+  will-change: transform;
+}
+.garden-hero-mist {
+  position: absolute;
+  inset: 22% 5% 30%;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse at 50% 60%, rgba(235, 225, 245, 0.5), transparent 65%),
+    linear-gradient(180deg, transparent, rgba(180, 160, 205, 0.2));
+  filter: blur(20px);
+  opacity: 0.45;
+  pointer-events: none;
+  will-change: transform;
+}
+.garden-hero-bg-img,
+.garden-hero-fg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Type UNDER foliage */
+.garden-hero-type {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 clamp(0.5rem, 2vw, 1.25rem) clamp(7.5rem, 16vh, 11rem);
+  text-align: center;
+  pointer-events: none;
+}
+.garden-hero-kicker {
+  margin: 0 0 0.55rem;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: clamp(0.72rem, 1.1vw, 0.9rem);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
+  color: rgba(255,255,255,0.9);
+  pointer-events: none;
+}
+.garden-hero-name {
+  margin: 0;
+  width: 92vw;
+  max-width: 92vw;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  /* ~90% viewport width for 6-letter "nishal" */
+  font-size: clamp(4.5rem, 22.5vw, 17rem);
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  text-transform: lowercase;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  overflow: visible;
+  transform: none !important;
+  scale: none;
+  text-shadow:
+    0 2px 28px rgba(40, 20, 60, 0.4),
+    0 0 48px rgba(180, 150, 210, 0.16);
+  pointer-events: none;
+}
+
+/* FG ABOVE type — leaves overlap letter bottoms */
+.garden-hero-fg {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 48%;
+  z-index: 3;
+  pointer-events: none;
+  will-change: transform;
+}
+.garden-hero-fg-img {
+  object-position: center bottom;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.garden-hero-cta {
+  position: absolute;
+  z-index: 5;
+  left: max(1.1rem, calc((100% - 72rem) / 2 + 1.1rem));
+  bottom: 1.5rem;
+  background: none;
+  border: 0;
+  color: #fff;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 0.92rem;
+  cursor: pointer;
+  opacity: 0.92;
+  padding: 0.35rem 0;
+  pointer-events: auto;
+}
+.garden-hero-cta:hover,
+.garden-hero-cta:focus-visible {
+  opacity: 1;
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Mobile: unstretched, margined name */
+@media (max-width: 767px) {
+  .garden-hero-type {
+    justify-content: center;
+    padding: 4.5rem 1.1rem 6.5rem;
+  }
+  .garden-hero-name {
+    width: auto;
+    max-width: calc(100vw - 2.2rem);
+    font-size: clamp(3.25rem, 17vw, 4.75rem);
+    letter-spacing: -0.045em;
+    white-space: nowrap;
+    transform: none !important;
+    overflow: hidden;
+    text-overflow: clip;
+  }
+  .garden-hero-fg {
+    height: 42%;
+    opacity: 0.95;
+  }
+  .garden-hero-cta {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 4.8rem;
+  }
+}
+
+/* Kill glass pill dock */
+.garden-nav-dock {
+  display: none !important;
+}
+
+/* Understated mobile text nav */
+.garden-nav-mobile {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(0.85rem + env(safe-area-inset-bottom));
+  z-index: 40;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent !important;
+  border: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  padding: 0;
+}
+@media (max-width: 767px) {
+  .garden-nav-mobile { display: flex; }
+  .garden-nav-links { display: none; }
+}
+.garden-nav-mobile-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.garden-nav-mobile-link {
+  background: none;
+  border: 0;
+  color: rgba(255,255,255,0.82);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 0.35rem 0.2rem;
+  cursor: pointer;
+  text-shadow: 0 1px 10px rgba(0,0,0,0.55);
+}
+.garden-nav-mobile-link.is-active,
+.garden-nav-mobile-link:hover,
+.garden-nav-mobile-link:focus-visible {
+  color: #fff;
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.garden-nav-mobile .garden-nav-dot {
+  color: rgba(255,255,255,0.45);
+  font-size: 0.75rem;
+}
+
+/* Footer monumental */
+.garden-footer {
+  position: relative;
+  isolation: isolate;
+  min-height: min(88vh, 820px);
+  overflow: clip;
+  color: #fff;
+  margin-top: 3.5rem;
+}
+.garden-footer-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.garden-footer-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  display: block;
+}
+.garden-footer-type {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 0.75rem clamp(6.5rem, 14vh, 9.5rem);
+  text-align: center;
+  pointer-events: none;
+}
+.garden-footer-kicker {
+  margin: 0 0 0.45rem;
+  font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+  color: rgba(255,255,255,0.78);
+  max-width: 40ch;
+}
+.garden-footer-name {
+  margin: 0;
+  width: 92vw;
+  max-width: 92vw;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(4.5rem, 22.5vw, 17rem);
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  text-transform: lowercase;
+  color: #fff;
+  white-space: nowrap;
+  transform: none !important;
+  text-shadow: 0 2px 28px rgba(30, 15, 50, 0.45);
+}
+.garden-footer-fg {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 46%;
+  z-index: 3;
+  pointer-events: none;
+}
+.garden-footer-fg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  display: block;
+}
+.garden-footer-chrome {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  padding-bottom: 1.35rem;
+  pointer-events: auto;
+}
+.garden-footer-meta {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.65rem 1.25rem;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.82);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.45);
+}
+.garden-footer-links a,
+.garden-footer-socials a {
+  color: rgba(255,255,255,0.88);
+  text-decoration: none;
+}
+.garden-footer-links a:hover,
+.garden-footer-socials a:hover,
+.garden-footer-links a:focus-visible,
+.garden-footer-socials a:focus-visible {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  outline: none;
+}
+.garden-footer-socials {
+  margin-top: 0.55rem;
+  font-size: 0.76rem;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .garden-footer {
+    min-height: 78vh;
+  }
+  .garden-footer-type {
+    padding-bottom: 7.5rem;
+  }
+  .garden-footer-name {
+    width: auto;
+    max-width: calc(100vw - 2.2rem);
+    font-size: clamp(3.25rem, 17vw, 4.75rem);
+    letter-spacing: -0.045em;
+  }
+  .garden-footer-fg { height: 40%; }
+  #page-root {
+    padding-bottom: calc(3.25rem + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .garden-hero-bg,
+  .garden-hero-fg,
+  .garden-hero-mist {
+    transform: none !important;
+  }
+}

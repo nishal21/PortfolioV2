@@ -34,16 +34,30 @@ export default function SiteFooter() {
             className="garden-footer-bg-img"
           />
         </picture>
-        <div className="garden-footer-veil" />
       </div>
 
-      <div className="garden-footer-inner page-container">
+      <div className="garden-footer-type">
         <p className="garden-footer-kicker">{personal.tagline}</p>
         <p className="garden-footer-name" aria-hidden="true">
           nishal
         </p>
         <h2 className="sr-only">Nishal</h2>
+      </div>
 
+      {/* Reuse hero FG so foliage sits over monumental wordmark */}
+      <div className="garden-footer-fg" aria-hidden="true">
+        <img
+          src="/garden/hero-fg-desktop.webp"
+          alt=""
+          width={1280}
+          height={720}
+          loading="lazy"
+          decoding="async"
+          className="garden-footer-fg-img"
+        />
+      </div>
+
+      <div className="garden-footer-chrome page-container">
         <div className="garden-footer-meta">
           <p id="copyright" className="copyright-notice garden-footer-copy">
             © Nishal {year} · nishal21
@@ -57,7 +71,6 @@ export default function SiteFooter() {
             ))}
           </nav>
         </div>
-
         <nav className="garden-footer-socials" aria-label="Social">
           {socialLinks.map((item, i) => (
             <span key={item.label}>

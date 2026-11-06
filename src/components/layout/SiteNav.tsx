@@ -1,22 +1,14 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  mobileContactItem,
-  mobileTabItems,
-} from '@/data/navMeta';
+import { mobileContactItem, mobileTabItems } from '@/data/navMeta';
 import { getActiveSectionHref, scrollToSection } from '@/lib/scrollNav';
 
-/**
- * Sparse garden chrome — white text on dusk, no pills / glass / HUD.
- */
 export default function SiteNav() {
   const [active, setActive] = useState('#home');
   const navLockRef = useRef<string | null>(null);
   const scrollGenRef = useRef(0);
   const spyCooldownUntilRef = useRef(0);
-
-  const contactActive = active === mobileContactItem.href;
 
   const releaseNavLock = useCallback((href: string, gen: number) => {
     if (gen !== scrollGenRef.current) return;
@@ -63,6 +55,12 @@ export default function SiteNav() {
     { name: 'Contact', href: '#contact' },
   ];
 
+  const mobileLinks = [
+    { name: 'About', href: '#about' },
+    { name: 'Work', href: '#projects' },
+    { name: 'Contact', href: mobileContactItem.href },
+  ];
+
   return (
     <>
       <header className="garden-nav-header">
@@ -97,30 +95,25 @@ export default function SiteNav() {
         </div>
       </header>
 
-      <nav className="garden-nav-dock" aria-label="Mobile">
-        {mobileTabItems.map((item) => {
-          const isActive = active === item.href;
-          return (
+      {/* Understated mobile links — no glass pill */}
+      <nav className="garden-nav-mobile" aria-label="Mobile">
+        {mobileLinks.map((item, i) => (
+          <span key={item.href} className="garden-nav-mobile-wrap">
+            {i > 0 ? (
+              <span className="garden-nav-dot" aria-hidden="true">
+                /
+              </span>
+            ) : null}
             <button
-              key={item.href}
               type="button"
-              className={`garden-dock-item${isActive ? ' is-active' : ''}`}
+              className={`garden-nav-mobile-link${active === item.href ? ' is-active' : ''}`}
               onClick={() => scrollTo(item.href)}
-              aria-current={isActive ? 'page' : undefined}
+              aria-current={active === item.href ? 'page' : undefined}
             >
-              <span className="garden-dock-label">{item.name}</span>
+              {item.name}
             </button>
-          );
-        })}
-        <button
-          type="button"
-          className={`garden-dock-mail${contactActive ? ' is-active' : ''}`}
-          onClick={() => scrollTo(mobileContactItem.href)}
-          aria-label="Contact"
-          aria-current={contactActive ? 'page' : undefined}
-        >
-          ✉
-        </button>
+          </span>
+        ))}
       </nav>
     </>
   );
