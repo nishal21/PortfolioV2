@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Syne, DM_Sans } from 'next/font/google';
+import { Inter, DM_Sans } from 'next/font/google';
 import { copyrightNotice } from '@/components/layout/SiteFooter';
 import RootProviders from '@/components/layout/RootProviders';
 import { FEED_PATH } from '@/lib/rss';
@@ -15,10 +15,10 @@ import {
 } from '@/lib/seo';
 import './globals.css';
 
-const syne = Syne({
+const inter = Inter({
   variable: '--font-display',
   subsets: ['latin'],
-  weight: ['700', '800'],
+  weight: ['600', '700', '800'],
   display: 'optional',
   preload: true,
 });
@@ -112,7 +112,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="copyright" content={copyrightNotice()} />
       </head>
-      <body className={`${syne.variable} ${dmSans.variable} antialiased`}>
+      <body className={`${inter.variable} ${dmSans.variable} antialiased`}>
         <noscript>
           <div className="noscript-notice">
             <strong>Nishal · Nishal K (nishal21)</strong>. AMV editor, music producer, and full-stack developer from

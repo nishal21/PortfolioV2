@@ -106,10 +106,10 @@ export default function GardenHero() {
 
       <div ref={fgRef} className="garden-hero-fg" aria-hidden="true">
         <picture>
-          <source media="(max-width: 767px)" type="image/webp" srcSet="/garden/hero-fg-mobile.webp" />
-          <source type="image/webp" srcSet="/garden/hero-fg-desktop.webp" />
+          <source media="(max-width: 767px)" type="image/webp" srcSet="/garden/hero-fg-mobile-clean.webp" />
+          <source type="image/webp" srcSet="/garden/hero-fg-clean.webp" />
           <img
-            src="/garden/hero-fg-desktop.webp"
+            src="/garden/hero-fg-clean.webp"
             alt=""
             width={1280}
             height={720}

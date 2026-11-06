@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { mobileContactItem, mobileTabItems } from '@/data/navMeta';
+import { mobileContactItem } from '@/data/navMeta';
 import { getActiveSectionHref, scrollToSection } from '@/lib/scrollNav';
 
 export default function SiteNav() {

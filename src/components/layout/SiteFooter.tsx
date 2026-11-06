@@ -44,10 +44,10 @@ export default function SiteFooter() {
         <h2 className="sr-only">Nishal</h2>
       </div>
 
-      {/* Reuse hero FG so foliage sits over monumental wordmark */}
+      {/* Footer-matched isolated FG over monumental wordmark */}
       <div className="garden-footer-fg" aria-hidden="true">
         <img
-          src="/garden/hero-fg-desktop.webp"
+          src="/garden/footer-fg-clean.webp"
           alt=""
           width={1280}
           height={720}
@@ -85,3 +85,4 @@ export default function SiteFooter() {
     </footer>
   );
 }
+
