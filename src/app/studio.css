@@ -1796,3 +1796,123 @@
   }
 }
 
+
+/* ------------------------------------------------------------------
+   Shared craft pass: focus, contrast, touch, states, motion.
+   Same palette and layouts; fixes affordance/accessibility gaps.
+------------------------------------------------------------------- */
+
+/* Visible keyboard focus everywhere (there was none site-wide). */
+:where(a, button, [role='button'], summary, select, .studio-filter, .studio-chip):focus-visible {
+  outline: 2px solid var(--studio-accent, #a6c78c);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.studio-input:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--studio-accent) 70%, transparent);
+  outline-offset: 1px;
+  border-color: var(--studio-accent);
+}
+
+/* Small uppercase labels used #6b7580 on near-black (~4.2:1); lift to AA. */
+.studio-field-label,
+.studio-filter,
+.studio-input::placeholder {
+  color: #8b95a0;
+}
+
+.studio-input {
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.studio-input:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.studio-input:user-invalid {
+  border-color: #e07a7a;
+}
+
+/* Clearer primary affordance for Send, same restrained style. */
+.studio-submit {
+  min-height: 3rem;
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.studio-submit:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.studio-submit:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.studio-submit:disabled {
+  cursor: progress;
+}
+
+.studio-form-error {
+  margin: 0;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(224, 122, 122, 0.45);
+  background: rgba(224, 122, 122, 0.08);
+  color: #f0a3a3;
+  font-size: 0.875rem;
+}
+
+.studio-support-card:focus-visible,
+.studio-contact-social-link:focus-visible {
+  border-color: var(--studio-accent);
+}
+
+.studio-link:focus-visible {
+  color: var(--studio-accent);
+}
+
+/* Touch: iOS zooms inputs under 16px; give small controls a 44px target. */
+@media (pointer: coarse), (max-width: 767px) {
+  .studio-input {
+    font-size: 16px;
+  }
+}
+
+@media (pointer: coarse) {
+  .studio-filter {
+    min-height: 44px;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
+  .studio-support-card {
+    min-height: 48px;
+  }
+}
+
+/* Hover lifts only where hover exists; none under reduced motion. */
+@media (hover: none) {
+  .studio-support-card:hover,
+  .studio-contact-social-link:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-support-card,
+  .studio-contact-social-link,
+  .studio-submit,
+  .studio-input,
+  .studio-filter,
+  .studio-link {
+    transition: none !important;
+  }
+  .studio-support-card:hover,
+  .studio-contact-social-link:hover,
+  .studio-submit:active:not(:disabled) {
+    transform: none !important;
+  }
+}

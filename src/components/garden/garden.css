@@ -336,3 +336,9 @@
   .garden-footer__bg { will-change: auto; }
   .garden-hero__link { transition: none; }
 }
+
+.garden-hero a:focus-visible,
+.garden-footer a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}

@@ -98,9 +98,25 @@ export function firefoxFilterGlassSupported(): boolean {
   }
 }
 
+/**
+ * Devices / preferences that should skip the canvas-generated SVG refraction maps
+ * and use plain CSS blur (or the opaque fallback in CSS) instead.
+ */
+export function prefersLiteGlass(): boolean {
+  if (typeof window === 'undefined') return false;
+  const mq = (q: string) => window.matchMedia?.(q).matches ?? false;
+  if (mq('(prefers-reduced-transparency: reduce)') || mq('(prefers-contrast: more)')) return true;
+  const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } };
+  if (nav.connection?.saveData) return true;
+  if (typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 2) return true;
+  if (typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 2) return true;
+  return false;
+}
+
 export function getGlassRenderMode(): GlassRenderMode {
   if (renderModeCached) return renderModeCached;
-  if (svgBackdropFilterSupported()) renderModeCached = 'backdrop-svg';
+  if (prefersLiteGlass()) renderModeCached = 'css-blur';
+  else if (svgBackdropFilterSupported()) renderModeCached = 'backdrop-svg';
   else if (firefoxFilterGlassSupported()) renderModeCached = 'filter-svg';
   else renderModeCached = 'css-blur';
   applyGlassRootClass(renderModeCached);

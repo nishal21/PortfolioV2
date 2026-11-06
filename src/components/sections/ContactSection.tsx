@@ -82,7 +82,7 @@ export default function ContactSection() {
 
             <div className="studio-contact-form">
               {isSubmitted ? (
-                <div className="py-12 text-center">
+                <div className="py-12 text-center" role="status" aria-live="polite">
                   <p className="font-display text-2xl font-semibold text-[var(--text-soft)]">Message sent.</p>
                   <p className="mt-2 text-[var(--text-muted)]">I&apos;ll reply within 24 hours.</p>
                 </div>
@@ -93,7 +93,11 @@ export default function ContactSection() {
                   <input type="hidden" name="_autoresponse" value={formSubmit.autoresponse} />
                   <input type="hidden" name="_captcha" value="false" />
                   <input type="text" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" />
-                  {error ? <p className="text-sm text-red-400">{error}</p> : null}
+                  {error ? (
+                    <p className="studio-form-error" role="alert">
+                      {error}
+                    </p>
+                  ) : null}
                   <div className="studio-form-row">
                     <label className="studio-field">
                       <span className="studio-field-label">Your name</span>
@@ -140,7 +144,7 @@ export default function ContactSection() {
                       className="studio-input studio-textarea"
                     />
                   </label>
-                  <button type="submit" disabled={isSubmitting} className="hit-target studio-submit">
+                  <button type="submit" disabled={isSubmitting} aria-busy={isSubmitting} className="hit-target studio-submit">
                     {isSubmitting ? 'Sending...' : (
                       <>
                         Send <Send className="h-4 w-4" />

@@ -1227,3 +1227,115 @@ html.lg-css-backdrop .tab-indicator.lg-css-fallback .lg-tint {
   width: 22px;
   height: 22px;
 }
+
+/* ------------------------------------------------------------------
+   Nav glass robustness layer (progressive enhancement)
+   1. Everyone: a near-opaque ink pill so labels read on any backdrop
+      (garden sky, video, white content) with no JS and no backdrop-filter.
+   2. Engines with backdrop-filter: lighter tint + CSS blur before JS runs
+      and in css-blur mode (Firefox fallback, Vivaldi/Samsung, low-end).
+   3. SVG liquid-glass modes (set by JS on <html>): keep a contrast tint the
+      refraction layer samples, instead of the near-clear default.
+   4. Reduced transparency / more contrast: fully opaque, no blur.
+------------------------------------------------------------------- */
+.ios26-nav,
+.ios-nav-fab {
+  --ios-muted: rgba(255, 255, 255, 0.76);
+  --ios-panel-soft: transparent;
+  background: rgba(17, 14, 26, 0.88);
+}
+
+.ios26-nav::after,
+.ios-nav-fab::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  html:not(.lg-svg-backdrop):not(.lg-filter-fx) .ios26-nav,
+  html:not(.lg-svg-backdrop):not(.lg-filter-fx) .ios-nav-fab {
+    background: rgba(17, 14, 26, 0.52);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    backdrop-filter: blur(18px) saturate(1.6);
+  }
+
+  html.lg-svg-backdrop .ios26-nav,
+  html.lg-svg-backdrop .ios-nav-fab,
+  html.lg-filter-fx .ios26-nav,
+  html.lg-filter-fx .ios-nav-fab {
+    background: rgba(17, 14, 26, 0.4);
+  }
+}
+
+/* Active tab: solid light pill + ink label (was ink on a 12% white pill). */
+html .ios26-nav .tab-indicator {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+html .ios26-nav .tab-indicator.interacting {
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.ios-item:focus-visible,
+.ios-nav-fab:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+  color: #fff;
+}
+
+.ios-item.active:focus-visible {
+  outline-color: var(--ink);
+  color: var(--ink);
+}
+
+@media (hover: none) {
+  .ios-item:not(.active):hover {
+    color: var(--ios-muted);
+  }
+}
+
+.ios-nav-dock {
+  padding-left: max(12px, env(safe-area-inset-left));
+  padding-right: max(12px, env(safe-area-inset-right));
+}
+
+.ios-nav-header {
+  padding-top: calc(12px + env(safe-area-inset-top));
+}
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  html .ios26-nav,
+  html .ios-nav-fab {
+    background: rgb(17, 14, 26) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    --ios-muted: rgba(255, 255, 255, 0.92);
+  }
+  .ios26-nav .lg-refr,
+  .ios26-nav .lg-tint,
+  .ios-nav-fab .lg-refr,
+  .ios-nav-fab .lg-tint {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ios26-nav,
+  .ios26-nav.engaged {
+    transition: none;
+    transform: none;
+  }
+  html .ios26-nav .tab-indicator {
+    transition: none !important;
+  }
+}
