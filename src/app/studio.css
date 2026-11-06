@@ -1916,3 +1916,253 @@
     transform: none !important;
   }
 }
+
+/* ===============================================================
+   Garden content layer — carries the hero/footer dusk into the
+   middle of the site and the secondary pages. Same facts, same
+   structure; only tokens, type, material and motion change.
+   Dusk ink + lavender light + white DM Sans display, foliage sage
+   kept for "live"/positive states only.
+================================================================ */
+/* Tokens live at the end of globals.css so they override its :root. */
+
+/* Dusk continues out of the hero and settles toward the footer's lavender. */
+.studio-stage {
+  background-color: var(--studio-bg);
+  background-image:
+    linear-gradient(180deg, var(--g-ink) 0, rgba(23, 18, 31, 0) 36rem),
+    radial-gradient(80rem 40rem at 85% 0%, rgba(111, 101, 144, 0.22), transparent 70%),
+    linear-gradient(0deg, rgba(111, 101, 144, 0.28) 0, rgba(111, 101, 144, 0) 40rem),
+    radial-gradient(rgba(255, 255, 255, 0.024) 0.65px, transparent 0.7px);
+  background-size: auto, auto, auto, 3px 3px;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+}
+.studio-section + .studio-section { border-top-color: transparent; }
+.studio-section + .studio-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(72rem, calc(100% - 2.5rem));
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgba(var(--g-lav-rgb), 0.22), transparent);
+}
+
+/* Display type: the hero's white DM Sans, tight and confident. */
+.studio-title,
+.studio-flagship-title,
+.studio-modal-title,
+.studio-contact-headline,
+.studio-support-title,
+.studio-lane-title,
+.studio-reel-title,
+.studio-stat-num {
+  font-family: var(--font-body), system-ui, sans-serif;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+.studio-title {
+  font-size: clamp(2.5rem, 6.2vw, 4.25rem);
+  line-height: 0.95;
+  color: #fff;
+}
+.studio-label,
+.studio-meta {
+  color: var(--g-lav);
+}
+.studio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.studio-label::before {
+  content: '';
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 3px rgba(var(--g-lav-rgb), 0.16);
+}
+.studio-desc { color: var(--text-muted); text-wrap: pretty; }
+
+/* About */
+.studio-about-quote { border-left-color: rgba(var(--g-lav-rgb), 0.55); }
+.studio-about-watermark { color: rgba(var(--g-lav-rgb), 0.07); }
+.studio-timeline-dot { box-shadow: 0 0 0 3px rgba(var(--g-lav-rgb), 0.16); }
+.studio-stat-num { color: #fff; }
+
+/* Material: soft dusk glass with a lavender hairline, one radius family. */
+.studio-flagship,
+.studio-lane,
+.studio-reel-card,
+.studio-aeo-card,
+.studio-contact-form,
+.studio-modal {
+  border-color: var(--studio-border);
+  border-radius: var(--g-radius);
+  background:
+    linear-gradient(180deg, rgba(var(--g-lav-rgb), 0.06), rgba(var(--g-lav-rgb), 0) 55%),
+    var(--studio-surface);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.studio-flagship-media,
+.studio-modal-cover {
+  background: var(--g-ink);
+}
+.studio-flagship-media img,
+.studio-reel-card img {
+  transition: transform 0.6s var(--g-ease);
+}
+@media (hover: hover) {
+  .studio-flagship:hover,
+  .studio-reel-card:hover {
+    border-color: rgba(var(--g-lav-rgb), 0.32);
+    transform: translateY(-3px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 24px 48px -24px rgba(8, 4, 16, 0.7);
+  }
+  .studio-flagship:hover .studio-flagship-media img,
+  .studio-reel-card:hover img { transform: scale(1.03); }
+}
+
+/* Chips and filters: garden pills. */
+.studio-chip {
+  border-color: rgba(var(--g-lav-rgb), 0.16);
+  background: rgba(var(--g-lav-rgb), 0.05);
+  color: #d9d2e8;
+}
+.studio-filter {
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+.studio-filter:hover { color: #fff; background: rgba(var(--g-lav-rgb), 0.08); }
+.studio-filter[aria-pressed='true'],
+.studio-filter[aria-selected='true'],
+.studio-filter.active,
+.studio-filter[data-active='true'] {
+  color: var(--g-ink);
+  background: #fff;
+  border-color: transparent;
+}
+
+/* Form: same pill/field language as the voice dock and footer. */
+.studio-input,
+.studio-textarea {
+  border-color: rgba(var(--g-lav-rgb), 0.16);
+  border-radius: 0.9rem;
+  background: rgba(17, 13, 24, 0.6);
+}
+.studio-input:focus,
+.studio-textarea:focus {
+  border-color: rgba(var(--g-lav-rgb), 0.6);
+  box-shadow: 0 0 0 3px rgba(var(--g-lav-rgb), 0.16);
+  outline: none;
+}
+.studio-field-label,
+.studio-contact-label { color: #b4acc8; }
+.studio-submit {
+  border: 0;
+  border-radius: 999px;
+  color: var(--g-ink);
+  background: #fff;
+  letter-spacing: 0.08em;
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+.studio-submit:hover:not(:disabled) { background: var(--g-lav); color: var(--g-ink); }
+.studio-submit:active:not(:disabled) { transform: scale(0.985); }
+.studio-contact-name { color: var(--g-lav); }
+
+/* Support cards keep each brand's own accent; only the shell joins the garden. */
+.studio-support-card {
+  border-radius: 1rem;
+  border-color: rgba(var(--g-lav-rgb), 0.14);
+  background: rgba(38, 30, 54, 0.5);
+}
+
+/* Section entrance: a short rise as each section first paints. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .studio-section-header,
+    .studio-flagship,
+    .studio-lane,
+    .studio-aeo-card,
+    .studio-contact-form {
+      animation: g-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+@keyframes g-rise {
+  from { opacity: 0.001; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+
+
+.studio-modal-action--primary { color: var(--g-ink); }
+.studio-modal-action--primary:hover { background: #fff; color: var(--g-ink); }
+
+/* Hero → content: the plate settles into the same dusk ink the content starts on. */
+body .garden-hero::after {
+  height: 14%;
+  background: linear-gradient(to bottom, rgba(23, 18, 31, 0), var(--g-ink));
+}
+#home + .studio-section::before,
+.garden-hero + .studio-section::before { display: none; }
+
+/* Contact: a dusk "evening" panel that hands off to the garden footer. */
+.studio-contact {
+  background:
+    radial-gradient(60rem 26rem at 50% 0%, rgba(111, 101, 144, 0.3), transparent 70%),
+    linear-gradient(180deg, #19132a, #120e1a 60%, #17121f);
+  border-top-color: rgba(var(--g-lav-rgb), 0.2);
+  border-radius: 2.5rem 2.5rem 0 0;
+}
+.studio-contact-headline {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+  color: #fff;
+  text-wrap: balance;
+}
+.connect-btn-shell {
+  padding: 0;
+  border-radius: 999px;
+  background: none;
+}
+.connect-btn-inner {
+  min-height: 3rem;
+  padding: 0 1.4rem;
+  border-radius: 999px;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--g-ink);
+  background: #fff;
+  transition: background-color 0.18s ease;
+}
+.connect-btn-inner:hover { background: var(--g-lav); }
+.connect-btn-inner--ghost {
+  color: #fff;
+  background: rgba(var(--g-lav-rgb), 0.1);
+  border: 1px solid rgba(var(--g-lav-rgb), 0.28);
+}
+.connect-btn-inner--ghost:hover { background: rgba(var(--g-lav-rgb), 0.2); }
+.studio-contact-social-link {
+  border-color: rgba(var(--g-lav-rgb), 0.2);
+  background: rgba(var(--g-lav-rgb), 0.05);
+}
+.studio-contact-social-link:hover {
+  color: var(--g-ink);
+  background: #fff;
+  border-color: transparent;
+}

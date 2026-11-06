@@ -1354,3 +1354,34 @@ html .ios26-nav .tab-indicator.interacting {
   outline: 2px solid #fff;
   outline-offset: 2px;
 }
+
+/* Garden content tokens (see the garden content layer in studio.css). */
+html:root {
+  --g-ink: #17121f;
+  --g-dusk: #6f6590;
+  --g-lav: #c9b8ff;
+  --g-lav-rgb: 201, 184, 255;
+  --bg: #110d18;
+  --studio-bg: #110d18;
+  --studio-surface: rgba(38, 30, 54, 0.55);
+  --studio-border: rgba(var(--g-lav-rgb), 0.13);
+  --border: rgba(var(--g-lav-rgb), 0.14);
+  --border-subtle: rgba(var(--g-lav-rgb), 0.08);
+  --text: #f6f3fb;
+  --text-soft: #efeaf7;
+  --text-muted: #aaa3bc;
+  --text-dim: #7d7690;
+  --studio-accent: var(--g-lav);
+  --studio-warm: #f0c79a;
+  --g-radius: 1.25rem;
+  --g-ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  html:root {
+    --studio-surface: #1d1729;
+    --studio-border: rgba(255, 255, 255, 0.4);
+    --text-muted: #d4cee0;
+  }
+}
+

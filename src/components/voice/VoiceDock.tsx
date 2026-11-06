@@ -329,7 +329,10 @@ export default function VoiceDock() {
               ref={ctaRef}
               type="button"
               className="vdock__cta"
-              onClick={startCall}
+              onClick={(e) => {
+                // Calls start only from a real user gesture, never a scripted click.
+                if (e.nativeEvent.isTrusted) void startCall();
+              }}
               onPointerEnter={prefetch}
               onFocus={prefetch}
               aria-describedby="vdock-privacy"
