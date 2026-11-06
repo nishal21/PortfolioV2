@@ -51,6 +51,14 @@ describe('token guard', () => {
     assert.ok(isAllowedRequest(h({ origin: 'http://127.0.0.1:3410' }), origins, 'http://127.0.0.1:3410'));
     assert.equal(isAllowedRequest(h({ origin: 'https://evil.example' }), origins, 'https://evil.example'), false);
   });
+  test('explicit local origins accept only http loopback', () => {
+    const local = allowedOrigins('https://nishal.dev', false, 'http://127.0.0.1:3410, https://127.0.0.1:1, http://evil.example, http://localhost:8080/x, http://[::1]:9');
+    assert.ok(local.includes('http://127.0.0.1:3410'));
+    assert.equal(local.some((o) => /evil|https:\/\/127|8080|::1/.test(o)), false);
+    assert.ok(isAllowedRequest(h({ origin: 'http://127.0.0.1:3410', 'sec-fetch-site': 'same-origin' }), local, 'http://localhost:3410'));
+    assert.equal(isAllowedRequest(h({ origin: 'http://127.0.0.1:3410', 'sec-fetch-site': 'cross-site' }), local), false);
+    assert.equal(isAllowedRequest(h({ origin: 'http://127.0.0.1:3410' }), origins, 'http://localhost:3410'), false);
+  });
   test('rate limiter: per key and global caps, window expiry', () => {
     const rl = createRateLimiter({ perKey: 2, windowMs: 1000, globalPerWindow: 3 });
     assert.equal(rl.hit('a', 0), 0);

@@ -1,19 +1,21 @@
 /* ---------------------------------------------------------------
-   Voice dock: one glass pill that morphs between
-   idle CTA → call bar (state · real level meter · timer · end)
-   with a single caption floating above it. Garden palette:
-   dusk ink, lavender light, white lowercase DM Sans.
+   Voice dock: one pearl pill that morphs between
+   idle CTA → call bar (orb · status · real meter · timer · end)
+   with a single caption bubble above it. Garden palette: pearl
+   light material over the dusk page, ink type, lavender accents.
 ---------------------------------------------------------------- */
 
 .vdock {
   --vd-ink: #17121f;
+  --vd-ink-2: #3a3150;
+  --vd-dusk: #5f5384;
   --vd-lav: #c9b8ff;
-  --vd-line: rgba(255, 255, 255, 0.16);
-  --vd-muted: rgba(240, 236, 250, 0.7);
+  --vd-pearl: rgba(248, 245, 255, 0.95);
+  --vd-pearl-2: rgba(234, 227, 251, 0.93);
   --vd-ease: cubic-bezier(0.2, 0, 0, 1);
-  --vd-h: 3.25rem;
-  --vd-idle-w: 11.75rem;
-  --vd-open-w: min(22rem, calc(100vw - 2rem));
+  --vd-h: 3.375rem;
+  --vd-idle-w: 11.25rem;
+  --vd-open-w: min(23rem, calc(100vw - 2rem));
   position: fixed;
   z-index: 60;
   right: max(1rem, env(safe-area-inset-right));
@@ -21,31 +23,42 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.5rem;
+  gap: 0.625rem;
   pointer-events: none;
   font-family: var(--font-body), system-ui, sans-serif;
-  color: #fff;
+  color: var(--vd-ink);
 }
 .vdock > * { pointer-events: auto; }
 
-/* Shared glass: opaque first, blur only where supported. */
+/* The site hides the system pointer for its dot+ring overlay; over the dock
+   use real cursors and hide the overlay so it never sits on the controls. */
+@media (pointer: fine) {
+  .vdock,
+  .vdock * { cursor: default !important; }
+  .vdock :where(button:not(:disabled), a) { cursor: pointer !important; }
+  .vdock input { cursor: text !important; }
+  html:has(.vdock:hover) :is(.pointer-dot, .pointer-ring) { opacity: 0 !important; }
+}
+
+/* Pearl material: opaque first, frosted where supported. */
 .vdock__shell,
 .vdock__type,
 .vdock__caption,
 .vdock__chips button {
-  background: rgba(23, 18, 31, 0.92);
+  background: linear-gradient(180deg, #f8f5ff, #ebe5fb);
   box-shadow:
-    inset 0 0 0 1px var(--vd-line),
-    0 12px 32px rgba(10, 6, 18, 0.32);
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 2px rgba(10, 6, 18, 0.18),
+    0 14px 36px -8px rgba(10, 6, 18, 0.5);
 }
 @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
   .vdock__shell,
   .vdock__type,
   .vdock__caption,
   .vdock__chips button {
-    background: rgba(30, 23, 42, 0.6);
-    -webkit-backdrop-filter: blur(18px) saturate(1.3);
-    backdrop-filter: blur(18px) saturate(1.3);
+    background: linear-gradient(180deg, var(--vd-pearl), var(--vd-pearl-2));
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(16px) saturate(1.4);
   }
 }
 
@@ -59,12 +72,11 @@
 .vdock__type {
   display: grid;
   place-items: center;
-  width: 3rem;
-  height: 3rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border: 0;
   border-radius: 50%;
-  color: var(--vd-muted);
-  cursor: pointer;
+  color: var(--vd-dusk);
   transition:
     opacity 0.2s ease,
     transform 0.32s var(--vd-ease),
@@ -72,7 +84,7 @@
     margin 0.32s var(--vd-ease),
     color 0.15s ease;
 }
-.vdock__type:hover { color: #fff; }
+.vdock__type:hover { color: var(--vd-ink); }
 .vdock:not([data-phase='idle']) .vdock__type {
   width: 0;
   margin-right: -0.5rem;
@@ -88,7 +100,7 @@
   width: var(--vd-idle-w);
   border-radius: 999px;
   overflow: hidden;
-  transition: width 0.38s var(--vd-ease);
+  transition: width 0.36s var(--vd-ease);
 }
 .vdock:not([data-phase='idle']) .vdock__shell { width: var(--vd-open-w); }
 
@@ -99,100 +111,110 @@
   inset: 0;
   display: flex;
   align-items: center;
-  animation: vdock-in 0.26s 0.08s var(--vd-ease) backwards;
+  animation: vdock-in 0.24s 0.08s var(--vd-ease) backwards;
 }
 
 .vdock__cta {
-  gap: 0.7rem;
+  gap: 0.625rem;
   padding: 0 1.25rem 0 0.5rem;
   border: 0;
   border-radius: inherit;
   background: transparent;
-  color: #fff;
+  color: var(--vd-ink);
   font: inherit;
-  font-weight: 700;
-  font-size: 1.0625rem;
-  letter-spacing: -0.03em;
+  font-weight: 650;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
   white-space: nowrap;
-  cursor: pointer;
   transition: background-color 0.15s ease;
 }
-.vdock__cta:hover { background: rgba(255, 255, 255, 0.06); }
-.vdock__cta:active { background: rgba(255, 255, 255, 0.1); }
+.vdock__cta:hover { background: rgba(95, 83, 132, 0.07); }
+.vdock__cta:active { background: rgba(95, 83, 132, 0.12); }
 
 /* Garden orb: a jasmine crop from the hero plate. */
 .vdock__orb {
+  position: relative;
   flex: none;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.375rem;
+  height: 2.375rem;
   border-radius: 50%;
   background: #6f6590 url('/voice/orb.webp') center / cover;
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.28),
-    0 0 0 0 rgba(201, 184, 255, 0.5);
+    inset 0 0 0 1px rgba(23, 18, 31, 0.12),
+    0 0 0 0 rgba(143, 122, 214, 0.45);
 }
 .vdock[data-phase='idle'] .vdock__orb { animation: vdock-bloom 3.6s ease-in-out infinite; }
 /* In a call the halo follows the agent's measured output level. */
 .vdock__orb--call {
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.28),
-    0 0 0 calc(var(--lv, 0) * 7px) rgba(201, 184, 255, 0.4);
+    inset 0 0 0 1px rgba(23, 18, 31, 0.12),
+    0 0 0 calc(var(--lv, 0) * 6px) rgba(143, 122, 214, 0.35);
   transition: box-shadow 0.08s linear;
+}
+/* Connecting: an honest indeterminate ring around the orb, not a level. */
+.vdock[data-phase='connecting'] .vdock__orb::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--vd-dusk);
+  animation: vdock-spin 0.9s linear infinite;
 }
 
 .vdock__bar {
   gap: 0.75rem;
-  padding: 0 0.375rem 0 0.5rem;
+  padding: 0 0.3125rem 0 0.5rem;
 }
 .vdock__state {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.0625rem;
+  line-height: 1.2;
 }
 .vdock__label {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--vd-muted);
+  font-size: 0.9375rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  color: var(--vd-ink);
+  white-space: nowrap;
 }
-.vdock[data-phase='listening'] .vdock__label,
-.vdock[data-phase='speaking'] .vdock__label { color: #fff; }
+.vdock__sub {
+  overflow: hidden;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--vd-dusk);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 
 .vdock__meter {
+  flex: none;
   display: flex;
   align-items: center;
-  gap: 3px;
-  height: 0.875rem;
+  gap: 2px;
+  height: 1.125rem;
 }
 .vdock__meter i {
-  flex: 1;
-  max-width: 3px;
+  width: 2px;
   height: 100%;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.85);
-  transform: scaleY(0.14);
+  background: var(--vd-ink-2);
+  transform: scaleY(0.12);
   transition: transform 0.09s linear, background-color 0.2s ease;
-  opacity: 0.4;
 }
-.vdock__meter[data-live] i { opacity: 1; }
-.vdock__meter[data-src='agent'] i { background: var(--vd-lav); }
-/* Connecting: an honest indeterminate sweep, not a fake level. */
-.vdock[data-phase='connecting'] .vdock__meter i {
-  animation: vdock-sweep 1.4s ease-in-out infinite;
-  animation-delay: calc(var(--i, 0) * 60ms);
-}
+.vdock__meter[data-src='agent'] i { background: #8f7ad6; }
 
 .vdock__time {
-  min-width: 2.9rem;
-  text-align: right;
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 650;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
+  color: var(--vd-ink);
 }
+.vdock__time:not(:empty) { min-width: 2.9rem; text-align: right; }
 
 .vdock__end,
 .vdock__send {
@@ -203,22 +225,22 @@
   height: 2.75rem;
   border: 0;
   border-radius: 50%;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
-  cursor: pointer;
+  color: var(--vd-ink);
+  background: rgba(23, 18, 31, 0.07);
   transition: background-color 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
 }
-.vdock__end:hover { background: rgba(255, 255, 255, 0.18); }
-.vdock__end--hang { background: #ffb3a8; color: var(--vd-ink); }
-.vdock__end--hang:hover { background: #ffc8c0; }
+.vdock__end:hover { background: rgba(23, 18, 31, 0.13); }
+/* End call: a clear ink button that reads as "hang up" without alarm red. */
+.vdock__end--hang { background: var(--vd-ink); color: #f8f5ff; }
+.vdock__end--hang:hover { background: var(--vd-ink-2); }
 .vdock__end:active,
 .vdock__send:not(:disabled):active { transform: scale(0.94); }
-.vdock__send { background: #fff; color: var(--vd-ink); }
-.vdock__send:disabled { opacity: 0.3; cursor: default; }
+.vdock__send { background: var(--vd-ink); color: #f8f5ff; }
+.vdock__send:disabled { opacity: 0.25; }
 
 .vdock__form {
   gap: 0.375rem;
-  padding: 0 0.25rem 0 1.15rem;
+  padding: 0 0.3125rem 0 1.15rem;
 }
 .vdock__form input {
   flex: 1;
@@ -227,12 +249,16 @@
   border: 0;
   outline: none;
   background: transparent;
-  color: #fff;
+  color: var(--vd-ink);
   font: inherit;
   font-size: 1rem; /* 16px: no iOS zoom */
 }
-.vdock__form input::placeholder { color: rgba(255, 255, 255, 0.55); }
-.vdock[data-phase='typing'] .vdock__shell:focus-within { box-shadow: inset 0 0 0 2px #fff, 0 12px 32px rgba(10, 6, 18, 0.32); }
+.vdock__form input::placeholder { color: var(--vd-dusk); opacity: 0.85; }
+.vdock[data-phase='typing'] .vdock__shell:focus-within {
+  box-shadow:
+    inset 0 0 0 2px var(--vd-dusk),
+    0 14px 36px -8px rgba(10, 6, 18, 0.5);
+}
 
 /* Floating layer above the pill: one caption, or suggestion chips. */
 .vdock__float {
@@ -245,29 +271,33 @@
 
 .vdock__caption {
   max-width: 100%;
-  max-height: min(16rem, 40svh);
+  max-height: min(15rem, 38svh);
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 0.75rem 1rem 0.8rem;
-  border-radius: 1.25rem;
-  font-size: 0.95rem;
+  padding: 0.75rem 1rem 0.85rem;
+  border-radius: 1.25rem 1.25rem 0.375rem 1.25rem;
+  font-size: 0.9375rem;
   line-height: 1.45;
+  color: var(--vd-ink);
   text-wrap: pretty;
   animation: vdock-caption 0.24s var(--vd-ease) backwards;
 }
 .vdock__caption p { margin: 0; }
-.vdock__caption[data-who='note'] { color: rgba(255, 255, 255, 0.86); font-size: 0.875rem; }
-.vdock__caption[role='alert'] { box-shadow: inset 0 0 0 1px rgba(255, 179, 168, 0.55), 0 12px 32px rgba(10, 6, 18, 0.32); }
+.vdock__caption[data-who='note'] { font-size: 0.875rem; color: var(--vd-ink-2); }
+.vdock__caption[role='alert'] {
+  box-shadow:
+    inset 3px 0 0 #b4536a,
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 14px 36px -8px rgba(10, 6, 18, 0.5);
+}
 .vdock__who {
   display: block;
-  margin-bottom: 0.2rem;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--vd-lav);
+  margin-bottom: 0.15rem;
+  font-size: 0.75rem;
+  font-weight: 650;
+  color: var(--vd-dusk);
 }
-.vdock__caption[data-who='you'] .vdock__who { color: var(--vd-muted); }
+.vdock__caption[data-who='you'] .vdock__who { color: var(--vd-ink-2); }
 
 .vdock__links {
   display: flex;
@@ -280,19 +310,18 @@
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
-  padding: 0 0.95rem;
+  padding: 0 1rem;
   border: 0;
   border-radius: 999px;
   font: inherit;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--vd-ink);
-  background: var(--vd-lav);
+  font-size: 0.875rem;
+  font-weight: 650;
+  color: #f8f5ff;
+  background: var(--vd-ink);
   text-decoration: none;
-  cursor: pointer;
 }
 .vdock__links a:hover,
-.vdock__textlink:hover { background: #fff; }
+.vdock__textlink:hover { background: var(--vd-ink-2); }
 .vdock__textlink { margin-top: 0.6rem; }
 
 .vdock__chips {
@@ -306,21 +335,29 @@
   padding: 0 1rem;
   border: 0;
   border-radius: 999px;
-  color: #fff;
+  color: var(--vd-ink);
   font: inherit;
   font-size: 0.875rem;
-  cursor: pointer;
+  font-weight: 550;
   animation: vdock-caption 0.24s var(--vd-ease) backwards;
 }
 .vdock__chips button:nth-child(2) { animation-delay: 40ms; }
 .vdock__chips button:nth-child(3) { animation-delay: 80ms; }
-.vdock__chips button:hover { background: rgba(60, 48, 82, 0.8); }
+.vdock__chips button:hover { background: #fff; }
 
+/* Focus: white ring outside the pearl, dusk ring for controls inside it. */
 .vdock :where(button, a):focus-visible {
   outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.vdock :where(.vdock__shell, .vdock__caption) :where(button, a):focus-visible {
+  outline: 2px solid var(--vd-dusk);
   outline-offset: 2px;
 }
-.vdock__cta:focus-visible { outline-offset: -3px; }
+.vdock .vdock__cta:focus-visible {
+  outline: 2px solid var(--vd-dusk);
+  outline-offset: -4px;
+}
 
 @keyframes vdock-in {
   from { opacity: 0; transform: translateY(4px); }
@@ -329,12 +366,11 @@
   from { opacity: 0; transform: translateY(8px) scale(0.98); }
 }
 @keyframes vdock-bloom {
-  0%, 100% { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28), 0 0 0 0 rgba(201, 184, 255, 0.45); }
-  50% { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28), 0 0 0 5px rgba(201, 184, 255, 0); }
+  0%, 100% { box-shadow: inset 0 0 0 1px rgba(23, 18, 31, 0.12), 0 0 0 0 rgba(143, 122, 214, 0.4); }
+  50% { box-shadow: inset 0 0 0 1px rgba(23, 18, 31, 0.12), 0 0 0 5px rgba(143, 122, 214, 0); }
 }
-@keyframes vdock-sweep {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.9; }
+@keyframes vdock-spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ---- Page coordination ---------------------------------------- */
@@ -351,7 +387,7 @@
   }
   html[data-voice='open'] body .garden-hero__bar,
   html[data-voice='typing'] body .garden-hero__bar {
-    padding-right: calc(clamp(1.25rem, 3vw, 2.5rem) + 23rem);
+    padding-right: calc(clamp(1.25rem, 3vw, 2.5rem) + 24rem);
   }
 }
 
@@ -382,6 +418,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .vdock *,
+  .vdock *::after,
   body .garden-hero__bar {
     animation: none !important;
     transition: none !important;
@@ -393,11 +430,12 @@
   .vdock__type,
   .vdock__caption,
   .vdock__chips button {
-    background: var(--vd-ink);
+    background: #f8f5ff;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    box-shadow: inset 0 0 0 2px #fff;
+    box-shadow: inset 0 0 0 2px var(--vd-ink);
   }
+  .vdock__sub { color: var(--vd-ink-2); }
 }
 
 @media print {

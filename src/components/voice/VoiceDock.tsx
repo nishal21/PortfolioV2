@@ -27,7 +27,9 @@ const ERRORS: Record<VoiceErrorCode, string> = {
 
 const PRIVACY = 'Uses your mic. Cartesia records calls, and each one ends after 5 minutes.';
 const SUGGESTIONS = ['Who is Nishal?', 'What are you building now?', 'How can I contact you?'];
-const BARS = 20;
+const BARS = 14;
+/** Short disclosure shown inside the bar while connecting (full text in PRIVACY). */
+const DISCLOSE = 'Mic on · Cartesia records calls';
 
 const loadVoice = () => import('@/lib/voice/agentSession');
 const loadAnswers = () => import('@/lib/voice/localAnswers');
@@ -171,7 +173,7 @@ export default function VoiceDock() {
     const drop = () => void ctx?.close().catch(() => undefined);
 
     setPhase('connecting');
-    setCaption({ who: 'note', text: PRIVACY });
+    setCaption(null);
 
     const configured = await checkStatus();
     if (gen !== genRef.current) return drop();
@@ -244,7 +246,7 @@ export default function VoiceDock() {
   };
 
   const label = {
-    connecting: 'Connecting',
+    connecting: 'Connecting…',
     listening: 'Listening',
     speaking: 'Speaking',
     off: 'Voice off',
@@ -338,7 +340,7 @@ export default function VoiceDock() {
               aria-describedby="vdock-privacy"
             >
               <span className="vdock__orb" aria-hidden />
-              <span className="vdock__cta-label">talk to nishal</span>
+              <span className="vdock__cta-label">Talk to Nishal</span>
               <span id="vdock-privacy" className="sr-only">
                 Starts a voice call. {PRIVACY}
               </span>
@@ -381,12 +383,17 @@ export default function VoiceDock() {
                 <span className="vdock__label" role="status">
                   {label}
                 </span>
-                <span ref={meterRef} className="vdock__meter" aria-hidden data-live={live || undefined}>
-                  {Array.from({ length: BARS }, (_, i) => (
-                    <i key={i} style={{ '--i': i } as React.CSSProperties} />
-                  ))}
+                <span className="vdock__sub" title={phase === 'connecting' ? PRIVACY : undefined}>
+                  {phase === 'connecting' ? DISCLOSE : live ? 'Ends at 5:00' : phase === 'off' ? 'Text answers still work' : 'You can try again'}
                 </span>
               </span>
+              {live ? (
+                <span ref={meterRef} className="vdock__meter" aria-hidden>
+                  {Array.from({ length: BARS }, (_, i) => (
+                    <i key={i} />
+                  ))}
+                </span>
+              ) : null}
               <span className="vdock__time">
                 {readyAt ? (
                   <>

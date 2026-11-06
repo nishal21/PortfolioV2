@@ -4,7 +4,11 @@
  * pair it with a platform rate-limit rule in production.
  */
 
-export function allowedOrigins(siteUrl: string | undefined, isDev: boolean): string[] {
+export function allowedOrigins(
+  siteUrl: string | undefined,
+  isDev: boolean,
+  localOrigins?: string,
+): string[] {
   const origins = new Set<string>();
   try {
     if (siteUrl) origins.add(new URL(siteUrl).origin);
@@ -16,6 +20,12 @@ export function allowedOrigins(siteUrl: string | undefined, isDev: boolean): str
   if (isDev) {
     origins.add('http://localhost:3000');
     origins.add('http://127.0.0.1:3000');
+  }
+  // Explicit local previews (e.g. `next start -H 127.0.0.1`, where request.url
+  // reports localhost). Only plain-http loopback origins are accepted.
+  for (const raw of (localOrigins ?? '').split(',')) {
+    const o = loopbackOrigin(raw.trim());
+    if (o) origins.add(o);
   }
   return [...origins];
 }
@@ -29,6 +39,17 @@ export function isAllowedRequest(headers: Headers, origins: string[], requestOri
   const site = headers.get('sec-fetch-site');
   if (site && site !== 'same-origin') return false;
   return true;
+}
+
+function loopbackOrigin(raw: string): string | null {
+  if (!raw) return null;
+  try {
+    const u = new URL(raw);
+    if (u.protocol !== 'http:' || !isLoopback(u.origin) || u.origin !== raw.replace(/\/$/, '')) return null;
+    return u.origin;
+  } catch {
+    return null;
+  }
 }
 
 function isLoopback(origin: string) {

@@ -26,7 +26,11 @@ export async function POST(request: Request) {
   const agentId = process.env.CARTESIA_AGENT_ID;
   if (!apiKey || !agentId) return json({ error: 'voice_unconfigured' }, 503);
 
-  const origins = allowedOrigins(process.env.NEXT_PUBLIC_SITE_URL, process.env.NODE_ENV !== 'production');
+  const origins = allowedOrigins(
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.NODE_ENV !== 'production',
+    process.env.VOICE_LOCAL_ORIGINS,
+  );
   const selfOrigin = new URL(request.url).origin;
   if (!isAllowedRequest(request.headers, origins, selfOrigin)) return json({ error: 'forbidden' }, 403);
 
