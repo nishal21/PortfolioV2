@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { HeroProvider } from '@/components/scroll/HeroContext';
-import ScrollIntroSection from '@/components/scroll/ScrollIntroSection';
+import GardenHero from '@/components/garden/GardenHero';
 import SiteNav from '@/components/layout/SiteNav';
 import AboutSection from '@/components/sections/AboutSection';
 import ProjectsSection from '@/components/sections/ProjectsSection';
@@ -25,7 +25,7 @@ function PortfolioBody() {
         id="page-root"
         className="relative min-h-screen overflow-x-hidden bg-[var(--ink)] pb-[calc(5.75rem+env(safe-area-inset-bottom))] text-[var(--text)] md:pb-0"
       >
-        <ScrollIntroSection />
+        <GardenHero />
         <main id="main-content" className="relative z-10 studio-stage">
           <div className="studio-content--in">
             <AboutSection />
