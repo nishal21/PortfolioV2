@@ -1,0 +1,105 @@
+/* Always-loaded launcher pill. Garden palette: dusk ink, lavender, white type. */
+.talk-launcher {
+  position: fixed;
+  z-index: 60;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: calc(1.25rem + env(safe-area-inset-bottom));
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3rem;
+  padding: 0 1.25rem 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  color: #fff;
+  background: rgba(23, 18, 31, 0.9);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    0 10px 30px rgba(10, 6, 18, 0.35);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.25s ease;
+}
+
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .talk-launcher {
+    background: rgba(32, 25, 46, 0.62);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    backdrop-filter: blur(16px) saturate(1.3);
+  }
+}
+
+.talk-launcher:hover { transform: translateY(-2px); }
+.talk-launcher:active { transform: scale(0.97); }
+.talk-launcher:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.talk-launcher[data-open] { background: rgba(23, 18, 31, 0.96); }
+.talk-launcher[data-loading] { cursor: progress; }
+
+.talk-launcher__dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: #c9b8ff;
+  box-shadow: 0 0 0 0 rgba(201, 184, 255, 0.55);
+  animation: talk-breathe 2.8s ease-in-out infinite;
+}
+
+@keyframes talk-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 184, 255, 0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(201, 184, 255, 0); }
+}
+
+/* Phones: sit above the homepage dock; drop to the corner where there is no dock. */
+@media (max-width: 767px) {
+  .talk-launcher {
+    bottom: calc(5.75rem + env(safe-area-inset-bottom));
+    min-height: 2.875rem;
+    padding: 0 1.1rem 0 0.9rem;
+  }
+  body:not(:has(.ios-nav-dock)) .talk-launcher {
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+  /* Hero bar sits just above the dock; give the pill its own row below the buttons. */
+  body .garden-hero__bar {
+    padding-bottom: calc(9.75rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .talk-launcher { transition: none; }
+  .talk-launcher__dot { animation: none; }
+  .talk-launcher:hover { transform: none; }
+}
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .talk-launcher {
+    background: #17121f;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: inset 0 0 0 2px #fff;
+  }
+}
+
+/* Desktop: line the pill up with the hero bar row and keep the bar's links clear of it. */
+@media (min-width: 768px) {
+  .talk-launcher {
+    right: max(clamp(1.25rem, 3vw, 2.5rem), env(safe-area-inset-right));
+    bottom: calc(clamp(1.25rem, 2.6vw, 2rem) + env(safe-area-inset-bottom));
+  }
+  body .garden-hero__bar {
+    padding-right: calc(clamp(1.25rem, 3vw, 2.5rem) + 7rem);
+  }
+}
+
+@media print {
+  .talk-launcher { display: none; }
+}

@@ -10,7 +10,9 @@
     "hero:prepare": "node scripts/prepare-hero-video.mjs",
     "indexnow": "node scripts/indexnow-ping.mjs",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "npx tsx --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "framer-motion": "^12.23.12",

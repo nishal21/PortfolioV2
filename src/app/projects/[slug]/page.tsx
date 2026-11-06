@@ -94,7 +94,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <article className="page-container py-12 md:py-16">
         <Link
           href="/projects"
-          className="mb-8 inline-flex items-center gap-2 text-sm text-[var(--text-muted)] transition hover:text-[var(--studio-accent)]"
+          className="back-link mb-8 inline-flex items-center gap-2 text-sm text-[var(--text-muted)] transition hover:text-[var(--studio-accent)]"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden />
           All projects

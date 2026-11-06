@@ -1339,3 +1339,18 @@ html .ios26-nav .tab-indicator.interacting {
     transition: none !important;
   }
 }
+
+/* Secondary-page back links: a real 44px touch target without shifting layout. */
+.back-link {
+  min-height: 44px;
+  margin-top: -12px;
+  margin-bottom: calc(2rem - 12px);
+  padding: 0 14px 0 2px;
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.back-link:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
