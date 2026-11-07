@@ -1,10 +1,10 @@
 'use client';
 
-import { Syne, DM_Sans, Noto_Sans_Malayalam } from 'next/font/google';
+import { Inter, DM_Sans, Noto_Sans_Malayalam } from 'next/font/google';
 import ErrorStage from '@/components/error/ErrorStage';
 import './globals.css';
 
-const syne = Syne({
+const inter = Inter({
   variable: '--font-display',
   subsets: ['latin'],
   weight: ['600', '700', '800'],
@@ -33,7 +33,7 @@ export default function GlobalError({
 }) {
   return (
     <html lang="en">
-      <body className={`${syne.variable} ${dmSans.variable} ${notoMalayalam.variable} antialiased`}>
+      <body className={`${inter.variable} ${dmSans.variable} ${notoMalayalam.variable} antialiased`}>
         <ErrorStage kind="error" digest={error.digest} onRetry={reset} />
       </body>
     </html>
