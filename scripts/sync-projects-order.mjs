@@ -33,6 +33,7 @@ if (!projects.find((p) => p.title === 'Sigil-extractor')) {
 }
 
 const pinnedTitles = new Set([
+  'FirstPR',
   'Publicolio',
   'NekoDroid',
   'Sigil-extractor',
@@ -47,6 +48,7 @@ for (const p of projects) {
 
 const byTitle = Object.fromEntries(projects.map((p) => [p.title, p]));
 const order = [
+  'FirstPR',
   'NekoBeat',
   'NMHelper',
   'NekoDroid',

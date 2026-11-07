@@ -1,0 +1,517 @@
+/* Contact form → envelope send stage (garden dusk) */
+
+.contact-send {
+  --cs-ok: #8fb89a;
+  --cs-bad: #d98c8c;
+  --cs-paper: #f4efe3;
+  --cs-env: #cfc5ae;
+  --cs-env-deep: #d6cbb2;
+  --cs-env-face: #ebe3cf;
+  position: relative;
+  display: grid;
+  min-height: 0;
+}
+
+.contact-send--packing {
+  min-height: 22rem;
+}
+
+.contact-send__form,
+.contact-send__stage {
+  grid-area: 1 / 1;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    visibility 0.4s ease;
+}
+
+.contact-send__stage {
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  min-height: 0;
+  overflow: hidden;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 0.25rem;
+}
+
+.contact-send--packing .contact-send__form {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.97);
+  pointer-events: none;
+  height: 0;
+  overflow: hidden;
+}
+
+.contact-send--packing .contact-send__stage {
+  visibility: visible;
+  opacity: 1;
+  height: auto;
+  min-height: 28rem;
+  overflow: visible;
+  pointer-events: auto;
+  transition-delay: 0.12s;
+}
+
+/* Success: no envelope DOM — clean receipt only */
+.contact-send--done .contact-send__stage {
+  min-height: 0;
+  align-items: center;
+}
+
+.contact-send--done .contact-send__steps {
+  margin-top: 1.25rem;
+}
+
+.contact-send__receipt {
+  text-align: center;
+  padding: 0.5rem 0 0;
+}
+
+.contact-send__receipt svg {
+  width: 4.75rem;
+  height: 4.75rem;
+  display: block;
+  margin: 0 auto;
+}
+
+.contact-send__receipt circle,
+.contact-send__receipt path {
+  fill: none;
+  stroke: var(--cs-ok);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.contact-send__receipt circle {
+  stroke-dasharray: 189;
+  stroke-dashoffset: 189;
+  animation: contact-send-draw 0.7s ease forwards;
+}
+
+.contact-send__receipt path {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: contact-send-draw-path 0.4s 0.35s ease both;
+}
+
+.contact-send__receipt h3 {
+  margin: 0.85rem 0 0.35rem;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.35rem, 3vw, 1.65rem);
+  letter-spacing: -0.02em;
+  color: #fff;
+  animation: contact-send-up 0.45s 0.45s both;
+}
+
+.contact-send__receipt p {
+  margin: 0 auto;
+  max-width: 22rem;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  animation: contact-send-up 0.45s 0.55s both;
+}
+
+.contact-send--done .contact-send__acts {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.contact-send__scene {
+  position: relative;
+  height: 17rem;
+  margin: 0 auto 1.25rem;
+  width: 100%;
+  max-width: 22rem;
+  overflow: visible;
+}
+
+.contact-send__env {
+  position: absolute;
+  left: 50%;
+  top: 5.5rem;
+  width: 15rem;
+  height: 10rem;
+  margin-left: -7.5rem;
+  perspective: 1000px;
+  opacity: 0;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.45));
+}
+
+.contact-send__eb {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #d8ceb8 0%, var(--cs-env) 100%);
+  border-radius: 6px;
+  box-shadow: 0 24px 40px rgba(0, 0, 0, 0.4);
+}
+
+.contact-send__letter {
+  position: absolute;
+  left: 1.25rem;
+  top: -9.5rem;
+  width: 12.5rem;
+  height: 9rem;
+  z-index: 2;
+  perspective: 700px;
+}
+
+.contact-send__pn {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 3rem;
+  background:
+    var(--cs-paper)
+    repeating-linear-gradient(
+      transparent 0 11px,
+      rgba(31, 29, 43, 0.08) 11px 12px
+    );
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.contact-send__p1 {
+  top: 0;
+  transform-origin: 50% 100%;
+  border-radius: 8px 8px 0 0;
+  z-index: 3;
+}
+
+.contact-send__p1::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: 46px;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(31, 29, 43, 0.2);
+}
+
+.contact-send__p2 {
+  top: 3rem;
+  z-index: 1;
+}
+
+.contact-send__p3 {
+  top: 6rem;
+  transform-origin: 50% 0;
+  border-radius: 0 0 8px 8px;
+  z-index: 3;
+}
+
+.contact-send__ef {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(180deg, var(--cs-env-face), #ddd3bb);
+  clip-path: polygon(0 0, 50% 64%, 100% 0, 100% 100%, 0 100%);
+  border-radius: 6px;
+}
+
+.contact-send__fl {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 64%;
+  z-index: 1;
+  transform-origin: 50% 0;
+  transform: rotateX(180deg);
+  background: linear-gradient(180deg, #e2d7bf, var(--cs-env-deep));
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.contact-send__seal {
+  position: absolute;
+  left: 50%;
+  top: 64%;
+  width: 2.65rem;
+  height: 2.65rem;
+  margin: -1.325rem 0 0 -1.325rem;
+  z-index: 5;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #c97880, #9e4a52 70%);
+  color: #f8ece9;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+.contact-send__sp {
+  position: absolute;
+  left: -3.5rem;
+  height: 2px;
+  width: 2.9rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55));
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contact-send__sp:nth-child(1) {
+  top: 1.9rem;
+}
+
+.contact-send__sp:nth-child(2) {
+  top: 4.9rem;
+  width: 4rem;
+  left: -4.6rem;
+}
+
+.contact-send__sp:nth-child(3) {
+  top: 7.75rem;
+}
+
+.contact-send__wake {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.contact-send__wake span {
+  position: absolute;
+  right: 100%;
+  width: 3.5rem;
+  height: 2px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, transparent, rgba(201, 184, 255, 0.55));
+}
+
+.contact-send__wake span:nth-child(1) {
+  top: 28%;
+}
+
+.contact-send__wake span:nth-child(2) {
+  top: 48%;
+  width: 4.5rem;
+  opacity: 0.8;
+}
+
+.contact-send__wake span:nth-child(3) {
+  top: 68%;
+  width: 2.75rem;
+}
+
+.contact-send__steps {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  width: min(17rem, 100%);
+  display: grid;
+  gap: 0.75rem;
+}
+
+.contact-send__steps li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  opacity: 0.45;
+  transition: opacity 0.35s ease, color 0.35s ease;
+}
+
+.contact-send__steps i {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  display: grid;
+  place-items: center;
+  flex: none;
+  transition: 0.3s ease;
+}
+
+.contact-send__steps li[data-s='cur'] {
+  opacity: 1;
+  color: var(--text-soft);
+}
+
+.contact-send__steps li[data-s='cur'] i {
+  border-color: rgba(255, 255, 255, 0.12);
+  border-top-color: var(--g-lav, #c9b8ff);
+  animation: contact-send-spin 0.8s linear infinite;
+}
+
+.contact-send__steps li[data-s='done'] {
+  opacity: 1;
+  color: var(--text-soft);
+}
+
+.contact-send__steps li[data-s='done'] i {
+  background: var(--cs-ok);
+  border-color: var(--cs-ok);
+}
+
+.contact-send__steps li[data-s='done'] i::after {
+  content: '';
+  width: 5px;
+  height: 9px;
+  border: solid #12111a;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+.contact-send__steps li[data-s='err'] {
+  opacity: 1;
+  color: var(--text-soft);
+}
+
+.contact-send__steps li[data-s='err'] i {
+  background: var(--cs-bad);
+  border-color: var(--cs-bad);
+}
+
+@keyframes contact-send-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes contact-send-draw {
+  from {
+    stroke-dashoffset: 189;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes contact-send-draw-path {
+  from {
+    stroke-dashoffset: 50;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes contact-send-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.contact-send__acts {
+  margin-top: 1.25rem;
+  text-align: center;
+  min-height: 3.5rem;
+}
+
+.contact-send__acts-error {
+  margin: 0 0 0.75rem;
+  color: var(--cs-bad);
+  font-size: 0.875rem;
+}
+
+.contact-send__acts-error a {
+  color: var(--g-lav, #c9b8ff);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.contact-send__act {
+  height: 2.75rem;
+  padding: 0 1.15rem;
+  margin: 0 0.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--studio-border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-soft);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.contact-send__act--pri {
+  background: #fff;
+  color: #17121f;
+  border-color: #fff;
+}
+
+.contact-send__act:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.contact-send__act--pri:hover {
+  background: #f4f0fa;
+}
+
+.studio-submit.contact-send__shake {
+  animation: contact-send-shake 0.4s ease;
+}
+
+@keyframes contact-send-shake {
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+.studio-field.contact-send__bad .studio-input {
+  border-color: var(--cs-bad);
+}
+
+.contact-send__field-msg {
+  display: none;
+  color: var(--cs-bad);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.studio-field.contact-send__bad .contact-send__field-msg {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-send__form,
+  .contact-send__stage {
+    transition: none;
+  }
+
+  .contact-send__steps li[data-s='cur'] i,
+  .contact-send__receipt circle,
+  .contact-send__receipt path,
+  .contact-send__receipt h3,
+  .contact-send__receipt p,
+  .studio-submit.contact-send__shake {
+    animation: none !important;
+  }
+
+  .contact-send__receipt circle,
+  .contact-send__receipt path,
+  .contact-send__receipt h3,
+  .contact-send__receipt p {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}

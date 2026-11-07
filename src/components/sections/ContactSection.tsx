@@ -1,43 +1,17 @@
 'use client';
 
-import { useState } from 'react';
-import { FileText, Handshake, Mail, MapPin, Phone, Send } from 'lucide-react';
+import { FileText, Handshake, Mail, MapPin, Phone } from 'lucide-react';
 import ConnectButton from '@/components/ui/ConnectButton';
+import ContactSendForm from '@/components/contact/ContactSendForm';
 import ContactSocialRow from '@/components/contact/ContactSocialRow';
 import SupportStrip from '@/components/contact/SupportStrip';
 import SiteFooter from '@/components/layout/SiteFooter';
-import { contactInfo, formSubmit } from '@/data/contact';
+import { contactInfo, contactMail } from '@/data/contact';
 import { personal } from '@/data/personal';
 
 const contactIcons = { Email: Mail, Phone, Location: MapPin };
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError('');
-    try {
-      const response = await fetch(formSubmit.url, {
-        method: 'POST',
-        body: new FormData(e.target as HTMLFormElement),
-        headers: { Accept: 'application/json' },
-      });
-      if (response.ok) {
-        setIsSubmitted(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      } else setError('Something went wrong. Email nishal@nishal.dev directly.');
-    } catch {
-      setError('Network error. Try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <>
       <section id="contact" className="studio-contact">
@@ -50,7 +24,7 @@ export default function ContactSection() {
             <span className="studio-contact-headline-cta">Let&apos;s work on something.</span>
           </h2>
           <div className="studio-contact-actions">
-            <ConnectButton text="Connect" href="mailto:nishal@nishal.dev" icon={Handshake} />
+            <ConnectButton text="Connect" href={`mailto:${contactMail.address}`} icon={Handshake} />
             <ConnectButton text="Resume" href="/resume/view" icon={FileText} />
           </div>
           <ContactSocialRow />
@@ -81,78 +55,7 @@ export default function ContactSection() {
             </div>
 
             <div className="studio-contact-form">
-              {isSubmitted ? (
-                <div className="py-12 text-center" role="status" aria-live="polite">
-                  <p className="font-display text-2xl font-semibold text-[var(--text-soft)]">Message sent.</p>
-                  <p className="mt-2 text-[var(--text-muted)]">I&apos;ll reply within 24 hours.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} action={formSubmit.url} method="POST" className="studio-form">
-                  <input type="hidden" name="_subject" value={formSubmit.subject} />
-                  <input type="hidden" name="_template" value="table" />
-                  <input type="hidden" name="_autoresponse" value={formSubmit.autoresponse} />
-                  <input type="hidden" name="_captcha" value="false" />
-                  <input type="text" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" />
-                  {error ? (
-                    <p className="studio-form-error" role="alert">
-                      {error}
-                    </p>
-                  ) : null}
-                  <div className="studio-form-row">
-                    <label className="studio-field">
-                      <span className="studio-field-label">Your name</span>
-                      <input
-                        name="name"
-                        required
-                        autoComplete="name"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="studio-input"
-                      />
-                    </label>
-                    <label className="studio-field">
-                      <span className="studio-field-label">Email address</span>
-                      <input
-                        name="email"
-                        type="email"
-                        required
-                        autoComplete="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="studio-input"
-                      />
-                    </label>
-                  </div>
-                  <label className="studio-field">
-                    <span className="studio-field-label">Subject</span>
-                    <input
-                      name="subject"
-                      required
-                      value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="studio-input"
-                    />
-                  </label>
-                  <label className="studio-field">
-                    <span className="studio-field-label">Message</span>
-                    <textarea
-                      name="message"
-                      required
-                      rows={5}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="studio-input studio-textarea"
-                    />
-                  </label>
-                  <button type="submit" disabled={isSubmitting} aria-busy={isSubmitting} className="hit-target studio-submit">
-                    {isSubmitting ? 'Sending...' : (
-                      <>
-                        Send <Send className="h-4 w-4" />
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
+              <ContactSendForm />
             </div>
           </div>
         </div>

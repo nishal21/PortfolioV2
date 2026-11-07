@@ -99,8 +99,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@Etainment2',
-    creator: '@Etainment2',
+    site: '@nishal21_',
+    creator: '@nishal21_',
     title: SITE_TITLE,
     description: socialDescription(),
     images: [OG_IMAGE.url],

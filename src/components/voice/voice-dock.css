@@ -12,9 +12,11 @@
   --vd-lav: #c9b8ff;
   --vd-pearl: rgba(248, 245, 255, 0.95);
   --vd-pearl-2: rgba(234, 227, 251, 0.93);
-  --vd-ease: cubic-bezier(0.2, 0, 0, 1);
+  --vd-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --vd-h: 3.375rem;
+  /* Full idle label width; mini = circle matching height */
   --vd-idle-w: 11.25rem;
+  --vd-idle-w-min: var(--vd-h);
   --vd-open-w: min(23rem, calc(100vw - 2rem));
   position: fixed;
   z-index: 60;
@@ -27,6 +29,10 @@
   pointer-events: none;
   font-family: var(--font-body), system-ui, sans-serif;
   color: var(--vd-ink);
+  transition:
+    opacity 0.28s var(--vd-ease),
+    transform 0.28s var(--vd-ease),
+    visibility 0.28s;
 }
 .vdock > * { pointer-events: auto; }
 
@@ -100,7 +106,11 @@
   width: var(--vd-idle-w);
   border-radius: 999px;
   overflow: hidden;
-  transition: width 0.36s var(--vd-ease);
+  transform-origin: right center;
+  transition:
+    width 0.42s var(--vd-ease),
+    transform 0.42s var(--vd-ease),
+    box-shadow 0.35s ease;
 }
 .vdock:not([data-phase='idle']) .vdock__shell { width: var(--vd-open-w); }
 
@@ -126,10 +136,77 @@
   font-size: 1rem;
   letter-spacing: -0.02em;
   white-space: nowrap;
-  transition: background-color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    padding 0.42s var(--vd-ease),
+    gap 0.42s var(--vd-ease),
+    justify-content 0.42s var(--vd-ease);
 }
 .vdock__cta:hover { background: rgba(95, 83, 132, 0.07); }
 .vdock__cta:active { background: rgba(95, 83, 132, 0.12); }
+
+.vdock__cta-label {
+  display: inline-block;
+  max-width: 9.5rem;
+  overflow: hidden;
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    max-width 0.42s var(--vd-ease),
+    opacity 0.28s ease,
+    transform 0.42s var(--vd-ease);
+}
+
+/* Fine pointer: idle starts as a pearl orb; hover/focus expands the label. */
+@media (hover: hover) and (pointer: fine) {
+  .vdock[data-phase='idle'] .vdock__shell {
+    width: var(--vd-idle-w-min);
+  }
+
+  .vdock[data-phase='idle'] .vdock__cta {
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+  }
+
+  .vdock[data-phase='idle'] .vdock__cta-label {
+    max-width: 0;
+    opacity: 0;
+    transform: translateX(0.5rem);
+  }
+
+  .vdock[data-phase='idle']:is(:hover, :focus-within) .vdock__shell {
+    width: var(--vd-idle-w);
+    transform: translateY(-1px) scale(1.02);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      0 1px 2px rgba(10, 6, 18, 0.16),
+      0 18px 40px -10px rgba(10, 6, 18, 0.55),
+      0 0 0 1px rgba(201, 184, 255, 0.35);
+  }
+
+  .vdock[data-phase='idle']:is(:hover, :focus-within) .vdock__cta {
+    justify-content: flex-start;
+    gap: 0.625rem;
+    padding: 0 1.25rem 0 0.5rem;
+  }
+
+  .vdock[data-phase='idle']:is(:hover, :focus-within) .vdock__cta-label {
+    max-width: 9.5rem;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Type chip softens until the dock is hovered so the corner stays quiet. */
+  .vdock[data-phase='idle'] .vdock__type {
+    opacity: 0.72;
+    transform: scale(0.94);
+  }
+  .vdock[data-phase='idle']:is(:hover, :focus-within) .vdock__type {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
 /* Garden orb: a jasmine crop from the hero plate. */
 .vdock__orb {
@@ -382,8 +459,20 @@
     bottom: calc(clamp(1.25rem, 2.6vw, 2rem) + env(safe-area-inset-bottom));
   }
   body .garden-hero__bar {
-    padding-right: calc(clamp(1.25rem, 3vw, 2.5rem) + 16.25rem);
-    transition: padding-right 0.38s var(--vd-ease);
+    /* Room for mini orb + type chip; expands on hover without covering CTAs */
+    padding-right: calc(clamp(1.25rem, 3vw, 2.5rem) + 8.5rem);
+    transition: padding-right 0.42s var(--vd-ease);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    html[data-voice='idle'] body:has(.vdock:hover) .garden-hero__bar,
+    html[data-voice='idle'] body:has(.vdock:focus-within) .garden-hero__bar {
+      padding-right: calc(clamp(1.25rem, 3vw, 2.5rem) + 16.25rem);
+    }
+  }
+  @media (hover: none) {
+    body .garden-hero__bar {
+      padding-right: calc(clamp(1.25rem, 3vw, 2.5rem) + 16.25rem);
+    }
   }
   html[data-voice='open'] body .garden-hero__bar,
   html[data-voice='typing'] body .garden-hero__bar {
@@ -391,22 +480,100 @@
   }
 }
 
-/* Phones: one row above the homepage tab dock, corner elsewhere. */
+/*
+  Phones:
+  - Idle = compact pearl orb (+ type chip) above the tab dock — no full-width bar
+    competing with nav / hero CTAs.
+  - Open / typing = full-width call bar (controls need the space).
+  - Near footer (html[data-voice-near-footer]) = hide idle so socials/badge stay usable.
+*/
 @media (max-width: 767px) {
   .vdock {
-    --vd-open-w: calc(100vw - 1.5rem - env(safe-area-inset-left) - env(safe-area-inset-right));
-    right: max(0.75rem, env(safe-area-inset-right));
-    bottom: calc(5.75rem + env(safe-area-inset-bottom));
+    --vd-h: 3rem;
+    --vd-idle-w: var(--vd-h);
+    --vd-open-w: calc(100vw - 1.75rem - env(safe-area-inset-left) - env(safe-area-inset-right));
+    left: auto;
+    right: max(0.875rem, env(safe-area-inset-right));
+    bottom: calc(5.5rem + env(safe-area-inset-bottom));
+    align-items: flex-end;
+    gap: 0.5rem;
   }
-  body:not(:has(.ios-nav-dock)) .vdock { bottom: calc(1rem + env(safe-area-inset-bottom)); }
-  /* Lift the word just enough on short phones that the bar never touches it. */
+  body:not(:has(.ios-nav-dock)) .vdock {
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  .vdock[data-phase='idle'] .vdock__shell {
+    width: var(--vd-h);
+  }
+
+  .vdock[data-phase='idle'] .vdock__cta {
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+  }
+
+  .vdock[data-phase='idle'] .vdock__cta-label {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+
+  .vdock[data-phase='idle'] .vdock__type {
+    width: var(--vd-h);
+    height: var(--vd-h);
+  }
+
+  .vdock[data-phase='idle'] .vdock__orb {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  /* Active call / typing: stretch across the bottom chrome. */
+  .vdock:not([data-phase='idle']) {
+    left: max(0.875rem, env(safe-area-inset-left));
+    right: max(0.875rem, env(safe-area-inset-right));
+    align-items: stretch;
+  }
+
+  .vdock:not([data-phase='idle']) .vdock__row {
+    width: 100%;
+  }
+
+  .vdock:not([data-phase='idle']) .vdock__shell {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    transform-origin: center center;
+  }
+
+  .vdock:not([data-phase='idle']) .vdock__float {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .vdock__caption {
+    border-radius: 1.1rem;
+    max-height: min(12rem, 32svh);
+  }
+
+  .vdock__chips {
+    justify-content: stretch;
+  }
+
+  .vdock__chips button {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  /* Clear the compact orb + tab dock under the hero CTAs. */
   body .garden-hero {
     --g-base: max(40%, calc(20.5rem + env(safe-area-inset-bottom)));
   }
   body .garden-hero__bar {
-    padding-bottom: calc(9.75rem + env(safe-area-inset-bottom));
+    padding-bottom: calc(8.75rem + env(safe-area-inset-bottom));
     transition: opacity 0.2s ease, visibility 0.2s;
   }
+
   /* A caption needs the space the hero CTAs use: they step aside until it closes
      (Projects/About stay in the tab dock). */
   /* !important: the hero's scroll timeline writes inline opacity/visibility. */
@@ -414,6 +581,14 @@
     opacity: 0 !important;
     visibility: hidden !important;
   }
+}
+
+/* Footer in view: idle chrome leaves; active calls stay so you can hang up. */
+html[data-voice-near-footer] .vdock[data-phase='idle'] {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 1.1rem, 0);
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

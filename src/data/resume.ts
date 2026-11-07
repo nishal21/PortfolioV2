@@ -3,7 +3,7 @@
  *
  * Edit `resumeBase` for facts that rarely change.
  * Tune `resumeProfiles` per job type (summary, section order, what to show).
- * Editor: /resume?profile=developer — Share: /resume/view or /resume/view/developer
+ * Editor: /resume?profile=developer. Share: /resume/view or /resume/view/developer
  */
 
 export type ResumeProfileId = 'general' | 'developer' | 'creative' | 'fullstack';
@@ -66,15 +66,15 @@ export const resumeContact: ResumeContact = {
 
 export const resumeSummaries = {
   general:
-    'I edit AMVs, make music in FL Studio, and build full-stack apps with React, Next.js, TypeScript, and Node.js. I want work that mixes creative stuff with code that actually ships, whether that is frontend, media, or both. NekoBeat, Otazumi, NMHelper, Publicolio, and GitHub Stars Organizer are live on GitHub; my edits are on YouTube. I finish what I start.',
+    'I edit AMVs, make music in FL Studio, and build full-stack apps with React, Next.js, TypeScript, and Node.js. I am looking for work that mixes creative projects with shipping code, on the frontend, in media, or both. FirstPR, NekoBeat, Otazumi, NMHelper, Publicolio, and GitHub Stars Organizer are live on GitHub. My edits are on YouTube.',
   short:
-    'AMV editor, music producer, and full-stack dev (React, Next.js, TypeScript, Node.js). I have live apps up and 60+ public repos on GitHub. Eighteen, five years in, ready to get to work.',
+    'AMV editor, music producer, and full-stack developer (React, Next.js, TypeScript, Node.js). Live apps and 60+ public repos on GitHub. Eighteen years old, five years into this work.',
   developer:
-    'I build with React, Next.js, TypeScript, Node.js, and Python. NMHelper, Otazumi, Publicolio, NekoBeat, and GitHub Stars Organizer are in production or published tools, not sitting in a repo. I handle APIs, databases, UI, and deploys myself. I want a software role where I ship real features.',
+    'I build with React, Next.js, TypeScript, Node.js, and Python. FirstPR, NMHelper, Otazumi, Publicolio, NekoBeat, and GitHub Stars Organizer are live or published. I handle APIs, databases, UI, and deploys myself. Looking for a software role where I own features from schema through deploy.',
   creative:
-    'Five years editing AMVs and producing remixes on YouTube (@DemonKing0.___). I cut in Premiere Pro, After Effects, and DaVinci Resolve; I mix in FL Studio. I also code my own sites and tools when I need them. Open to creative, media, or hybrid roles.',
+    'Five years editing AMVs and producing remixes on YouTube (@DemonKing0.___). I cut in Premiere Pro, After Effects, and DaVinci Resolve. I mix in FL Studio. I also build my own sites and tools when I need them. Open to creative, media, or hybrid roles.',
   fullstack:
-    'I have shipped NMHelper (school meal tracking), Otazumi (anime streaming), Publicolio (GitHub portfolios), and music apps like NekoBeat and Musico. Stack: React, Next.js, TypeScript, Node.js, PostgreSQL, MongoDB, Rust. I can take a feature from database schema to deploy.',
+    'I shipped FirstPR (first open-source PR guidance at firstpr.nishal.dev), NMHelper (school meal tracking), Otazumi (anime streaming), Publicolio (GitHub portfolios), and music apps like NekoBeat and Musico. Stack: React, Next.js, TypeScript, Node.js, PostgreSQL, MongoDB, Rust. I can take a feature from the database schema through to deploy.',
 } as const;
 
 export const resumeTechnicalSkills: ResumeTechnicalSkills = {
@@ -194,11 +194,11 @@ export const resumeExperience: ResumeExperience[] = [
     dateRange: 'Jun 2025 - Present',
     role: 'Full-Stack Developer · Project Lead (Independent)',
     responsibilities: [
-      'Made a noon-meal tracking app for Kerala schools with Malayalam forms and admin dashboards',
-      'Built the frontend in React, Tailwind CSS, and Framer Motion for clerks who are not heavy tech users',
+      'Built a noon-meal tracking app for Kerala schools with Malayalam forms and admin dashboards',
+      'Built the frontend in React, Tailwind CSS, and Framer Motion for school clerks who do not live in tech',
       'Ran the backend on Node.js, Express, and PostgreSQL for strength logs and meal reports',
-      'Added export flows with validation so schools could drop the paper round',
-      'Tested with real school workflows and kept fixing field layout and copy',
+      'Added export flows with validation so schools could stop doing the counts on paper',
+      'Tested against real school workflows and kept fixing field layout and copy',
       'Keep nmhelper.in live and updated',
     ],
     impact: [
@@ -214,19 +214,20 @@ export const resumeExperience: ResumeExperience[] = [
     dateRange: 'Jan 2024 - Present',
     role: 'Full-Stack Developer · Open-Source Project Lead',
     responsibilities: [
-      'Put live web apps and tools out under my name: NekoBeat, World News CLI (worldnews-cli on PyPI), Otazumi, Publicolio, Musico, OtakuPulse, CarbonLint, RYTU (rytu.nishal.dev), Handoff (send.nishal.dev), SANTRA (santra.nishal.dev)',
+      'Shipped live apps and tools under my name: FirstPR (firstpr.nishal.dev), NekoBeat, World News CLI (worldnews-cli on PyPI), Otazumi, Publicolio, Musico, OtakuPulse, CarbonLint, RYTU (rytu.nishal.dev), Handoff (send.nishal.dev), SANTRA (santra.nishal.dev)',
+      'Built FirstPR at AIBoomi Startup Weekend with Anan Shaji. Match, Explain, and Review guide a first open-source PR. FirstPRbot posts maintainer comments. AGPL. The app does not write the contributor\'s fix.',
       'Built GitHub Stars Organizer, a Python CLI that sorts hundreds of starred repos into GitHub lists without a paid LLM',
-      'Shipped Geo Q&A (capital_llm_model): database-first geography Q&A with a GPT-2 fallback, published on Hugging Face and Ollama',
+      'Built Geo Q&A (capital_llm_model): geography answers from a verified database and Wikidata first, GPT-2 only as fallback. Published on Hugging Face and Ollama.',
       'Grew Otazumi into anime streaming with auth, reviews, mail, and watch parties',
-      'Made Publicolio so people can turn a GitHub profile into a portfolio link',
+      'Built Publicolio so people can turn a GitHub profile into a portfolio link',
       'Started NekoDroid, a browser Android emulator with a Rust core compiled to Wasm',
       'Work across React, Next.js, TypeScript, Node.js, Rust, MongoDB, and PostgreSQL',
       'Handle my own repos, deploys (GitHub Pages, Netlify, Render), and bug fixes',
     ],
     impact: [
       '60+ public repos on GitHub (nishal21)',
-      'Live sites with users: otazumi.page, app.publicolio.qzz.io, musico21.netlify.app',
-      'Pinned work covers music, anime, dev tools, and systems',
+      'Live sites with users: firstpr.nishal.dev, otazumi.page, app.publicolio.qzz.io, musico21.netlify.app',
+      'Pinned repos include FirstPR, music apps, anime projects, and developer tools',
     ],
   },
   {
@@ -239,13 +240,13 @@ export const resumeExperience: ResumeExperience[] = [
       'Cut AMVs in Premiere Pro, After Effects, and DaVinci Resolve',
       'Made remixes and tracks in FL Studio, timing hits to the edit',
       'Planned each video around beat drops, pacing, and color',
-      'Uploaded and kept track of edits and remixes on the channel',
-      'Did thumbnails, titles, and the full upload workflow myself',
+      'Uploaded edits and remixes and kept the channel organized',
+      'Handled thumbnails, titles, and the upload workflow myself',
     ],
     impact: [
-      'Five years of steady uploads',
+      'Five years of regular uploads',
       'Best video topped 80,000 views',
-      'Channel built around AMV edits and remix production',
+      'Channel is mostly AMV edits and remix production',
     ],
   },
   {
@@ -255,16 +256,16 @@ export const resumeExperience: ResumeExperience[] = [
     dateRange: 'Jul 2025 - Present',
     role: 'Backend Developer · Project Contributor',
     responsibilities: [
-      'Wrote a Discord bot for anime/manga alerts, daily quotes, and trailer pings',
-      'Hooked up AniList with rate-limited polling for new episodes',
+      'Wrote a Discord bot for anime and manga alerts, daily quotes, and trailer pings',
+      'Connected AniList with rate-limited polling for new episodes',
       'Added a web dashboard so admins can set alerts per server',
       'Stored settings in MongoDB with Node.js and Discord.js',
-      'Deployed bot and dashboard on Render (otakupulse.onrender.com)',
+      'Deployed the bot and dashboard on Render (otakupulse.onrender.com)',
     ],
     impact: [
       'Bot running on multiple Discord servers',
-      'Episode alerts run automatically instead of manual checks',
-      'Built alone: bot, API, database, admin UI',
+      'Episode alerts fire on their own instead of manual checks',
+      'Built alone: bot, API, database, and admin UI',
     ],
   },
 ];

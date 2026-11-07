@@ -8,13 +8,22 @@ export interface SkillCategory {
 export const skillCategories: SkillCategory[] = [
   {
     title: 'AMV & Video Editing',
-    skills: ['Premiere Pro', 'After Effects', 'DaVinci Resolve', 'Sony Vegas', 'Blurrr', 'Motion Graphics'],
+    skills: [
+      'DaVinci Resolve',
+      'After Effects',
+      'Premiere Pro',
+      'CapCut',
+      'VN',
+      'Blurrr',
+      'Color Grading',
+      'Motion Graphics',
+    ],
     accent: 'green',
     featured: true,
   },
   {
     title: 'Music Production',
-    skills: ['FL Studio', 'Ableton Live', 'Logic Pro', 'Remix & Fusion', 'Reverb Design', 'Audio Engineering'],
+    skills: ['FL Studio', 'Logic Pro', 'Remix & Fusion', 'Reverb Design', 'Audio Engineering', 'Sound Design'],
     accent: 'purple',
   },
   {
@@ -42,10 +51,13 @@ export const skillCategories: SkillCategory[] = [
 export const craftPillars = [
   {
     title: 'Edit',
+    blurb: 'Cuts, grade, and motion for AMV and short-form.',
     skills: [
       'DaVinci Resolve',
       'After Effects',
       'Premiere Pro',
+      'CapCut',
+      'VN',
       'AMV & Cinematic Edits',
       'Color Grading',
       'Blurrr',
@@ -53,11 +65,13 @@ export const craftPillars = [
   },
   {
     title: 'Music',
-    skills: ['FL Studio', 'Remix & Fusion', 'Reverb Design', 'Ableton Live', 'Audio Engineering', 'Sound Design'],
+    blurb: 'Remix, reverb, and fusion production.',
+    skills: ['FL Studio', 'Remix & Fusion', 'Reverb Design', 'Audio Engineering', 'Sound Design'],
   },
   {
     title: 'Code',
-    skills: ['React', 'Next.js', 'TypeScript', 'Node.js', 'Rust', 'Gemini API'],
+    blurb: 'Apps and tools that have to ship with the edit.',
+    skills: ['React', 'Next.js', 'TypeScript', 'Node.js', 'Rust'],
   },
 ] as const;
 

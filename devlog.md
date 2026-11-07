@@ -1,4 +1,208 @@
-﻿# Devlog
+# Devlog
+
+## 2026-11-07 — Resume humanizer pass
+
+Rewrote `resumeSummaries` + experience bullets/impact in `src/data/resume.ts` with /humanizer: cut punchlines, negative parallels, promotional pin framing. Facts unchanged (FirstPR, views, stack, dates).
+
+**Next:** skim `/resume` profiles once for tone
+
+## 2026-11-07 — FirstPR pinned #1
+
+Added FirstPR (`firstpr.nishal.dev`, `nishal21/firstpr`) as id 20, first in `projects.ts`, pinned. Thumbnail `public/projects/firstpr.svg`. Wired SEO keywords/meta, personal bio/timeline, resume, `llms.txt`, Cartesia prompt, localAnswers suggestion, sync-projects-order. Priority: flagship OSS onboarding (Match/Explain/Review + FirstPRbot).
+
+**Next:** hard-refresh `/projects` and home gallery — FirstPR should lead; re-paste Cartesia prompt
+
+## 2026-11-07 — X handle → @nishal21_
+
+Updated X everywhere to `https://x.com/nishal21_` / `@nishal21_`: contact socials, layout twitter meta, llms/humans/security/robots, Cartesia prompt. JsonLd sameAs follows `socialLinks`.
+
+**Next:** hard-refresh footer/contact socials; re-paste Cartesia prompt if live agent still has old handle
+
+## 2026-11-07 — Deeper Cartesia voice prompt
+
+Expanded system prompt in `src/lib/voice/CARTESIA_SYSTEM_PROMPT.md`: person/education/awards, site map, routing by visitor intent, hi@ email, richer project status rules, more examples. Paste into Cartesia PortFolio agent Instructions.
+
+**Next:** Cartesia → PortFolio → paste prompt + keep intro line; Preview once
+
+## 2026-11-07 — Contact send envelope animation
+
+`ContactSendForm`: pack → seal → API (parallel bob) → arc fly with wake trails → checkmark + steps. Fail → shake + retry/edit/mailto. Idle stage `height:0` so it doesn’t pad the form card. Reduced-motion skips WAAPI.
+
+Done state unmounts the envelope (kills leftover seal/spinner ghosts) and shows a clean receipt + steps + CTA.
+
+**Next:** hard-refresh `#contact` — success should be clean, no stray circle by the button
+
+## 2026-11-07 — Brevo contact mail
+
+`/api/contact`: owner + visitor HTML from the cream/serif card design (stripe header, dark/light). Inbox → `nishalamv@gmail.com`; ack from `hi@nishal.dev`. Templates in `contactEmails.ts`.
+
+**Next:** restart after IP allowlist → test form; both mails should match the comps
+
+## 2026-11-07 — Contact form network error
+
+Root cause: browser `fetch` to formsubmit.co (CORS) + FormSubmit itself Cloudflare **522**. Fixed: `POST /api/contact` proxies FormSubmit AJAX; clearer error + mailto draft link. Upstream still 522 until FormSubmit recovers (or swap provider).
+
+**Next:** retry form after FormSubmit is up; or add Web3Forms/Resend key if you want a backup
+
+## 2026-11-07 — /privacy calm dusk
+
+`PrivacyPageView` + soft mist wash; same four sections/copy; Contact CTA + back; light tier-gated section reveals. No legal inventing.
+
+**Next:** hard-refresh `/privacy` — quiet policy, not studio prose paste
+
+## 2026-11-07 — /projects dossier + minimal detail
+
+Index: editorial rows (small thumbs if asset), denser dusk wash, CTAs Profile/About/Contact, no card grid / no SEO table → `/profile`. Detail: title/links/body, small optional media, rule sections, GSAP head enter + band scrub (rich) / reveal (lite).
+
+**Next:** hard-refresh `/projects` + a slug — rows not cards; detail not 16:9 hero
+
+## 2026-11-07 — /profile index + CSS dusk (no photo)
+
+`ProfilePageView` + `profile-page.css`: CSS lav/warm mist wash (no garden photo), CTAs About/Projects/Contact, restyled `SeoAnswerBlocks`, full `ProjectIndexTable`, light GSAP reveals. About: same CSS wash, dropped index table → link to `/profile`.
+
+**Next:** hard-refresh `/profile` + `/about` — mist only, no photo; directory only on profile
+
+## 2026-11-07 — Drop about pull quote
+
+Removed pull quote from `/about` + homepage `#about` (markup, CSS, GSAP scrub, `personal.pullQuote`). Bio/story leads after CTAs.
+
+**Next:** hard-refresh `/about` and `#about` — no quote band
+
+## 2026-11-07 — /about garden-dusk redesign
+
+Shipped `AboutPageView` + `about-page.css`: wash, pull-quote hero, timeline, stats, awards, `ProjectIndexTable`, Contact/Projects CTAs. GSAP scrub on quote + timeline items via `gardenMotionTier`. Homepage `#about` light type/spacing (intro/quote/stat weight). `about/page.tsx` = JsonLd + view.
+
+**Next:** hard-refresh `/about` — quote should scrub in; index + CTAs present. Home `#about` quote/stats a bit heavier.
+
+## 2026-11-07 — Interactive 404 (throwable digits)
+
+Rebuilt ErrorStage from the HTML demo: left copy + CTAs, 3 draggable/throwable code digits, Mist/Paper/Moss/Dusk dock (default dusk = garden tokens). `useThrowableDigits` physics; reduced-motion = static. No footer/plates. Hides nav + voice dock via `error-stage-open`.
+
+**Next:** hard-refresh `/nope` — drag digits, switch themes, Home/Projects work
+
+## 2026-11-07 — Garden error stage
+
+404/500 use hero garden plates + footer-style `nishal` word + social/page bar. Warm Malayalam, white Home CTA, no film flicker/timer. Styles in `error-stage.css`; old studio.css error block removed.
+
+**Next:** open `/nope` and trigger a 500 — garden atmosphere + foot links should show
+
+## 2026-11-07 — Video modal polish
+
+Same snappy open as project modal. Compact cover + play hit → YouTube, category eyebrow, smaller copy, Watch CTA. Shares ScrollTrigger pause / no-blur scrim.
+
+**Next:** hard-refresh — open a cut; modal should be tight with play on thumb
+
+## 2026-11-07 — Project modal: faster + less jank
+
+Dropped backdrop blur; flat modal surface; short 180ms opacity/scale open. `useModalLock` pauses ScrollTriggers while open. Skip SVG covers (no double title). Deduped long copy; shorter cover max-height.
+
+**Next:** hard-refresh — open NekoDroid from gallery; open should feel snappy; scroll inside modal without hitch
+
+## 2026-11-07 — Work gallery type scale down
+
+Shrunk Selected Work / card titles / stroked nums (desktop + mobile clamps). Still Syne 800.
+
+**Next:** hard-refresh #projects — headings should sit smaller beside cards
+
+## 2026-11-07 — Mobile Work: drop sticky stack
+
+Sticky scale/dim cards overlapped and hid CTAs under the dock. Mobile is a normal vertical list now with enter fade/slide + art parallax + title reveal. Desktop pin-horizontal unchanged. Extra bottom padding for the nav dock.
+
+**Next:** hard-refresh mobile #projects — cards stack with gaps, no sticky pile; light scroll motion still plays
+
+## 2026-11-07 — Work cards: no SVG title doubles
+
+Gallery skips `.svg` thumbs (they bake in “NekoBeat” etc.). Gradient art only. Cards slightly narrower so “Selected Work” isn’t chopped mid-word.
+
+**Next:** hard-refresh — one NekoBeat label on the card; heading readable beside it
+
+## 2026-11-07 — Work gallery title weight + ghost bleed
+
+Selected Work title was a `p` hit by `.work-gallery__head p` (muted/small). Now `div` + Syne 800. Pin surface opaque (`--studio-bg`); dropped card opacity scrub so Skills copy can’t show through.
+
+**Next:** hard-refresh #projects — bold “Selected Work”; no Color Grading/Organizer ghosts on NekoBeat card
+
+## 2026-11-07 — Reel: drop filters + cuts label
+
+Removed category pill row and “More cuts — tap or swipe”. Premiere + cut strip only.
+
+**Next:** hard-refresh #videos — no ALL/MUSIC chips; cuts row has no heading
+
+## 2026-11-07 — Drop duplicate Work/Reel headings
+
+StudioSection `chrome={false}` on #projects/#videos — gallery/premiere keep the one visible title. Contained reel `mix-blend-mode` so type doesn’t ghost through nav. Prefer :3001 if :3000 is a stale Next process.
+
+**Next:** hard-refresh — one “Selected Work”, one premiere title; no BUILD+Selected double stack
+
+## 2026-11-07 — WorkGallery + ReelShowcase (GSAP demo)
+
+Replaced ShowcaseStage on homepage Work + Reel. New: `WorkGallery.tsx` / `work-gallery.css`, `ReelShowcase.tsx` / `reel-showcase.css`. Pinned projects first (cap 5); real thumbs; modals unchanged. Filters stay above reel. ShowcaseStage left unused. Graphify updated.
+
+**Next:** hard-refresh localhost:3001 — scroll #projects (desktop sideways / mobile sticky stack); #videos window expands then cuts; click opens modal; reduced-motion = static
+
+## 2026-11-07 — Expertise craft board + tool list
+
+Skills: dropped card lanes. Editorial 01–03 Edit/Music/Code columns (About-style rules). Removed Ableton Live + Gemini API; added CapCut + VN under Edit. Cleared `.next` + restarted `npm run dev` after browser still showed old chip cards.
+
+**Next:** hard-refresh #skills (Ctrl+Shift+R) — CapCut/VN present; no Ableton/Gemini; no rounded chip cards
+
+## 2026-11-07 — Fix showcase: local rail, not page pin
+
+GSAP full-page horizontal pin broke Projects (empty/glitch frames). Restored ShowcaseStage. Research (Interface Lab / Awwwards): horizontal browse = local `overflow-x` + snap + peek + arrow buttons. Wired that into `ShowcaseStage` for Projects + Videos.
+
+**Next:** hard-refresh #projects — flagship visible; arrow through More builds; no frozen empty stage
+
+## 2026-11-07 — Awwwards reel scroll (GSAP)
+
+Dropped card stacks. `ReelScroll`: vertical scroll → pinned horizontal scrub (GSAP ScrollTrigger), full-bleed frames, counter + chapter jump, click opens modal. Projects + Videos. Static stack if reduced-motion / low tier.
+
+**Next:** hard-refresh; scroll #projects — frames should slide sideways; click 03 jumps; click frame opens modal
+
+## 2026-11-07 — Kill ScrollStory; work-stack cards
+
+Pinned stage + chapter rail was empty/broken (SVG covers didn’t fill; UX hated). Replaced with `work-stack`: real media+copy cards, vertical snap, click → modal. Same for Projects + Videos.
+
+**Next:** hard-refresh #projects / #videos — each card should show cover + text; click opens modal
+
+## 2026-11-07 — Selected Work + Reel scroll story
+
+Tried sticky ScrollStory; failed visually. Superseded by work-stack.
+
+## 2026-11-07 — Voice dock: compact idle + footer tuck
+
+Full-width mobile Talk bar stacked on the tab dock and covered footer links. Idle = compact orb (+ type chip); expands full-width only in call/typing. IntersectionObserver sets `data-voice-near-footer` and hides idle chrome over the footer.
+
+**Next:** hard-refresh; scroll to footer — Talk orb should tuck away; start a call to confirm bar still works
+
+## 2026-11-07 — Mobile voice pill layout
+
+Idle Talk pill was a right-stuck orphan under the hero CTAs. Tried full-width row; replaced by compact+footer-tuck above.
+
+## 2026-11-07 — Mobile dock: contrast + glass glitch
+
+SVG liquid glass on bottom dock sheared Videos edge and washed active Home to white-on-white. Mobile nav now `glass: false` (CSS blur only); contact fab no SVG glass; force `#17121f` on active icon+label.
+
+**Next:** hard-refresh mobile; Home should read dark on white pill; no jagged artifact near Videos
+
+## 2026-11-07 — Voice dock mini → expand on hover
+
+Idle Talk pill collapses to orb circle on fine pointers; hover/focus expands label with width/opacity spring. Touch keeps full idle pill. Hero bar padding tracks mini/expanded.
+
+**Next:** hard-refresh; hover bottom-right pearl dock
+
+## 2026-11-07 — Nav label contrast
+
+Inactive ios-nav labels were near-invisible on dark pill. Force light inactive / `#17121f` on white indicator; raise label z-index above glass tint.
+
+**Next:** hard-refresh localhost and check desktop + mobile dock
+
+## 2026-11-07 — Restored screenshot-1 design (master)
+
+- Folder now on `master` @ `fb08143` (pulled from origin)
+- Matches pill nav + GardenHero + Selected work/About + Connecting Cartesia dock
+- Kinetic WIP stashed as `kinetic-firstpr-wip`; `npm run build` OK on master
+
+**Next:** restart local `npm run dev`; don’t merge PR #1 kinetic over master
 
 ## 2026-09-13 — Fun agent notes in llms / robots / security.txt
 

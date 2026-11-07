@@ -1,0 +1,396 @@
+/* Selected Work — desktop pin horizontal / mobile sticky stack */
+
+.work-gallery {
+  --wg-mut: var(--text-muted);
+  --wg-ac: var(--g-lav, var(--studio-accent));
+  --wg-ac2: var(--studio-warm);
+  position: relative;
+  /* Full-bleed past .page-container so pin+horizontal uses the viewport */
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+#projects.studio-section {
+  content-visibility: visible;
+  contain-intrinsic-size: none;
+}
+
+.work-gallery__lab {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--wg-ac);
+}
+
+.work-gallery__hs {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  /* Opaque pin surface — stops Skills (and other) copy ghosting through */
+  background: var(--studio-bg, #110d18);
+  z-index: 2;
+}
+
+.work-gallery__track {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 4vw;
+  padding: 0 max(8vw, 4rem);
+  width: max-content;
+  will-change: transform;
+}
+
+.work-gallery__head {
+  width: min(38vw, 28rem);
+  min-width: 260px;
+  flex: none;
+  position: relative;
+  z-index: 1;
+}
+
+.work-gallery__title {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(2rem, 4.2vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  margin: 0.5rem 0 0.75rem;
+  color: #f8f6f2;
+}
+
+.work-gallery__lede {
+  color: var(--wg-mut);
+  max-width: 21rem;
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.work-gallery__head--end {
+  width: 26vw;
+  min-width: 220px;
+}
+
+.work-gallery__head--end .work-gallery__title {
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+.work-gallery__head--end a {
+  color: var(--wg-ac);
+  text-decoration: none;
+}
+
+.work-gallery__head--end a:hover {
+  text-decoration: underline;
+}
+
+.work-gallery__card {
+  flex: none;
+  width: min(52vw, 720px);
+  height: 64vh;
+  border-radius: 1.75rem;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  transform-origin: 50% 0;
+  cursor: pointer;
+  background: #0c0a12;
+  color: inherit;
+  text-align: left;
+  padding: 0;
+  display: block;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 0;
+}
+
+.work-gallery__card:focus-visible {
+  outline: 2px solid var(--wg-ac);
+  outline-offset: 3px;
+}
+
+.work-gallery__card:active {
+  filter: brightness(1.12);
+}
+
+.work-gallery__art {
+  position: absolute;
+  inset: 0 -15%;
+  background: var(--wg-g, linear-gradient(135deg, #2a2438, #4a3f63 55%, #8b6914));
+}
+
+.work-gallery__art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.88;
+}
+
+.work-gallery__art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.14), transparent 50%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent 45%);
+  pointer-events: none;
+}
+
+.work-gallery__num {
+  position: absolute;
+  right: 1.25rem;
+  top: 0.35rem;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1.25px rgba(255, 255, 255, 0.28);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.work-gallery__meta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.625rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.72));
+  z-index: 1;
+}
+
+.work-gallery__meta small {
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.work-gallery__meta h4 {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+  letter-spacing: -0.03em;
+  overflow: hidden;
+  margin: 0.35rem 0 0;
+  color: #f8f6f2;
+  font-weight: 800;
+}
+
+.work-gallery__meta h4 span {
+  display: inline-block;
+}
+
+.work-gallery__tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.625rem;
+  flex-wrap: wrap;
+}
+
+.work-gallery__tags i {
+  font-style: normal;
+  font-size: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.33);
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.work-gallery__go {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  margin-top: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.work-gallery__bar {
+  position: absolute;
+  left: 8vw;
+  right: 8vw;
+  bottom: 5vh;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.11);
+  pointer-events: none;
+}
+
+.work-gallery__bar > b {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, var(--wg-ac), var(--wg-ac2));
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.work-gallery__cnt {
+  position: absolute;
+  right: 8vw;
+  bottom: 7vh;
+  font-size: 0.8125rem;
+  color: var(--wg-mut);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+/* Mobile: vertical list + scroll reveals (no sticky stack — that fought the dock) */
+@media (max-width: 767px) {
+  .work-gallery {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .work-gallery__hs {
+    height: auto;
+    overflow: visible;
+    background: transparent;
+    z-index: auto;
+  }
+
+  .work-gallery__track {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    gap: 1.25rem;
+    padding: 0.5rem 1rem calc(6.5rem + env(safe-area-inset-bottom, 0px));
+    transform: none !important;
+  }
+
+  .work-gallery__head {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 0.25rem;
+  }
+
+  .work-gallery__title {
+    font-size: clamp(1.85rem, 8vw, 2.5rem);
+  }
+
+  .work-gallery__head--end {
+    width: 100%;
+    margin-top: 0.25rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .work-gallery__card {
+    position: relative;
+    top: auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    max-height: 70svh;
+    margin-bottom: 0;
+    border-radius: 1.25rem;
+    flex: none;
+    filter: none !important;
+    transform: none;
+  }
+
+  .work-gallery__art {
+    inset: 0;
+  }
+
+  .work-gallery__num {
+    font-size: clamp(3rem, 22vw, 5rem);
+    right: 1rem;
+    top: 0.25rem;
+  }
+
+  .work-gallery__meta {
+    padding: 1.25rem;
+  }
+
+  .work-gallery__bar,
+  .work-gallery__cnt {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-gallery__hs {
+    height: auto;
+    overflow: visible;
+  }
+
+  .work-gallery__track {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    padding: 0 1.25rem;
+    gap: 1.25rem;
+  }
+
+  .work-gallery__head,
+  .work-gallery__head--end {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .work-gallery__card {
+    position: relative;
+    top: auto;
+    width: 100%;
+    height: auto;
+    min-height: 18rem;
+    aspect-ratio: 16 / 10;
+  }
+
+  .work-gallery__bar,
+  .work-gallery__cnt {
+    display: none;
+  }
+}
+
+/* Low-power / save-data: same static stack even if OS allows motion */
+.work-gallery[data-motion='none'] .work-gallery__hs {
+  height: auto;
+  overflow: visible;
+}
+
+.work-gallery[data-motion='none'] .work-gallery__track {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  padding: 0 1.25rem;
+  gap: 1.25rem;
+  transform: none !important;
+}
+
+.work-gallery[data-motion='none'] .work-gallery__head,
+.work-gallery[data-motion='none'] .work-gallery__head--end {
+  width: 100%;
+  min-width: 0;
+}
+
+.work-gallery[data-motion='none'] .work-gallery__card {
+  position: relative;
+  top: auto;
+  width: 100%;
+  height: auto;
+  min-height: 18rem;
+  aspect-ratio: 16 / 10;
+  filter: none !important;
+  transform: none !important;
+}
+
+.work-gallery[data-motion='none'] .work-gallery__bar,
+.work-gallery[data-motion='none'] .work-gallery__cnt {
+  display: none;
+}

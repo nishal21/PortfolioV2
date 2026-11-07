@@ -23,12 +23,12 @@ export const SITE_TITLE = 'Nishal · AMV Editor, Music Producer & Developer';
 
 /** ~150–160 chars for `<meta name="description">`. */
 export function metaDescription() {
-  return `Nishal · official portfolio of Nishal K (nishal21). AMV editor, music producer, and full-stack developer from Kerala. NekoBeat, Otazumi, NMHelper, and 60+ GitHub projects.`;
+  return `Nishal · official portfolio of Nishal K (nishal21). AMV editor, music producer, and full-stack developer from Kerala. FirstPR, NekoBeat, Otazumi, NMHelper, and 60+ GitHub projects.`;
 }
 
 /** ~120 chars for Open Graph / X card previews. */
 export function socialDescription() {
-  return `Nishal · AMV editor, music producer & developer from Kerala. Portfolio of Nishal K (nishal21): NekoBeat, Otazumi, NMHelper & open source.`;
+  return `Nishal · AMV editor, music producer & developer from Kerala. Portfolio of Nishal K (nishal21): FirstPR, NekoBeat, Otazumi & open source.`;
 }
 
 export const SITE_KEYWORDS = [
@@ -42,6 +42,8 @@ export const SITE_KEYWORDS = [
   'Nishal music producer',
   'Nishal portfolio',
   'nishal.dev',
+  'FirstPR',
+  'firstpr.nishal.dev',
   'NekoBeat',
   'Otazumi',
   'Publicolio',

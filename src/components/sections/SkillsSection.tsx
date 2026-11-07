@@ -3,6 +3,10 @@
 import StudioSection from '@/components/layout/StudioSection';
 import { craftPillars, skillBadges } from '@/data/skills';
 
+function padIndex(n: number) {
+  return String(n + 1).padStart(2, '0');
+}
+
 export default function SkillsSection() {
   return (
     <StudioSection
@@ -11,32 +15,32 @@ export default function SkillsSection() {
       title="Expertise"
       description="I edit and produce first. Then I write the code that has to ship with it."
     >
-      <div className="studio-skill-badges">
-        {skillBadges.map((badge) => (
-          <span key={badge} className="studio-chip">
-            {badge}
-          </span>
-        ))}
-      </div>
+      <div className="studio-craft">
+        <p className="studio-craft-roles" aria-label="Roles">
+          {skillBadges.map((badge, i) => (
+            <span key={badge}>
+              {i > 0 ? <span className="studio-craft-dot" aria-hidden="true" /> : null}
+              {badge}
+            </span>
+          ))}
+        </p>
 
-      <div className="studio-lanes">
-        {craftPillars.map((pillar) => (
-          <div key={pillar.title} className="studio-lane">
-            <div className="studio-lane-head">
-              <span className="studio-lane-title">{pillar.title}</span>
-              <span className="studio-lane-line" aria-hidden="true" />
-            </div>
-            <div className="studio-lane-track">
-              <div className="studio-lane-chips">
+        <div className="studio-craft-grid">
+          {craftPillars.map((pillar, index) => (
+            <article key={pillar.title} className="studio-craft-pillar">
+              <header className="studio-craft-head">
+                <span className="studio-craft-index">{padIndex(index)}</span>
+                <h3 className="studio-craft-title">{pillar.title}</h3>
+                <p className="studio-craft-blurb">{pillar.blurb}</p>
+              </header>
+              <ul className="studio-craft-list">
                 {pillar.skills.map((skill) => (
-                  <span key={skill} className="studio-chip studio-chip--lane">
-                    {skill}
-                  </span>
+                  <li key={skill}>{skill}</li>
                 ))}
-              </div>
-            </div>
-          </div>
-        ))}
+              </ul>
+            </article>
+          ))}
+        </div>
       </div>
     </StudioSection>
   );

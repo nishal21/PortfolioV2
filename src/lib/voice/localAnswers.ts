@@ -21,8 +21,8 @@ export interface QuickAnswer {
 export const SUGGESTED_QUESTIONS = [
   'Who is Nishal?',
   'What are you building right now?',
+  'Tell me about FirstPR',
   'Tell me about NekoBeat',
-  'What tools do you use?',
   'How can I contact you?',
 ] as const;
 

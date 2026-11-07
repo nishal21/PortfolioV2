@@ -31,6 +31,69 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    "id": 20,
+    "title": "FirstPR",
+    "category": "Open Source · Developer Tools",
+    "status": "live",
+    "description": "Helps beginners land their first open-source pull request—match an issue, understand the files, review the PR—without writing the fix for them.",
+    "longDescription": "FirstPR is a free AGPL web app from AIBoomi Startup Weekend Kochi (with Anan Shaji / DuoMatter). Match finds open, unassigned good-first issues. Explain shows real files and a three-level hint ladder that refuses to write the patch. Review scores a PR or diff against the issue and CONTRIBUTING.md. FirstPRbot posts one quiet maintainer-ready comment per PR and edits it on push. Live at firstpr.nishal.dev.",
+    "tags": [
+      "Next.js",
+      "TypeScript",
+      "OpenAI",
+      "GitHub App",
+      "Open Source"
+    ],
+    "lastUpdated": "2026-10-24",
+    "liveUrl": "https://firstpr.nishal.dev/",
+    "githubUrl": "https://github.com/nishal21/firstpr",
+    "color": "from-emerald-400 to-teal-500",
+    "bgColor": "from-emerald-400/10 to-teal-500/10",
+    "challenges": [
+      "Beginners stuck between issue, files, and a mergeable PR",
+      "Maintainers drowning in incomplete first PRs",
+      "AI that must guide without writing the fix"
+    ],
+    "solutions": [
+      "Match → Explain → Review flow with hard refuse-to-write guardrails",
+      "Score from a deterministic checklist, not a model-guessed number",
+      "FirstPRbot: one editable summary comment plus firstpr/ labels"
+    ],
+    "features": [
+      "Match open unassigned good-first issues",
+      "Explain with real file links and three hint levels",
+      "Review scores PR/diff vs issue and CONTRIBUTING.md",
+      "FirstPRbot GitHub App for maintainer-ready PR comments",
+      "UI in English, Malayalam, and Hindi",
+      "AGPL-3.0 with optional commercial license"
+    ],
+    "techStack": {
+      "frontend": [
+        "Next.js",
+        "TypeScript",
+        "Tailwind",
+        "shadcn/ui"
+      ],
+      "ai": [
+        "OpenAI Responses API",
+        "Optional Neysa for file picking"
+      ],
+      "integrations": [
+        "GitHub REST / Octokit",
+        "FirstPRbot GitHub App",
+        "Algolia (optional issue index)"
+      ],
+      "deployment": [
+        "Vercel",
+        "Sentry (optional)"
+      ]
+    },
+    "images": [
+      "/projects/firstpr.svg"
+    ],
+    "pinned": true
+  },
+  {
     "id": 2,
     "title": "NekoBeat",
     "category": "Music & Streaming",

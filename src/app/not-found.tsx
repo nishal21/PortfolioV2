@@ -3,7 +3,7 @@ import ErrorStage from '@/components/error/ErrorStage';
 import { CREATOR_NAME } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: `404 · Frame missing`,
+  title: `404 · Path missing`,
   description: `Page not found on ${CREATOR_NAME}'s portfolio (nishal.dev).`,
   robots: { index: false, follow: true },
 };

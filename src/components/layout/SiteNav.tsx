@@ -11,8 +11,6 @@ import {
 } from '@/data/navMeta';
 import { getActiveSectionHref, scrollToSection } from '@/lib/scrollNav';
 import { useLiquidGlassNav } from '@/hooks/useLiquidGlassNav';
-import { enableNavLiquidGlass, removeLiquidGlass, rebuildNavLiquidGlass } from '@/lib/liquidGlass';
-import { NAV_GLASS_CONFIG } from '@/lib/liquidGlassConfig';
 
 function NavTabButton({
   item,
@@ -56,7 +54,6 @@ function NavTabButton({
 
 export default function SiteNav() {
   const [active, setActive] = useState('#home');
-  const contactFabRef = useRef<HTMLButtonElement>(null);
   const navLockRef = useRef<string | null>(null);
   const scrollGenRef = useRef(0);
   const spyCooldownUntilRef = useRef(0);
@@ -115,7 +112,10 @@ export default function SiteNav() {
   );
 
   const desktopNav = useLiquidGlassNav(navItems.length, activeIndex, scrollToIndex);
-  const mobileNav = useLiquidGlassNav(mobileTabItems.length, mobileActiveIndex, scrollToMobileIndex);
+  // No SVG liquid glass on the bottom dock — it shears icons/labels on mobile.
+  const mobileNav = useLiquidGlassNav(mobileTabItems.length, mobileActiveIndex, scrollToMobileIndex, {
+    glass: false,
+  });
 
   useEffect(() => {
     let raf = 0;
@@ -150,21 +150,6 @@ export default function SiteNav() {
     };
   }, []);
 
-  useEffect(() => {
-    const el = contactFabRef.current;
-    if (!el) return;
-
-    enableNavLiquidGlass(el, () => NAV_GLASS_CONFIG);
-
-    const onResize = () => rebuildNavLiquidGlass();
-    window.addEventListener('resize', onResize);
-
-    return () => {
-      window.removeEventListener('resize', onResize);
-      removeLiquidGlass(el);
-    };
-  }, []);
-
   return (
     <>
       <header className="ios-nav-header">
@@ -188,7 +173,7 @@ export default function SiteNav() {
       </header>
 
       <nav className="ios-nav-dock" aria-label="Site navigation">
-        <div ref={mobileNav.navWrapRef} className="ios26-nav ios26-nav--mobile lg-demo-target" data-radius="999" data-lg-source="page-root">
+        <div ref={mobileNav.navWrapRef} className="ios26-nav ios26-nav--mobile" data-radius="999">
           <div ref={mobileNav.navInnerRef} className="ios26-nav-inner ios26-nav-inner--mobile">
             <div ref={mobileNav.glowRef} className="nav-glow" aria-hidden="true" />
             <div ref={mobileNav.indicatorRef} className="tab-indicator tab-indicator--mobile" aria-hidden="true" />
@@ -208,10 +193,8 @@ export default function SiteNav() {
         </div>
 
         <button
-          ref={contactFabRef}
           type="button"
-          className={`ios-nav-fab hit-target lg-demo-target ${contactActive ? 'active' : ''}`}
-          data-radius="999"
+          className={`ios-nav-fab hit-target ${contactActive ? 'active' : ''}`}
           onClick={() => scrollTo(mobileContactItem.href)}
           aria-label={mobileContactItem.name}
           aria-current={contactActive ? 'page' : undefined}

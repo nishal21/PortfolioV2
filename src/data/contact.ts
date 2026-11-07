@@ -1,8 +1,18 @@
+export const contactMail = {
+  /** Public / reply-facing address (Brevo verified sender). */
+  address: 'hi@nishal.dev',
+  /** Where form submissions are delivered. */
+  inbox: 'nishalamv@gmail.com',
+  subjectPrefix: 'Portfolio contact: ',
+  autoresponse:
+    "Got your message. I'll reply within a day or so. — Nishal",
+} as const;
+
 export const contactInfo = [
   {
     label: 'Email',
-    value: 'nishal@nishal.dev',
-    href: 'mailto:nishal@nishal.dev',
+    value: contactMail.address,
+    href: `mailto:${contactMail.address}`,
   },
   {
     label: 'Phone',
@@ -21,7 +31,7 @@ export const socialLinks = [
   { label: 'Peerlist', href: 'https://peerlist.io/nishal21' },
   { label: 'LinkedIn', href: 'https://linkedin.com/in/nishal-k' },
   { label: 'YouTube', href: 'https://youtube.com/@DemonKing0.___' },
-  { label: 'X', href: 'https://x.com/Etainment2' },
+  { label: 'X', href: 'https://x.com/nishal21_' },
   { label: 'Instagram', href: 'https://instagram.com/demonking.___' },
 ] as const;
 
@@ -56,9 +66,9 @@ export const supportLinks = [
   },
 ] as const;
 
+/** Browser posts here (same-origin → Brevo via /api/contact). */
 export const formSubmit = {
-  url: 'https://formsubmit.co/nishal@nishal.dev',
+  url: '/api/contact',
   subject: 'New Portfolio Contact Message',
-  autoresponse:
-    "Got your message. I'll reply within a day or so. - Nishal",
+  autoresponse: contactMail.autoresponse,
 };

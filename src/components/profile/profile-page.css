@@ -1,0 +1,233 @@
+/* /profile — garden-dusk identity index (no photo wash) */
+
+.profile-page {
+  --pp-ink: #f4f2fa;
+  --pp-mut: #a39db8;
+  --pp-acc: var(--g-lav, #c9b8ff);
+  --pp-warm: var(--studio-warm, #f0c79a);
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  background: var(--studio-bg, #110d18);
+  color: var(--pp-ink);
+  overflow-x: clip;
+}
+
+.profile-page__wash {
+  position: absolute;
+  inset: 0 0 auto;
+  height: min(88svh, 48rem);
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 65% 50% at 78% 12%, rgba(var(--g-lav-rgb, 201, 184, 255), 0.2), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 8% 28%, rgba(240, 199, 154, 0.08), transparent 50%),
+    radial-gradient(ellipse 90% 55% at 40% 100%, rgba(88, 64, 140, 0.16), transparent 58%),
+    linear-gradient(195deg, #1a1424 0%, var(--studio-bg, #110d18) 52%, var(--studio-bg, #110d18) 100%);
+}
+
+.profile-page__wash::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--studio-bg, #110d18) 0%, transparent 55%);
+}
+
+.profile-page__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 90rem;
+  margin: 0 auto;
+  padding:
+    max(5.5rem, calc(4.5rem + env(safe-area-inset-top)))
+    clamp(1.25rem, 5vw, 7.5rem)
+    clamp(4rem, 10vh, 6.5rem);
+}
+
+.profile-page__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 2rem;
+  font-size: 0.8125rem;
+  color: var(--pp-mut);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.profile-page__back:hover {
+  color: var(--pp-acc);
+}
+
+.profile-page__eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--pp-acc);
+}
+
+.profile-page__title {
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: #fff;
+  text-wrap: balance;
+}
+
+.profile-page__title-ml {
+  color: var(--pp-warm);
+  font-weight: 700;
+}
+
+.profile-page__lede {
+  margin: 1.15rem 0 0;
+  max-width: 40rem;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  line-height: 1.65;
+  color: var(--pp-mut);
+}
+
+.profile-page__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.75rem;
+}
+
+.profile-page__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0.65rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.profile-page__btn--pri {
+  background: #fff;
+  color: #17121f;
+}
+
+.profile-page__btn--pri:hover {
+  transform: translateY(-1px);
+  background: #f4f0fa;
+}
+
+.profile-page__btn--ghost {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.profile-page__btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.profile-page__section-label {
+  margin: 0 0 1.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pp-acc);
+}
+
+.profile-page__answers {
+  margin-top: clamp(2.75rem, 7vh, 4.5rem);
+}
+
+.profile-page__answers .studio-aeo-heading {
+  display: none;
+}
+
+.profile-page__answers .studio-aeo-grid {
+  gap: 0;
+}
+
+.profile-page__answers .studio-aeo-card {
+  margin: 0;
+  padding: 1.15rem 0;
+  border: none;
+  border-bottom: 1px solid rgba(var(--g-lav-rgb, 201, 184, 255), 0.12);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.profile-page__answers .studio-aeo-card:first-child {
+  border-top: 1px solid rgba(var(--g-lav-rgb, 201, 184, 255), 0.12);
+}
+
+.profile-page__answers .studio-aeo-question {
+  margin: 0 0 0.45rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.profile-page__answers .studio-aeo-answer {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--pp-mut);
+}
+
+.profile-page__answers .studio-aeo-footer {
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--pp-mut);
+}
+
+.profile-page__answers .studio-aeo-footer a {
+  color: var(--pp-acc);
+}
+
+.profile-page__directory {
+  margin-top: clamp(2.75rem, 7vh, 4.5rem);
+}
+
+.profile-page__directory-desc {
+  margin: 0 0 1.25rem;
+  max-width: 36rem;
+  font-size: 0.9rem;
+  color: var(--pp-mut);
+}
+
+.profile-page__directory .studio-seo-table-wrap {
+  border: 1px solid rgba(var(--g-lav-rgb, 201, 184, 255), 0.14);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.02);
+  overflow: auto;
+}
+
+.profile-page a:focus-visible,
+.profile-page button:focus-visible {
+  outline: 2px solid var(--pp-acc);
+  outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+  .profile-page__inner {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-page__btn--pri:hover {
+    transform: none;
+  }
+}

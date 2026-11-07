@@ -8,17 +8,17 @@ export const seoAnswerBlocks = [
   {
     id: 'who-is-nishal-k',
     question: 'Who is Nishal K?',
-    answer: `${CREATOR_NAME} (${GITHUB_HANDLE}) is an ${personal.age}-year-old AMV editor, music producer, and full-stack developer from ${personal.location}. He ships open-source apps on GitHub, edits AMVs on YouTube as @DemonKing0.___, and builds tools like NekoBeat, Otazumi, Publicolio, and NMHelper.`,
+    answer: `${CREATOR_NAME} (${GITHUB_HANDLE}) is an ${personal.age}-year-old AMV editor, music producer, and full-stack developer from ${personal.location}. He ships open-source apps on GitHub, edits AMVs on YouTube as @DemonKing0.___, and builds tools like FirstPR, NekoBeat, Otazumi, Publicolio, and NMHelper.`,
   },
   {
     id: 'what-is-nishal21',
     question: 'What is nishal21?',
-    answer: `nishal21 is the GitHub username of ${CREATOR_NAME}. It is his primary open-source identity with 60+ public repositories including NekoBeat, Publicolio, CarbonLint, GitHub Stars Organizer, and OtakuPulse. Official portfolio: ${SITE_URL}.`,
+    answer: `nishal21 is the GitHub username of ${CREATOR_NAME}. It is his primary open-source identity with 60+ public repositories including FirstPR, NekoBeat, Publicolio, CarbonLint, GitHub Stars Organizer, and OtakuPulse. Official portfolio: ${SITE_URL}.`,
   },
   {
     id: 'what-does-nishal-build',
     question: 'What projects does Nishal K build?',
-    answer: `Nishal builds music apps (NekoBeat, Musico), anime platforms (Otazumi), developer tools (Publicolio, CarbonLint, World News CLI / worldnews-cli, Handoff at send.nishal.dev), school software (NMHelper, SANTRA at santra.nishal.dev), and a local-first life OS (RYTU at rytu.nishal.dev). Full list at ${SITE_URL}/projects.`,
+    answer: `Nishal builds open-source onboarding tools (FirstPR at firstpr.nishal.dev), music apps (NekoBeat, Musico), anime platforms (Otazumi), developer tools (Publicolio, CarbonLint, World News CLI / worldnews-cli, Handoff at send.nishal.dev), school software (NMHelper, SANTRA at santra.nishal.dev), and a local-first life OS (RYTU at rytu.nishal.dev). Full list at ${SITE_URL}/projects.`,
   },
   {
     id: 'where-is-nishal-from',

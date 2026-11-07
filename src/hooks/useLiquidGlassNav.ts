@@ -18,8 +18,11 @@ function slideDurationSec(tabDelta: number) {
 export function useLiquidGlassNav(
   itemCount: number,
   activeIndex: number,
-  onSelect?: (index: number) => void
+  onSelect?: (index: number) => void,
+  /** SVG liquid glass shears mobile dock labels — keep false on the bottom pill. */
+  options?: { glass?: boolean },
 ) {
+  const glass = options?.glass !== false;
   const navWrapRef = useRef<HTMLDivElement>(null);
   const navInnerRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
@@ -89,37 +92,40 @@ export function useLiquidGlassNav(
         indicator.classList.remove('interacting');
         navWrap.classList.remove('engaged');
       }, Math.round(durationSec * 1000) + 40);
-      const t = window.setTimeout(() => rebuildNavLiquidGlass(), 400);
+      const t = glass
+        ? window.setTimeout(() => rebuildNavLiquidGlass(), 400)
+        : undefined;
       return () => {
         window.clearTimeout(pulse);
-        window.clearTimeout(t);
+        if (t) window.clearTimeout(t);
       };
     }
 
+    if (!glass) return;
     const t = window.setTimeout(() => rebuildNavLiquidGlass(), 400);
     return () => window.clearTimeout(t);
-  }, [activeIndex, snapToIndex]);
+  }, [activeIndex, glass, snapToIndex]);
 
   useEffect(() => {
     const navWrap = navWrapRef.current;
     if (!navWrap) return;
 
-    enableNavLiquidGlass(navWrap, () => NAV_GLASS_CONFIG);
+    if (glass) enableNavLiquidGlass(navWrap, () => NAV_GLASS_CONFIG);
     snapToIndex(activeIndexRef.current, false);
     prevAnimatedIndexRef.current = activeIndexRef.current;
 
     const onResize = () => {
       snapToIndex(activeIndexRef.current, false);
-      rebuildNavLiquidGlass();
+      if (glass) rebuildNavLiquidGlass();
     };
 
     window.addEventListener('resize', onResize);
 
     return () => {
       window.removeEventListener('resize', onResize);
-      removeLiquidGlass(navWrap);
+      if (glass) removeLiquidGlass(navWrap);
     };
-  }, [snapToIndex]);
+  }, [glass, snapToIndex]);
 
   const setItemRef = (index: number) => (el: HTMLButtonElement | null) => {
     itemRefs.current[index] = el;
@@ -244,7 +250,7 @@ export function useLiquidGlassNav(
         snapToIndex(targetIndex, true, slideDurationSec(tabDelta));
         prevAnimatedIndexRef.current = targetIndex;
         onSelect?.(targetIndex);
-        setTimeout(() => rebuildNavLiquidGlass(), 400);
+        if (glass) setTimeout(() => rebuildNavLiquidGlass(), 400);
       } else {
         snapToIndex(activeIndexRef.current, false);
       }

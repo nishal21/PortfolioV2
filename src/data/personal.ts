@@ -4,11 +4,9 @@ export const personal = {
   location: 'Malappuram, Kerala, India',
   age: 18,
   malayalamName: 'നിശാൽ',
-  pullQuote:
-    'A beat has to land on time. Your code should too. I put the same care into both.',
   bio: [
     'I\'m Nishal, 18, living in Malappuram. Five years in on AMV edits, FL Studio remixes, and apps that actually go live.',
-    'YouTube is @DemonKing0.___ (edits and remixes). GitHub is nishal21 (NekoBeat, Otazumi, Publicolio, NMHelper, plus whatever side project has my attention that month).',
+    'YouTube is @DemonKing0.___ (edits and remixes). GitHub is nishal21 (FirstPR, NekoBeat, Otazumi, Publicolio, NMHelper, plus whatever side project has my attention that month).',
     'Off the clock I\'m usually hunting a scene to sync, fixing a mix that almost sounds right, or poking at game dev and 3D.',
   ],
   timeline: [
@@ -18,7 +16,7 @@ export const personal = {
     { year: '2023', event: '3D animation experiments, motion side projects' },
     { year: '2024', event: 'JARVIS, open-source tooling' },
     { year: '2025', event: 'NMHelper, Musico, Otazumi, OtakuPulse' },
-    { year: '2026', event: 'NekoBeat, World News CLI, RYTU, Handoff, SANTRA, Publicolio, CarbonLint' },
+    { year: '2026', event: 'FirstPR, NekoBeat, World News CLI, RYTU, Handoff, SANTRA, Publicolio, CarbonLint' },
   ],
   stats: [
     { number: '60+', label: 'GitHub Repos' },

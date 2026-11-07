@@ -8,7 +8,12 @@ interface SeoAnswerBlocksProps {
 
 export default function SeoAnswerBlocks({ className = '', showHeading = true }: SeoAnswerBlocksProps) {
   return (
-    <section className={`studio-aeo ${className}`} aria-labelledby="profile-answers-heading">
+    <section
+      className={`studio-aeo ${className}`}
+      {...(showHeading
+        ? { 'aria-labelledby': 'profile-answers-heading' }
+        : { 'aria-label': 'Profile answers' })}
+    >
       {showHeading ? (
         <h2 id="profile-answers-heading" className="studio-aeo-heading">
           Profile

@@ -51,6 +51,7 @@ export default function VoiceDock() {
   const [readyAt, setReadyAt] = useState<number | null>(null);
   const [now, setNow] = useState(0);
   const [draft, setDraft] = useState('');
+  const [nearFooter, setNearFooter] = useState(false);
   const statusRef = useRef<Promise<boolean> | null>(null);
   const sessionRef = useRef<VoiceSession | null>(null);
   const abortRef = useRef<AbortController | null>(null);
@@ -88,12 +89,34 @@ export default function VoiceDock() {
     else delete root.dataset.voiceCaption;
   }, [phase, caption]);
 
+  // Idle dock must not cover the footer — tuck it away while the footer is on screen.
+  useEffect(() => {
+    const footer = document.querySelector('.garden-footer');
+    if (!footer) return;
+    const root = document.documentElement;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        const hit = Boolean(entry?.isIntersecting);
+        setNearFooter(hit);
+        if (hit) root.dataset.voiceNearFooter = '';
+        else delete root.dataset.voiceNearFooter;
+      },
+      { threshold: 0, rootMargin: '48px 0px 0px 0px' },
+    );
+    io.observe(footer);
+    return () => {
+      io.disconnect();
+      delete root.dataset.voiceNearFooter;
+    };
+  }, []);
+
   useEffect(
     () => () => {
       abortRef.current?.abort();
       sessionRef.current?.stop();
       delete document.documentElement.dataset.voice;
       delete document.documentElement.dataset.voiceCaption;
+      delete document.documentElement.dataset.voiceNearFooter;
     },
     []
   );
@@ -256,7 +279,7 @@ export default function VoiceDock() {
   }[phase];
 
   return (
-    <div className="vdock" data-phase={phase}>
+    <div className="vdock" data-phase={phase} aria-hidden={phase === 'idle' && nearFooter ? true : undefined}>
       <div className="vdock__float">
         {caption ? (
           <div
@@ -337,10 +360,13 @@ export default function VoiceDock() {
               }}
               onPointerEnter={prefetch}
               onFocus={prefetch}
+              aria-label="Talk to Nishal"
               aria-describedby="vdock-privacy"
             >
               <span className="vdock__orb" aria-hidden />
-              <span className="vdock__cta-label">Talk to Nishal</span>
+              <span className="vdock__cta-label" aria-hidden="true">
+                Talk to Nishal
+              </span>
               <span id="vdock-privacy" className="sr-only">
                 Starts a voice call. {PRIVACY}
               </span>

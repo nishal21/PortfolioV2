@@ -21,16 +21,10 @@ export default function AboutSection() {
 
         <p className="studio-about-intro seo-speakable">{intro}</p>
 
-        <div className="studio-about-grid">
-          <blockquote className="studio-about-quote">
-            <p>{personal.pullQuote}</p>
-          </blockquote>
-
-          <div className="studio-about-bio">
-            {detailBio.map((p) => (
-              <p key={p.slice(0, 48)}>{p}</p>
-            ))}
-          </div>
+        <div className="studio-about-bio">
+          {detailBio.map((p) => (
+            <p key={p.slice(0, 48)}>{p}</p>
+          ))}
         </div>
 
         <div className="studio-timeline-wrap">

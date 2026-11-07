@@ -10,6 +10,8 @@ interface StudioSectionProps {
   title: string;
   description?: string;
   accent?: 'sage' | 'warm';
+  /** When false, only an sr-only title remains (gallery/reel supply the visible heading). */
+  chrome?: boolean;
   children: ReactNode;
 }
 
@@ -19,6 +21,7 @@ export default function StudioSection({
   title,
   description,
   accent = 'sage',
+  chrome = true,
   children,
 }: StudioSectionProps) {
   const ref = useRef<HTMLElement>(null);
@@ -28,18 +31,27 @@ export default function StudioSection({
     <section
       id={id}
       ref={ref}
-      className={`studio-section page-container studio-section--${accent}`}
+      className={`studio-section page-container studio-section--${accent}${chrome ? '' : ' studio-section--bare'}`}
+      aria-labelledby={`${id}-title`}
     >
-      <motion.header
-        className="studio-section-header"
-        initial={{ opacity: 0, y: 16 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={defaultTransition}
-      >
-        <p className="studio-label">{label}</p>
-        <h2 className="studio-title">{title}</h2>
-        {description ? <p className="studio-desc">{description}</p> : null}
-      </motion.header>
+      {chrome ? (
+        <motion.header
+          className="studio-section-header"
+          initial={{ opacity: 0, y: 16 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={defaultTransition}
+        >
+          <p className="studio-label">{label}</p>
+          <h2 id={`${id}-title`} className="studio-title">
+            {title}
+          </h2>
+          {description ? <p className="studio-desc">{description}</p> : null}
+        </motion.header>
+      ) : (
+        <h2 id={`${id}-title`} className="sr-only">
+          {title}
+        </h2>
+      )}
       <motion.div
         className="studio-body"
         initial={{ opacity: 0, y: 12 }}

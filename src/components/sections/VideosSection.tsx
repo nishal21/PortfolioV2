@@ -1,13 +1,20 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X, Youtube } from 'lucide-react';
 import StudioSection from '@/components/layout/StudioSection';
-import ShowcaseStage from '@/components/sections/ShowcaseStage';
+import ReelShowcase from '@/components/sections/ReelShowcase';
 import ImageFrame from '@/components/ui/ImageFrame';
 import ModalPortal, { useModalLock } from '@/components/ui/ModalPortal';
 import { videos, videoCategories } from '@/data/videos';
 import type { Video } from '@/data/videos';
+
+const modalEase = { duration: 0.18, ease: [0.22, 1, 0.36, 1] as const };
+
+function videoCategoryLabel(id: string) {
+  return videoCategories.find((c) => c.id === id)?.label ?? id;
+}
 
 function VideoModal({ video, onClose }: { video: Video; onClose: () => void }) {
   useModalLock(true);
@@ -20,153 +27,112 @@ function VideoModal({ video, onClose }: { video: Video; onClose: () => void }) {
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
 
+  const watchHref = `https://youtube.com/watch?v=${video.youtubeId}`;
+
   return (
     <ModalPortal>
-      <div className="studio-modal-backdrop" onClick={onClose} role="presentation">
-        <div className="studio-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+      <motion.div
+        className="studio-modal-backdrop"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={modalEase}
+        onClick={onClose}
+        role="presentation"
+      >
+        <motion.div
+          className="studio-modal studio-modal--video"
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={modalEase}
+          onClick={(e) => e.stopPropagation()}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="video-modal-title"
+        >
           <div className="studio-modal-head">
-            <h3 className="studio-modal-title min-w-0 flex-1">{video.title}</h3>
+            <div className="studio-modal-head-main">
+              <p className="studio-meta">{videoCategoryLabel(video.category)}</p>
+              <h3 id="video-modal-title" className="studio-modal-title">
+                {video.title}
+              </h3>
+            </div>
             <button type="button" onClick={onClose} className="hit-target studio-modal-close shrink-0" aria-label="Close">
               <X className="h-5 w-5" />
             </button>
           </div>
+
           <div className="studio-modal-body">
-            <ImageFrame
-              src={video.thumbnail}
-              alt={video.title}
-              aspect="wide"
-              fit="cover"
-              className="border-0 studio-modal-cover"
-            />
+            <a
+              href={watchHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="studio-modal-video-hit hit-target"
+              aria-label={`Watch ${video.title} on YouTube`}
+            >
+              <ImageFrame
+                src={video.thumbnail}
+                alt=""
+                aspect="wide"
+                fit="cover"
+                loading="eager"
+                className="border-0 studio-modal-cover studio-modal-cover--video"
+              />
+              <span className="studio-modal-video-play" aria-hidden="true">
+                <Play className="ml-0.5 h-5 w-5 fill-current" />
+              </span>
+              <span className="studio-modal-video-duration">{video.duration}</span>
+            </a>
+
             <div className="studio-modal-content">
-              <p className="studio-modal-copy">{video.description}</p>
-              <div className="flex flex-wrap gap-2">
-                {video.tags.map((tag) => (
-                  <span key={tag} className="studio-chip studio-chip--sm">
-                    {tag}
-                  </span>
-                ))}
-              </div>
               <p className="studio-modal-meta">
                 {video.views} views · {video.date}
               </p>
+              <p className="studio-modal-copy">{video.description}</p>
+              {video.tags.length > 0 ? (
+                <div className="flex flex-wrap gap-1.5">
+                  {video.tags.slice(0, 4).map((tag) => (
+                    <span key={tag} className="studio-chip studio-chip--sm">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
             </div>
           </div>
+
           <div className="studio-modal-actions" role="group" aria-label="Video links">
             <a
-              href={`https://youtube.com/watch?v=${video.youtubeId}`}
+              href={watchHref}
               target="_blank"
               rel="noopener noreferrer"
               className="hit-target studio-modal-action studio-modal-action--primary studio-modal-action--warm"
             >
               <Youtube className="h-4 w-4 shrink-0" aria-hidden />
-              <span>Watch</span>
+              <span>Watch on YouTube</span>
             </a>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </ModalPortal>
   );
 }
 
 export default function VideosSection() {
-  const [filter, setFilter] = useState('all');
   const [selected, setSelected] = useState<Video | null>(null);
-
-  const filtered = filter === 'all' ? videos : videos.filter((v) => v.category === filter);
-  const featured = filter === 'all' ? videos[0] : filtered[0];
-  const reel = filter === 'all' ? filtered.slice(1) : filtered.slice(featured ? 1 : 0);
+  const featured = videos[0] ?? null;
+  const cuts = featured ? videos.filter((v) => v.id !== featured.id) : videos;
 
   return (
     <>
-      <StudioSection
-        id="videos"
-        label="Reel"
-        title="AMV edits & remixes"
-        description="Cuts and music work on @DemonKing0.___"
-        accent="warm"
-      >
-        <ShowcaseStage
-          accent="warm"
-          flagship={
-            featured ? (
-              <article
-                className="studio-flagship studio-flagship--video hit-target group"
-                onClick={() => setSelected(featured)}
-                onKeyDown={(e) => e.key === 'Enter' && setSelected(featured)}
-                role="button"
-                tabIndex={0}
-              >
-                <div className="studio-flagship-media">
-                  <ImageFrame src={featured.thumbnail} alt={featured.title} aspect="wide" className="border-0" loading="lazy" />
-                  <div className="studio-play">
-                    <Play className="ml-0.5 h-7 w-7 text-white" />
-                  </div>
-                  <span className="studio-duration">{featured.duration}</span>
-                </div>
-                <div className="studio-flagship-copy">
-                  <p className="studio-meta">Featured premiere</p>
-                  <h3 className="studio-flagship-title">{featured.title}</h3>
-                  <p className="studio-flagship-desc">{featured.description}</p>
-                  <p className="studio-flagship-stats">
-                    {featured.views} views · {featured.date}
-                  </p>
-                </div>
-              </article>
-            ) : (
-              <p className="studio-empty">No videos in this category yet.</p>
-            )
-          }
-          filters={
-            <div className="studio-filter-row">
-              {videoCategories.map((cat) => {
-                const count =
-                  cat.id === 'all' ? videos.length : videos.filter((v) => v.category === cat.id).length;
-                return (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    onClick={() => setFilter(cat.id)}
-                    className={`hit-target studio-filter ${filter === cat.id ? 'active' : ''}`}
-                  >
-                    {cat.label} ({count})
-                  </button>
-                );
-              })}
-            </div>
-          }
-          reel={
-            <>
-              {reel.map((video) => (
-                <article
-                  key={video.id}
-                  className="studio-reel-card studio-reel-card--video hit-target"
-                  onClick={() => setSelected(video)}
-                  onKeyDown={(e) => e.key === 'Enter' && setSelected(video)}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div className="relative">
-                    <ImageFrame src={video.thumbnail} alt={video.title} className="border-0" />
-                    <div className="studio-play studio-play--sm">
-                      <Play className="ml-0.5 h-5 w-5 text-white" />
-                    </div>
-                    <span className="studio-duration">{video.duration}</span>
-                  </div>
-                  <div className="studio-reel-meta">
-                    <h4 className="studio-reel-title">{video.title}</h4>
-                    <p className="studio-reel-stats">
-                      {video.views} views · {video.date}
-                    </p>
-                  </div>
-                </article>
-              ))}
-            </>
-          }
-        />
+      <StudioSection id="videos" label="Reel" title="AMV edits & remixes" accent="warm" chrome={false}>
+        <ReelShowcase featured={featured} cuts={cuts} onOpen={setSelected} />
       </StudioSection>
 
-      {selected ? <VideoModal video={selected} onClose={() => setSelected(null)} /> : null}
+      <AnimatePresence>
+        {selected ? <VideoModal key={selected.id} video={selected} onClose={() => setSelected(null)} /> : null}
+      </AnimatePresence>
     </>
   );
 }

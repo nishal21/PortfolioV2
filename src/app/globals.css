@@ -895,11 +895,27 @@ body {
 }
 
 /* Hide nav while a studio modal is open (modal is portaled to body) */
+body.studio-modal-open {
+  touch-action: none;
+}
+
 body.studio-modal-open .ios-nav-header,
-body.studio-modal-open .ios-nav-dock {
+body.studio-modal-open .ios-nav-dock,
+body.error-stage-open .ios-nav-header,
+body.error-stage-open .ios-nav-dock {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
+}
+
+body.error-stage-open .vdock {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+body.studio-modal-open .studio-modal-body,
+body.studio-modal-open .studio-modal {
+  touch-action: pan-y;
 }
 
 /* Liquid glass nav — top bar desktop only, bottom dock mobile only */
@@ -1043,14 +1059,15 @@ html.lg-filter-fx .tab-indicator.interacting {
 
 .ios-item {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   flex: 1;
   border: none;
   outline: none;
   cursor: pointer;
   height: 42px;
   border-radius: 999px;
-  color: var(--ios-muted);
+  color: rgba(246, 243, 251, 0.9);
+  -webkit-text-fill-color: currentColor;
   background: transparent;
   display: inline-flex;
   align-items: center;
@@ -1065,11 +1082,13 @@ html.lg-filter-fx .tab-indicator.interacting {
 }
 
 .ios-item:hover {
-  color: var(--text-soft);
+  color: #fff;
+  -webkit-text-fill-color: #fff;
 }
 
 .ios-item.active {
-  color: var(--ink);
+  color: #17121f;
+  -webkit-text-fill-color: #17121f;
 }
 
 .lg-layer {
@@ -1151,6 +1170,9 @@ html.lg-css-backdrop .tab-indicator.lg-css-fallback .lg-tint {
   width: auto;
   min-width: 0;
   height: 58px;
+  background: rgba(17, 14, 26, 0.92);
+  -webkit-backdrop-filter: blur(18px) saturate(1.45);
+  backdrop-filter: blur(18px) saturate(1.45);
   box-shadow:
     0 12px 40px rgba(0, 0, 0, 0.45),
     10px 10px 28px var(--ios-shadow-dark),
@@ -1165,6 +1187,10 @@ html.lg-css-backdrop .tab-indicator.lg-css-fallback .lg-tint {
 .tab-indicator--mobile {
   top: 4px;
   height: calc(100% - 8px);
+  background: rgba(255, 255, 255, 0.94) !important;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75) !important;
 }
 
 .ios-item--mobile {
@@ -1177,12 +1203,15 @@ html.lg-css-backdrop .tab-indicator.lg-css-fallback .lg-tint {
   font-size: 0.625rem;
   font-weight: 600;
   letter-spacing: 0.01em;
+  isolation: isolate;
 }
 
 .ios-item--mobile .ios-item-icon {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+  color: inherit;
+  stroke: currentColor;
 }
 
 .ios-item--mobile .ios-item-label {
@@ -1190,14 +1219,25 @@ html.lg-css-backdrop .tab-indicator.lg-css-fallback .lg-tint {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: inherit;
+  -webkit-text-fill-color: inherit;
 }
 
 .ios-item--mobile.active {
-  color: var(--ink);
+  color: #17121f !important;
+  -webkit-text-fill-color: #17121f !important;
+}
+
+.ios-item--mobile.active .ios-item-icon,
+.ios-item--mobile.active .ios-item-label {
+  color: #17121f !important;
+  -webkit-text-fill-color: #17121f !important;
+  stroke: #17121f;
 }
 
 .ios-nav-fab {
   position: relative;
+  z-index: 4;
   flex-shrink: 0;
   width: 58px;
   height: 58px;
@@ -1205,8 +1245,11 @@ html.lg-css-backdrop .tab-indicator.lg-css-fallback .lg-tint {
   border-radius: 999px;
   display: grid;
   place-items: center;
-  color: var(--ios-muted);
-  background: rgba(255, 255, 255, 0.04);
+  color: rgba(246, 243, 251, 0.9);
+  -webkit-text-fill-color: currentColor;
+  background: rgba(17, 14, 26, 0.92);
+  -webkit-backdrop-filter: blur(18px) saturate(1.45);
+  backdrop-filter: blur(18px) saturate(1.45);
   overflow: hidden;
   box-shadow:
     0 12px 40px rgba(0, 0, 0, 0.45),
@@ -1221,6 +1264,7 @@ html.lg-css-backdrop .tab-indicator.lg-css-fallback .lg-tint {
 
 .ios-nav-fab.active {
   color: #fff;
+  -webkit-text-fill-color: #fff;
 }
 
 .ios-nav-fab-icon {
@@ -1240,9 +1284,32 @@ html.lg-css-backdrop .tab-indicator.lg-css-fallback .lg-tint {
 ------------------------------------------------------------------- */
 .ios26-nav,
 .ios-nav-fab {
-  --ios-muted: rgba(255, 255, 255, 0.76);
+  --ios-muted: rgba(246, 243, 251, 0.9);
+  --ios-accent: #fff;
   --ios-panel-soft: transparent;
   background: rgba(17, 14, 26, 0.88);
+}
+
+/* Hard lock label contrast: light on dark shell, dark only on white indicator. */
+html .ios26-nav .ios-item:not(.active) {
+  color: rgba(246, 243, 251, 0.9);
+  -webkit-text-fill-color: rgba(246, 243, 251, 0.9);
+}
+
+html .ios26-nav .ios-item:not(.active):hover {
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+html .ios26-nav .ios-item.active,
+html .ios26-nav .ios-item--mobile.active,
+html .ios26-nav .ios-item.active .ios-item-icon,
+html .ios26-nav .ios-item.active .ios-item-label,
+html .ios26-nav .ios-item--mobile.active .ios-item-icon,
+html .ios26-nav .ios-item--mobile.active .ios-item-label {
+  color: #17121f !important;
+  -webkit-text-fill-color: #17121f !important;
+  stroke: #17121f;
 }
 
 .ios26-nav::after,
@@ -1294,13 +1361,15 @@ html .ios26-nav .tab-indicator.interacting {
 }
 
 .ios-item.active:focus-visible {
-  outline-color: var(--ink);
-  color: var(--ink);
+  outline-color: #17121f;
+  color: #17121f;
+  -webkit-text-fill-color: #17121f;
 }
 
 @media (hover: none) {
   .ios-item:not(.active):hover {
-    color: var(--ios-muted);
+    color: rgba(246, 243, 251, 0.9);
+    -webkit-text-fill-color: rgba(246, 243, 251, 0.9);
   }
 }
 
