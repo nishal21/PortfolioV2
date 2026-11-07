@@ -1,5 +1,12 @@
 ﻿# Devlog
 
+## 2026-11-07 — Sync folder ↔ GitHub (`redesign-kinetic`)
+
+- Branch already tracked `origin/redesign-kinetic`; pushed `230c451` (global-error → Inter; ignore local sec PDF)
+- Working tree clean vs origin. Local `master` is behind `origin/master` by 6 (not checked out)
+
+**Next:** keep working on `redesign-kinetic`, or `git checkout master && git pull` if you need main
+
 ## 2026-09-13 — Fun agent notes in llms / robots / security.txt
 
 HF-style asides for AI agents (cite nishal.dev, no faux CTF). RFC fields kept. robots comments live in `generate-robots.ts`. security.txt: second note for humans (report format); dropped model-weights joke. X `@Etainment2` added to llms/humans/security + robots comments.
