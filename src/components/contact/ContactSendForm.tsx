@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Send } from 'lucide-react';
 import { contactMail, formSubmit } from '@/data/contact';
+import { useContactGuard } from './useContactGuard';
 import './contact-send.css';
 
 type Phase = 'idle' | 'packing' | 'done' | 'error';
@@ -68,6 +69,10 @@ export default function ContactSendForm() {
   const sealRef = useRef<HTMLDivElement>(null);
   const wakeRef = useRef<HTMLDivElement>(null);
   const bobRef = useRef<Animation | null>(null);
+  const turnstileRef = useRef<HTMLDivElement>(null);
+  const guard = useContactGuard(rootRef, turnstileRef, formSubmit.url);
+  const [checking, setChecking] = useState(false);
+  const [formNote, setFormNote] = useState('');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -218,18 +223,19 @@ export default function ContactSendForm() {
   const postMessage = useCallback(async () => {
     const form = formRef.current;
     if (!form) throw new Error('missing form');
+    const body = await guard.prepare(new FormData(form));
     const response = await fetch(formSubmit.url, {
       method: 'POST',
-      body: new FormData(form),
+      body,
       headers: { Accept: 'application/json' },
-    });
+    }).finally(() => guard.consumed());
     const payload = (await response.json().catch(() => null)) as
       | { ok?: boolean; error?: string }
       | null;
     if (!response.ok || payload?.ok === false) {
       throw new Error(payload?.error || `Could not send. Email ${contactMail.address} directly.`);
     }
-  }, []);
+  }, [guard]);
 
   const deliver = useCallback(async () => {
     const env = envRef.current;
@@ -304,7 +310,20 @@ export default function ContactSendForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (checking || !validate()) return;
+    setFormNote('');
+    // If Cloudflare still wants a look (rare), keep the form visible so its checkbox can show.
+    try {
+      if (await guard.needsVerification()) {
+        setChecking(true);
+        await guard.waitForToken();
+      }
+    } catch (err) {
+      setFormNote(err instanceof Error ? err.message : 'Could not confirm you’re human. Try again.');
+      return;
+    } finally {
+      setChecking(false);
+    }
     setPhase('packing');
     setSteps(['', '', '', '']);
     setError('');
@@ -333,7 +352,13 @@ export default function ContactSendForm() {
         aria-hidden={phase !== 'idle'}
       >
         <input type="hidden" name="_subject" value={formSubmit.subject} />
-        <input type="hidden" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" />
+        {/* Honeypot: off-screen, skipped by keyboard and screen readers. Filled = bot. */}
+        <div className="contact-send__hp" aria-hidden="true">
+          <label>
+            Website
+            <input type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
+          </label>
+        </div>
 
         <div className="studio-form-row">
           <label className={`studio-field${fieldErrors.name ? ' contact-send__bad' : ''}`}>
@@ -388,13 +413,22 @@ export default function ContactSendForm() {
           <span className="contact-send__field-msg">Write at least a few words.</span>
         </label>
 
+        <div ref={turnstileRef} className="contact-send__turnstile" />
+
         <button
           type="submit"
+          disabled={checking}
+          aria-busy={checking}
           className={`hit-target studio-submit${shake ? ' contact-send__shake' : ''}`}
         >
-          Send message
+          {checking ? 'Checking you’re human…' : 'Send message'}
           <Send className="h-4 w-4" aria-hidden />
         </button>
+        {formNote ? (
+          <p className="contact-send__acts-error" role="alert">
+            {formNote} <a href={mailtoHref}>Open email draft</a>
+          </p>
+        ) : null}
       </form>
 
       <div

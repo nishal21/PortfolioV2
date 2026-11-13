@@ -65,6 +65,26 @@ INDEXNOW_SECRET=your-secret-for-post-api
 
 Contact form email is set in `src/data/contact.ts` (`formSubmit.url`), not via env vars.
 
+### Contact form spam protection
+
+`POST /api/contact` drops spam on the server before anything is emailed (`src/lib/contactGuard.ts`):
+
+- **Honeypot** — an off-screen `website` field people never see. Filled → fake "sent", nothing emailed.
+- **Signed fill-time ticket** — the form fetches `GET /api/contact` when it scrolls near view and gets an HMAC-signed timestamp. Posts without one, with a forged one, or sent under 3 seconds later → silently dropped.
+- **Content filter** — known "Robertpor" / "I write about the price" bot templates (many languages), link-only messages and link floods.
+- **Rate limit** — 5 messages per IP per 10 minutes (in memory, single PM2 instance).
+- **Cloudflare Turnstile** (optional) — when both keys are set, the form lazy-loads Turnstile (invisible unless Cloudflare wants a click) and the server checks the token with `siteverify`. Without the keys the form keeps working with the other layers.
+
+```env
+# Cloudflare Turnstile (both or neither). Read at runtime, so no rebuild needed — just restart.
+TURNSTILE_SITE_KEY=0x4AAAAAAA...
+TURNSTILE_SECRET_KEY=0x4AAAAAAA...
+# Optional: key for signing the fill-time ticket (defaults to the Turnstile secret, then the Brevo key)
+# CONTACT_FORM_SECRET=a-long-random-string
+```
+
+Dropped submissions are logged as `[contact] dropped spam (<reason>)` (see `pm2 logs portfolio-v2`).
+
 ## Scripts
 
 

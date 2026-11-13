@@ -515,3 +515,23 @@
     stroke-dashoffset: 0;
   }
 }
+
+/* Spam guard: honeypot sits off-screen (not display:none, which smarter bots skip). */
+.contact-send__hp {
+  position: absolute !important;
+  left: -10000px !important;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Turnstile renders nothing unless Cloudflare needs a click; then it shows here. */
+.contact-send__turnstile:empty {
+  display: none;
+}
+.contact-send__turnstile {
+  min-height: 0;
+}
