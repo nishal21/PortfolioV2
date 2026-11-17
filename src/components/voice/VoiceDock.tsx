@@ -61,7 +61,7 @@ const CloseIcon = () => (
 );
 
 const SwapIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden width="18" height="18">
+  <svg viewBox="0 0 24 24" aria-hidden width="16" height="16">
     <path
       d="M7 7h11l-3-3M17 17H6l3 3"
       fill="none"
@@ -503,14 +503,11 @@ export default function VoiceDock() {
                   if (e.nativeEvent.isTrusted) switchVoice();
                 }}
                 onPointerEnter={() => void (other(engine) === 'fish' ? loadFish() : loadVoice())}
-                aria-label={`Switch to the ${ENGINES[other(engine)].name} voice`}
-                title={`Switch to ${ENGINES[other(engine)].name} voice`}
+                aria-label={other(engine) === 'fish' ? 'Switch to Fish' : 'Switch to Cartesia'}
+                title={other(engine) === 'fish' ? 'Switch to Fish' : 'Switch to Cartesia'}
                 data-to={other(engine)}
               >
                 <SwapIcon />
-                <span className="vdock__swap-label" aria-hidden>
-                  {other(engine) === 'fish' ? 'Fish' : 'Cartesia'}
-                </span>
               </button>
               <button
                 ref={endRef}
