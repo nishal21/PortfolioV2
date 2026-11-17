@@ -24,3 +24,13 @@ export function agentSocketUrl(agentId: string, accessToken: string) {
   url.searchParams.set('access_token', accessToken);
   return url.toString();
 }
+
+/**
+ * Fish Audio voice agent (second voice option). Public agent: the browser
+ * creates the session with just this id, no key involved. The id is public by
+ * design (it's in the embed code); lock it down with "Restrict origins" on the
+ * agent's Deploy page so only https://nishal.dev can start sessions.
+ * Docs: https://docs.fish.audio/agents/deploy/public-agents
+ *       https://docs.fish.audio/agents/deploy/web-sdk
+ */
+export const FISH_AGENT_ID = process.env.NEXT_PUBLIC_FISH_AGENT_ID || '52c33fe8153847589a443fc99f6f6977';

@@ -7,7 +7,8 @@ export const CSP = [
   "img-src 'self' data: blob: https:",
   "media-src 'self' https:",
   "font-src 'self' data: https:",
-  "connect-src 'self' https: wss://api.cartesia.ai",
+  // Cartesia agent socket; Fish Audio sessions signal over LiveKit Cloud (livekit_url wss://<project>.livekit.cloud).
+  "connect-src 'self' https: wss://api.cartesia.ai wss://*.livekit.cloud",
   "frame-src https:",
   "form-action 'self' https:",
   "base-uri 'self'",

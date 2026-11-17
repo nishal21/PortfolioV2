@@ -17,7 +17,7 @@
   /* Full idle label width; mini = circle matching height */
   --vd-idle-w: 11.25rem;
   --vd-idle-w-min: var(--vd-h);
-  --vd-open-w: min(23rem, calc(100vw - 2rem));
+  --vd-open-w: min(26.5rem, calc(100vw - 2rem));
   position: fixed;
   z-index: 60;
   right: max(1rem, env(safe-area-inset-right));
@@ -198,9 +198,9 @@
   }
 
   /* Type chip softens until the dock is hovered so the corner stays quiet. */
+  /* Opacity only: scaling would shrink the 44px hit target. */
   .vdock[data-phase='idle'] .vdock__type {
     opacity: 0.72;
-    transform: scale(0.94);
   }
   .vdock[data-phase='idle']:is(:hover, :focus-within) .vdock__type {
     opacity: 1;
@@ -252,6 +252,8 @@
   line-height: 1.2;
 }
 .vdock__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 0.9375rem;
   font-weight: 650;
   letter-spacing: -0.015em;
@@ -292,6 +294,32 @@
   color: var(--vd-ink);
 }
 .vdock__time:not(:empty) { min-width: 2.9rem; text-align: right; }
+
+/* Voice switch: hang up and call again on the other voice. Lavender, not ink,
+   so it never reads as the end button next to it. */
+.vdock__swap {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  padding: 0 0.8rem 0 0.7rem;
+  border: 0;
+  border-radius: 999px;
+  color: var(--vd-ink-2);
+  background: rgba(143, 122, 214, 0.16);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+.vdock__swap:hover { background: rgba(143, 122, 214, 0.28); color: var(--vd-ink); }
+.vdock__swap:active { transform: scale(0.95); }
+.vdock__swap svg { flex: none; }
 
 .vdock__end,
 .vdock__send {
@@ -476,7 +504,7 @@
   }
   html[data-voice='open'] body .garden-hero__bar,
   html[data-voice='typing'] body .garden-hero__bar {
-    padding-right: calc(clamp(1.25rem, 3vw, 2.5rem) + 24rem);
+    padding-right: calc(clamp(1.25rem, 3vw, 2.5rem) + 27.5rem);
   }
 }
 
@@ -551,6 +579,11 @@
     align-items: stretch;
   }
 
+  /* Narrow call bar: the orb halo shows the level; the switch keeps its label
+     only where it fits next to status, timer and end. */
+  .vdock__bar { gap: 0.5rem; }
+  .vdock__meter { display: none; }
+
   .vdock__caption {
     border-radius: 1.1rem;
     max-height: min(12rem, 32svh);
@@ -615,4 +648,9 @@ html[data-voice-near-footer] .vdock[data-phase='idle'] {
 
 @media print {
   .vdock { display: none; }
+}
+
+@media (max-width: 389px) {
+  .vdock__swap { width: 2.75rem; padding: 0; }
+  .vdock__swap-label { display: none; }
 }
