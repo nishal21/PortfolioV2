@@ -172,12 +172,28 @@ describe('client helpers', () => {
 });
 
 describe('security headers', () => {
-  test('only the exact Cartesia socket host is added', () => {
-    assert.match(CSP, /connect-src 'self' https: wss:\/\/api\.cartesia\.ai(;|$)/);
+  test('only the Cartesia socket host and LiveKit Cloud (Fish Audio) are added', () => {
+    assert.match(CSP, /connect-src 'self' https: wss:\/\/api\.cartesia\.ai wss:\/\/\*\.livekit\.cloud(;|$)/);
     assert.doesNotMatch(CSP, /wss:(\s|;|$)/);
   });
   test('microphone limited to this origin', () => {
     const pp = htmlSecurityHeaders().find((x) => x.key === 'Permissions-Policy');
     assert.equal(pp?.value, 'camera=(), microphone=(self), geolocation=()');
+  });
+});
+
+describe('fish audio voice', () => {
+  test('SDK errors map onto the dock error copy', async () => {
+    const { FishAgentError } = await import('@fishaudio/agent-client');
+    const { mapFishError } = await import('../src/lib/voice/fishSession');
+    assert.equal(mapFishError(new FishAgentError('mic_permission_denied', 'x')), 'mic_denied');
+    assert.equal(mapFishError(new FishAgentError('connection_failed', 'x')), 'network');
+    assert.equal(mapFishError(new FishAgentError('session_request_failed', 'x', { statusCode: 429 })), 'rate_limited');
+    assert.equal(mapFishError(new FishAgentError('origin_forbidden', 'x', { statusCode: 403 })), 'server');
+    assert.equal(mapFishError(new Error('boom')), 'server');
+  });
+  test('public agent id is set and carries no key', async () => {
+    const { FISH_AGENT_ID } = await import('../src/lib/voice/config');
+    assert.match(FISH_AGENT_ID, /^[0-9a-f]{32}$/);
   });
 });

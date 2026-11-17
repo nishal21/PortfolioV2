@@ -12,6 +12,8 @@ import './voice-dock.css';
  */
 
 type Phase = 'idle' | 'off' | 'connecting' | 'listening' | 'speaking' | 'error' | 'typing';
+/** Two voices behind one call bar: Cartesia (default) and Fish Audio. */
+type Engine = 'cartesia' | 'fish';
 type Caption = { who: 'agent' | 'you' | 'site' | 'note'; text: string; links?: QuickAnswer['links']; alert?: boolean };
 
 const ERRORS: Record<VoiceErrorCode, string> = {
@@ -25,13 +27,26 @@ const ERRORS: Record<VoiceErrorCode, string> = {
   time_limit: 'Calls end after five minutes. Start another any time.',
 };
 
-const PRIVACY = 'Uses your mic. Cartesia records calls, and each one ends after 5 minutes.';
+const ENGINES: Record<Engine, { name: string; privacy: string; disclose: string }> = {
+  cartesia: {
+    name: 'Cartesia',
+    privacy: 'Uses your mic. Cartesia records calls, and each one ends after 5 minutes.',
+    disclose: 'Mic on · Cartesia records calls',
+  },
+  fish: {
+    name: 'Fish Audio',
+    privacy: 'Uses your mic. Fish Audio keeps a history of calls, and each one ends after 5 minutes.',
+    disclose: 'Mic on · Fish Audio logs calls',
+  },
+};
+const other = (e: Engine): Engine => (e === 'fish' ? 'cartesia' : 'fish');
+const ENGINE_KEY = 'vdock-voice';
 const SUGGESTIONS = ['Who is Nishal?', 'What are you building now?', 'How can I contact you?'];
 const BARS = 14;
-/** Short disclosure shown inside the bar while connecting (full text in PRIVACY). */
-const DISCLOSE = 'Mic on · Cartesia records calls';
 
 const loadVoice = () => import('@/lib/voice/agentSession');
+/** Fish SDK (WebRTC) is only fetched once someone picks that voice. */
+const loadFish = () => import('@/lib/voice/fishSession');
 const loadAnswers = () => import('@/lib/voice/localAnswers');
 
 function fmt(ms: number) {
@@ -45,6 +60,19 @@ const CloseIcon = () => (
   </svg>
 );
 
+const SwapIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden width="16" height="16">
+    <path
+      d="M7 7h11l-3-3M17 17H6l3 3"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 export default function VoiceDock() {
   const [phase, setPhase] = useState<Phase>('idle');
   const [caption, setCaption] = useState<Caption | null>(null);
@@ -52,6 +80,7 @@ export default function VoiceDock() {
   const [now, setNow] = useState(0);
   const [draft, setDraft] = useState('');
   const [nearFooter, setNearFooter] = useState(false);
+  const [engine, setEngine] = useState<Engine>('cartesia');
   const statusRef = useRef<Promise<boolean> | null>(null);
   const sessionRef = useRef<VoiceSession | null>(null);
   const abortRef = useRef<AbortController | null>(null);
@@ -77,9 +106,22 @@ export default function VoiceDock() {
   }, []);
 
   const prefetch = useCallback(() => {
+    if (engine === 'fish') {
+      void loadFish();
+      return;
+    }
     void checkStatus();
     void loadVoice();
-  }, [checkStatus]);
+  }, [checkStatus, engine]);
+
+  // Remember the visitor's last voice.
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(ENGINE_KEY) === 'fish') setEngine('fish');
+    } catch {
+      /* storage blocked */
+    }
+  }, []);
 
   // Let the page coordinate layout around the dock (see voice-dock.css).
   useEffect(() => {
@@ -186,7 +228,7 @@ export default function VoiceDock() {
     return () => window.removeEventListener('keydown', onKey);
   }, [phase, reset]);
 
-  const startCall = async () => {
+  const startCall = async (voice: Engine = engine) => {
     const gen = ++genRef.current;
     // Create the AudioContext inside the click so later playback is allowed.
     const AC =
@@ -198,16 +240,20 @@ export default function VoiceDock() {
     setPhase('connecting');
     setCaption(null);
 
-    const configured = await checkStatus();
-    if (gen !== genRef.current) return drop();
-    if (!configured) {
-      drop();
-      setPhase('off');
-      setCaption({ who: 'note', text: ERRORS.unconfigured });
-      return;
+    let startVoiceSession: typeof import('@/lib/voice/agentSession').startVoiceSession;
+    if (voice === 'fish') {
+      startVoiceSession = (await loadFish()).startFishSession;
+    } else {
+      const configured = await checkStatus();
+      if (gen !== genRef.current) return drop();
+      if (!configured) {
+        drop();
+        setPhase('off');
+        setCaption({ who: 'note', text: `The ${ENGINES.cartesia.name} voice isn't switched on right now. Try the ${ENGINES.fish.name} voice, or type a question.` });
+        return;
+      }
+      startVoiceSession = (await loadVoice()).startVoiceSession;
     }
-
-    const { startVoiceSession } = await loadVoice();
     if (gen !== genRef.current) return drop();
 
     const ctrl = new AbortController();
@@ -246,6 +292,22 @@ export default function VoiceDock() {
       },
       { signal: ctrl.signal, ctx: ctx ?? undefined }
     );
+  };
+
+  // Hang up (if needed) and call again on the other voice, right from the bar.
+  const switchVoice = () => {
+    const next = other(engine);
+    setEngine(next);
+    try {
+      localStorage.setItem(ENGINE_KEY, next);
+    } catch {
+      /* storage blocked */
+    }
+    abortRef.current?.abort();
+    sessionRef.current?.stop();
+    sessionRef.current = null;
+    setReadyAt(null);
+    void startCall(next);
   };
 
   const openTyping = () => {
@@ -289,7 +351,7 @@ export default function VoiceDock() {
             role={caption.alert ? 'alert' : 'status'}
           >
             {caption.who === 'agent' ? (
-              <span className="vdock__who">Garden guide · voice AI</span>
+              <span className="vdock__who">Garden guide · {ENGINES[engine].name} voice AI</span>
             ) : caption.who === 'you' ? (
               <span className="vdock__who">You</span>
             ) : caption.who === 'site' ? (
@@ -360,7 +422,7 @@ export default function VoiceDock() {
               }}
               onPointerEnter={prefetch}
               onFocus={prefetch}
-              aria-label="Talk to Nishal"
+              aria-label={`Talk to Nishal, ${ENGINES[engine].name} voice`}
               aria-describedby="vdock-privacy"
             >
               <span className="vdock__orb" aria-hidden />
@@ -368,7 +430,7 @@ export default function VoiceDock() {
                 Talk to Nishal
               </span>
               <span id="vdock-privacy" className="sr-only">
-                Starts a voice call. {PRIVACY}
+                Starts a voice call. {ENGINES[engine].privacy} You can switch voices during the call.
               </span>
             </button>
           ) : phase === 'typing' ? (
@@ -409,8 +471,14 @@ export default function VoiceDock() {
                 <span className="vdock__label" role="status">
                   {label}
                 </span>
-                <span className="vdock__sub" title={phase === 'connecting' ? PRIVACY : undefined}>
-                  {phase === 'connecting' ? DISCLOSE : live ? 'Ends at 5:00' : phase === 'off' ? 'Text answers still work' : 'You can try again'}
+                <span className="vdock__sub" title={phase === 'connecting' ? ENGINES[engine].privacy : undefined}>
+                  {phase === 'connecting'
+                    ? ENGINES[engine].disclose
+                    : live
+                      ? `${ENGINES[engine].name} · 5 min max`
+                      : phase === 'off'
+                        ? 'Text answers still work'
+                        : 'You can try again'}
                 </span>
               </span>
               {live ? (
@@ -428,6 +496,19 @@ export default function VoiceDock() {
                   </>
                 ) : null}
               </span>
+              <button
+                type="button"
+                className="vdock__swap"
+                onClick={(e) => {
+                  if (e.nativeEvent.isTrusted) switchVoice();
+                }}
+                onPointerEnter={() => void (other(engine) === 'fish' ? loadFish() : loadVoice())}
+                aria-label={other(engine) === 'fish' ? 'Switch to Fish' : 'Switch to Cartesia'}
+                title={other(engine) === 'fish' ? 'Switch to Fish' : 'Switch to Cartesia'}
+                data-to={other(engine)}
+              >
+                <SwapIcon />
+              </button>
               <button
                 ref={endRef}
                 type="button"
