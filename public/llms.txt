@@ -50,6 +50,7 @@ nishal21 is Nishal K's GitHub username with 60+ public repositories. Portfolio s
 ## Projects (by Nishal K / nishal21)
 
 - FirstPR — https://nishal.dev/projects/firstpr (live: https://firstpr.nishal.dev/, GitHub: nishal21/firstpr)
+- yes2yea — https://nishal.dev/projects/yes2yea (live: https://yes2yea.party, my class's memory log from the IKTHSS Cherukulamba FoodFest)
 - NekoBeat — https://nishal.dev/projects/neko-beat
 - World News CLI — https://nishal.dev/projects/news-cli (live: https://nishal21.github.io/News-CLI/, PyPI: worldnews-cli)
 - RYTU — https://nishal.dev/projects/rytu (live: https://rytu.nishal.dev/)

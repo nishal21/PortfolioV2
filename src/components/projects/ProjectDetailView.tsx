@@ -7,6 +7,7 @@ import type { Project } from '@/data/projects';
 import { getProjectThumbnail, isProjectInDevelopment } from '@/data/projects';
 import { gardenMotionTier, loadGsapScroll } from '@/lib/gardenMotion';
 import { CREATOR_NAME, GITHUB_HANDLE } from '@/lib/seo';
+import ProjectClip from '@/components/projects/ProjectClip';
 import './project-detail.css';
 
 interface ProjectDetailViewProps {
@@ -176,7 +177,22 @@ export default function ProjectDetailView({ project, slug }: ProjectDetailViewPr
             {inDev ? 'Status: In development' : 'Status: Live'}
           </p>
 
-          {thumb ? (
+          {project.clip ? (
+            <figure className="project-detail__reel">
+              <div className="project-detail__reel-frame">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={project.clip.poster}
+                  alt={`${project.title}, project by ${CREATOR_NAME}`}
+                  width={960}
+                  height={600}
+                  decoding="async"
+                />
+                <ProjectClip clip={project.clip} className="project-detail__reel-video" />
+              </div>
+              <figcaption>{project.clip.caption}</figcaption>
+            </figure>
+          ) : thumb ? (
             <div className="project-detail__media">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

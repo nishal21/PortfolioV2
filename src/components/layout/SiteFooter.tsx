@@ -86,6 +86,24 @@ export default function SiteFooter() {
                   </span>
                 ))}
               </nav>
+              <div className="garden-footer__marks">
+              <a
+                href="https://www.cartesia.ai/startups"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="garden-footer__backer"
+              >
+                <span className="garden-footer__backer-label">Voice agent supported by</span>
+                {/* eslint-disable-next-line @next/next/no-img-element -- official SVG, shown unaltered */}
+                <img
+                  src="/brand/cartesia-startups-white.svg"
+                  alt="Cartesia Startups"
+                  width={311}
+                  height={32}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
               <a
                 href="https://websitelaunches.com/site/nishal.dev"
                 target="_blank"
@@ -101,6 +119,7 @@ export default function SiteFooter() {
                   decoding="async"
                 />
               </a>
+              </div>
             </div>
           </div>
         </div>

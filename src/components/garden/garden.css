@@ -303,6 +303,39 @@
 
 .garden-footer__badge img { display: block; height: auto; width: min(200px, 100%); }
 
+.garden-footer__marks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem 1.5rem;
+}
+
+/* Cartesia Startups lockup: the official white file, unaltered, on the dark scrim */
+.garden-footer__bar a.garden-footer__backer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+  text-decoration: none;
+}
+
+.garden-footer__backer-label {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+  transition: color 0.2s ease;
+}
+
+.garden-footer__backer img { display: block; width: 156px; height: auto; }
+
+.garden-footer__bar a.garden-footer__backer:hover .garden-footer__backer-label,
+.garden-footer__bar a.garden-footer__backer:focus-visible .garden-footer__backer-label { color: #fff; }
+
+.garden-footer__bar a.garden-footer__backer:hover { text-decoration: none; }
+
 @media (max-width: 900px), (max-aspect-ratio: 4/5) {
   .garden-footer__motion { min-height: max(40rem, 100svh); }
   .garden-footer__word { font-size: 36vw; }
@@ -313,6 +346,8 @@
     padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
   }
   .garden-footer__col--end { align-items: center; text-align: center; }
+  .garden-footer__marks { justify-content: center; }
+  .garden-footer__bar a.garden-footer__backer { align-items: center; }
 }
 
 @media (min-width: 768px) and (min-aspect-ratio: 4/5) {

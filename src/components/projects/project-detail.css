@@ -155,6 +155,41 @@
   object-fit: contain;
 }
 
+.project-detail__reel {
+  margin: 2rem 0 0;
+}
+
+.project-detail__reel-frame {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--pd-line);
+  background: #120406;
+}
+
+.project-detail__reel-frame img,
+.project-detail__reel-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-detail__reel-video {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.project-detail__reel-video[data-ready] { opacity: 1; }
+
+.project-detail__reel figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--pd-mut);
+}
+
 .project-detail__section {
   margin-top: clamp(2rem, 5vh, 2.75rem);
   padding-top: 1.25rem;

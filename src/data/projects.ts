@@ -1,3 +1,11 @@
+export interface ProjectClip {
+  webm: string;
+  mp4: string;
+  poster: string;
+  /** What the clip shows, for the visible caption */
+  caption: string;
+}
+
 export interface Project {
   id: number;
   title: string;
@@ -21,6 +29,8 @@ export interface Project {
   images: string[];
   mockup?: string;
   video?: string;
+  /** Short silent loop shown over the cover where the layout has room */
+  clip?: ProjectClip;
   /** Third-party data or libraries this project depends on */
   attributions?: {
     name: string;
@@ -91,6 +101,68 @@ export const projects: Project[] = [
     "images": [
       "/projects/firstpr.svg"
     ],
+    "pinned": true
+  },
+  {
+    "id": 21,
+    "title": "yes2yea",
+    "category": "Web · Class memory log",
+    "status": "live",
+    "description": "My class's memory log. It opens with Black Pearl, our stall at the IKTHSS Cherukulamba FoodFest on 12 November 2026.",
+    "longDescription": "yes2yea is my class at IKTHSS Cherukulamba, and yes2yea.party is where we keep our days together. The first memory is Black Pearl, our stall at FoodFest on 12 November 2026. The home page starts on our own Black Pearl poster, cut into layers. As you scroll, the sun climbs out of the sea, the ship sails off, and the sun turns over into the yes2yea logo with twelve photos from the day around it. Each photo links into the memory log for that day, which has every photo and clip, split into parts.",
+    "tags": [
+      "JavaScript",
+      "GSAP",
+      "Cloudflare Pages"
+    ],
+    "lastUpdated": "2026-11-17",
+    "liveUrl": "https://yes2yea.party",
+    "githubUrl": null,
+    "color": "from-red-500 to-amber-400",
+    "bgColor": "from-red-500/10 to-amber-400/10",
+    "challenges": [
+      "A long pinned scroll scene that still has to run on cheap phones and iPhones",
+      "Classmates who keep Reduce Motion turned on",
+      "Adding the next trip without hand-building another page"
+    ],
+    "solutions": [
+      "The motion mode is picked before first paint, from Reduce Motion, Data Saver and device memory",
+      "Reduce Motion gets fades only, plus a note with a button to turn full animations on",
+      "An add-event script turns a folder of phone photos into a new memory page"
+    ],
+    "features": [
+      "Sun-to-logo scroll made from the class poster, cut into sky, sun, sea, ship and pirate layers",
+      "Four motion modes: full, calm for Reduce Motion, lite for Data Saver and 1 GB phones, and still if the scripts fail",
+      "A page for each memory, with every photo and clip from the day",
+      "Static site on Cloudflare Pages"
+    ],
+    "techStack": {
+      "frontend": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "motion": [
+        "GSAP",
+        "ScrollTrigger"
+      ],
+      "tooling": [
+        "Python (Pillow, numpy)",
+        "ffmpeg"
+      ],
+      "deployment": [
+        "Cloudflare Pages"
+      ]
+    },
+    "images": [
+      "/projects/yes2yea/poster.webp"
+    ],
+    "clip": {
+      "webm": "/projects/yes2yea/scroll.webm",
+      "mp4": "/projects/yes2yea/scroll.mp4",
+      "poster": "/projects/yes2yea/poster.webp",
+      "caption": "Scrolling the yes2yea.party home page: the poster sun turns into the logo"
+    },
     "pinned": true
   },
   {

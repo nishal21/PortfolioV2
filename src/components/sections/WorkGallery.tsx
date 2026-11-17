@@ -8,6 +8,7 @@ import {
   type Project,
 } from '@/data/projects';
 import { gardenMotionTier, loadGsapScroll } from '@/lib/gardenMotion';
+import ProjectClip from '@/components/projects/ProjectClip';
 import './work-gallery.css';
 
 const FEATURED_CAP = 5;
@@ -209,7 +210,7 @@ export default function WorkGallery({ projects, onOpen }: WorkGalleryProps) {
               Work
             </div>
             <p className="work-gallery__lede">
-              Emulators, anime &amp; music apps, dev tools and school software from Kerala.
+              Emulators, anime &amp; music apps, dev tools, school software and my class&apos;s memory log, from Kerala.
             </p>
           </div>
 
@@ -232,10 +233,13 @@ export default function WorkGallery({ projects, onOpen }: WorkGalleryProps) {
                 style={{ ['--wg-i' as string]: i, ['--wg-g' as string]: CARD_GRADIENTS[i % CARD_GRADIENTS.length] }}
                 onClick={() => onOpen(project)}
               >
-                <div className="work-gallery__art">
+                <div className="work-gallery__art" data-clip={project.clip ? '' : undefined}>
                   {artSrc ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={artSrc} alt="" loading="lazy" decoding="async" />
+                  ) : null}
+                  {project.clip ? (
+                    <ProjectClip clip={project.clip} className="work-gallery__clip" threshold={0.5} />
                   ) : null}
                 </div>
                 <div className="work-gallery__num" aria-hidden="true">
